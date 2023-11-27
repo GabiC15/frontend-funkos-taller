@@ -13,6 +13,7 @@ module.exports = {
       heliotrope: "var(--heliotrope)",
       chineseBlack: "var(--chinese-black)",
       lightSilver: "var(--light-silver)",
+      palatinateBlue: "var(--palatinate-blue)",
     },
     extend: {
       backgroundImage: {
