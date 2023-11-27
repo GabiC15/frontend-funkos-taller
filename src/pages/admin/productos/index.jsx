@@ -1,3 +1,9 @@
+import Layout from "@/components/common/layout";
+
 export default function Productos() {
-  return <div>Productos</div>;
+  return (
+    <>
+      <Layout>Productos</Layout>
+    </>
+  );
 }

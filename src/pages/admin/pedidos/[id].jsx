@@ -1,7 +1,12 @@
+import Layout from "@/components/common/layout";
 import { useRouter } from "next/router";
 
 export default function Pedido() {
   const router = useRouter();
 
-  return <div>Pedido: {router.query.id}</div>;
+  return (
+    <>
+      <Layout>Pedido: {router.query.id}</Layout>
+    </>
+  );
 }

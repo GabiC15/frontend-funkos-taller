@@ -1,3 +1,9 @@
+import Layout from "@/components/common/layout";
+
 export default function HistorialPedidos() {
-  return <div>HistorialCompras</div>;
+  return (
+    <>
+      <Layout>HistorialCompras</Layout>
+    </>
+  );
 }
