@@ -1,3 +1,9 @@
+import Layout from "@/components/common/layout";
+
 export default function Reporte() {
-  return <div>Reporte</div>;
+  return (
+    <>
+      <Layout>Reporte</Layout>
+    </>
+  );
 }

@@ -1,3 +1,9 @@
+import Layout from "@/components/common/layout";
+
 export default function Favoritos() {
-  return <div>Favoritos</div>;
+  return (
+    <>
+      <Layout>Favoritos</Layout>
+    </>
+  );
 }

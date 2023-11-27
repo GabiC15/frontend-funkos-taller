@@ -1,3 +1,9 @@
+import Layout from "@/components/common/layout";
+
 export default function Pedidos() {
-  return <div>Pedidos</div>;
+  return (
+    <>
+      <Layout>Pedidos</Layout>
+    </>
+  );
 }
