@@ -7,27 +7,32 @@ import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import Link from "next/link";
-import logo from "@/assets/logo.svg";
 
 export default function Navbar() {
   const [dropdown, setDropdown] = useState(false);
 
   return (
     <>
-      <nav className="bg-chineseBlack border-gray-200 dark:bg-gray-900">
+      <nav className="bg-chineseBlack border-gray-200">
         <div className="max-w-screen-2xl flex flex-wrap items-center justify-between mx-auto p-4">
           <Link
             href="/"
             className="flex items-center space-x-3 rtl:space-x-reverse"
           >
-            <Image priority src={logo} alt="Logo" />
+            <Image
+              src="/logo.svg"
+              width={200}
+              height={8}
+              className="h-8 me-3"
+              alt="Logo"
+            />{" "}
           </Link>
           <div className="flex md:order-2">
             <div className="flex flex-row gap-8">
               <div className="relative hidden md-block md:block">
                 <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                   <svg
-                    className="w-4 h-4 text-gray-500 dark:text-gray-400"
+                    className="w-4 h-4 text-gray-500"
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -46,7 +51,7 @@ export default function Navbar() {
                 <input
                   type="text"
                   id="search-navbar"
-                  className="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  className="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
                   placeholder="Search..."
                 />
               </div>
@@ -67,7 +72,7 @@ export default function Navbar() {
             <button
               data-collapse-toggle="navbar-search"
               type="button"
-              className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+              className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden focus:outline-none focus:ring-2"
               aria-controls="navbar-search"
               aria-expanded="false"
               onClick={() => setDropdown(!dropdown)}
@@ -92,14 +97,14 @@ export default function Navbar() {
           </div>
           <div
             className={`items-center justify-between md:opacity-100 w-full 
-              md:flex md:w-auto md:order-1 transition-opacity 
-              ${dropdown ? "opacity-100" : "opacity-0"}`}
+              md:flex md:w-auto md:order-1 
+              ${dropdown ? "" : "hidden"}`}
             id="navbar-search"
           >
             <div className="relative mt-3 md:hidden">
               <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                 <svg
-                  className="w-4 h-4 text-gray-500 dark:text-gray-400"
+                  className="w-4 h-4 text-gray-500"
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -117,15 +122,15 @@ export default function Navbar() {
               <input
                 type="text"
                 id="search-navbar"
-                className="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Search..."
               />
             </div>
-            <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+            <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0">
               <li>
                 <a
                   href="#"
-                  className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500"
+                  className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:p-0"
                   aria-current="page"
                 >
                   Home
@@ -134,7 +139,7 @@ export default function Navbar() {
               <li>
                 <a
                   href="#"
-                  className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                  className="block py-2 px-3 text-white rounded md:hover:bg-transparent md:hover:text-blue-700 md:p-0"
                 >
                   About
                 </a>
@@ -142,7 +147,7 @@ export default function Navbar() {
               <li>
                 <a
                   href="#"
-                  className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                  className="block py-2 px-3 text-white rounded md:hover:bg-transparent md:hover:text-blue-700 md:p-0"
                 >
                   Services
                 </a>
