@@ -19,6 +19,6 @@ body {
 
 @layer components {
   .bg-gradient {
-    @apply bg-fillGradient opacity-70 /*blur-[182px]*/;
+    @apply bg-fillGradient /*opacity-70 blur-[182px]*/;
   }
 }

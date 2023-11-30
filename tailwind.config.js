@@ -6,19 +6,21 @@ module.exports = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    colors: {
-      fluorescentBlue: "var(--fluorescent-blue)",
-      cornflower: "var(--cornflower)",
-      violet: "var(--violet)",
-      heliotrope: "var(--heliotrope)",
-      chineseBlack: "var(--chinese-black)",
-      lightSilver: "var(--light-silver)",
-      palatinateBlue: "var(--palatinate-blue)",
-    },
     extend: {
       backgroundImage: {
         fillGradient:
-          "linear-gradient(107deg, #34F3FF 11.56%, #579AFF 37.22%, #866AFF 56.38%, #D861FF 82.5%)",
+          "linear-gradient(107deg, rgba(52, 243, 255, 0.7) 11.56%, rgba(87, 154, 255, 0.7) 37.22%, rgba(134, 106, 255, 0.7) 56.38%, rgba(216, 97, 255, 0.7) 82.5%)",
+        faqGradient:
+          "radial-gradient(100.76% 120.8% at 70.83% 20.66%, #131313 47.04%, #824DB8 100%)",
+      },
+      colors: {
+        fluorescentBlue: "var(--fluorescent-blue)",
+        cornflower: "var(--cornflower)",
+        violet: "var(--violet)",
+        heliotrope: "var(--heliotrope)",
+        chineseBlack: "var(--chinese-black)",
+        lightSilver: "var(--light-silver)",
+        palatinateBlue: "var(--palatinate-blue)",
       },
     },
   },
