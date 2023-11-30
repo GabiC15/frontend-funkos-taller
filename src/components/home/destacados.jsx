@@ -9,7 +9,7 @@ export default function Destacados() {
         <div className="container mx-auto flex flex-col md:flex-row justify-between items-center px-10 lg:px-20 xl:px-28 my-auto">
           <div>
             <h1 className="text-3xl/relaxed md:text-5xl/normal font-black mb-3">
-              TRAE A TUS HECHICEROS
+              LLEVA TUS HECHICEROS
               <br />
               FAVORITOS A CASA
             </h1>
