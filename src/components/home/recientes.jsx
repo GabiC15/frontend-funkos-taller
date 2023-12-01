@@ -1,7 +1,7 @@
 import Producto from "@/components/home/producto";
 import Link from "next/link";
 
-const data = [
+export const data = [
   {
     productId: "74094",
     title: "Pop! Ichigo",
