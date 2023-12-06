@@ -25,7 +25,7 @@ export default function Navbar() {
               height={8}
               className="h-8 me-3"
               alt="Logo"
-            />{" "}
+            />
           </Link>
           <div className="flex md:order-2">
             <div className="flex flex-row gap-8">
