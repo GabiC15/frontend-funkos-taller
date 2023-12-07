@@ -40,7 +40,7 @@ export default function CardFavorito({ producto }) {
           </div>
         </div>
 
-        <div className="grid grid-rows-1 pr-1">
+        <div className="grid grid-rows-1">
           <button className="h-6">
             <svg
               className="w-4 md:w-5"
@@ -54,7 +54,7 @@ export default function CardFavorito({ producto }) {
               />
             </svg>
           </button>
-          <button className="h-6">
+          <button className="h-7">
             <BiSolidEditAlt className="w-full h-full" />
           </button>
         </div>

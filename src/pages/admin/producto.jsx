@@ -1,5 +1,7 @@
 import Layout from "@/components/common/layout";
 import CardProducto from "@/components/admin/productos/CardProducto";
+import Sidebar from "@/components/common/sidebar";
+import { IoAdd } from "react-icons/io5";
 
 const data = [
   {
@@ -60,19 +62,31 @@ const data = [
       "https://funko.com/dw/image/v2/BGTS_PRD/on/demandware.static/-/Sites-funko-master-catalog/default/dw42b91c3f/images/funko/upload/68758_Inuyasha_HumanInuyasha_POP_FC_GLAM-1-WEB.png?sw=800&sh=800",
     ],
   },
-]
+];
 
 export default function Producto() {
   return (
     <>
       <Layout>
         <div className="bg-gradient min-h-screen">
-          <div className="container mx-auto flex flex-col">
-            <h1 className="text-3xl md:text-4xl font-black mt-12 mb-4 mx-4 uppercase">Productos</h1>
-            <div className="grid grid-cols-1 gap-1 md:gap-5 mb-16">
-              {data.map((prod, i) => (
-                <CardProducto producto={prod} key={prod["productId"]} />
-              ))}
+          <div className="md:ml-64 ml-12">
+            <Sidebar />
+
+            <div className="container mx-auto flex flex-col">
+              <h1 className="text-3xl md:text-4xl font-black mt-12 mb-4 mx-4 uppercase">
+                Productos
+              </h1>
+              <div className="grid grid-cols-1 gap-1 md:gap-5 mb-16">
+                <div className="flex flex-row-reverse mr-6 my-2 md:my-0">
+                  <button className="flex flex-row bg-gray-300/30 shadow-md p-2 items-center hover:text-green-500 hover:shadow-sm transition-all duration-200 justify-between rounded-xl">
+                    <IoAdd className="h-6 w-6 px-0 ml-1" />
+                    <span className="md:text-md text-sm mx-5">Agregar producto</span>
+                  </button>
+                </div>
+                {data.map((prod, i) => (
+                  <CardProducto producto={prod} key={prod["productId"]} />
+                ))}
+              </div>
             </div>
           </div>
         </div>
