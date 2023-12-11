@@ -1,19 +1,23 @@
+import { useState } from "react";
 import { FaRegChartBar } from "react-icons/fa";
 import { IoStatsChart } from "react-icons/io5";
 import { FiShoppingCart } from "react-icons/fi";
 import { GrDeliver } from "react-icons/gr";
+import { LuLogOut } from "react-icons/lu";
 
 const Sidebar = () => {
+  const [showSubcategories, setShowSubcategories] = useState(false);
+
   return (
     <>
-      <div class="flex flex-col flex-auto flex-shrink-0 mr-50 antialiased bg-white dark:bg-gray-700 text-black dark:text-white">
+      <div className="flex flex-col flex-auto flex-shrink-0 mr-50 antialiased bg-white dark:bg-gray-700 text-black dark:text-white">
         {/* <!-- Sidebar --> */}
-        <div class="fixed flex flex-col top-32 md:top-20 left-0 bottom-12 w-14 hover:w-64 md:w-64 bg-blue-900 dark:bg-gray-900 max-h-fit h-fit py-3 md:py-2 text-white transition-all duration-300 border-none z-10 sidebar">
-          <div class="overflow-y-auto overflow-x-hidden flex flex-col justify-between flex-grow">
-            <ul class="flex flex-col py-4 space-y-2 md:space-y-1">
-              <li class="px-5 hidden md:block">
-                <div class="flex flex-row items-center h-8">
-                  <div class="text-sm font-light tracking-wide text-gray-400 uppercase">
+        <div className="fixed md:absolute flex flex-col top-32 md:top-20 left-0 bottom-12 w-14 hover:w-64 md:w-64 bg-blue-900 dark:bg-gray-900 max-h-fit h-fit py-3 md:py-2 text-white transition-all duration-300 border-none z-10 sidebar">
+          <div className="overflow-y-auto overflow-x-hidden flex flex-col justify-between flex-grow">
+            <ul className="flex flex-col py-4 space-y-2 md:space-y-1">
+              <li className="px-5 hidden md:block">
+                <div className="flex flex-row items-center h-8">
+                  <div className="text-sm font-light tracking-wide text-gray-400 uppercase">
                     Administrador
                   </div>
                 </div>
@@ -21,11 +25,11 @@ const Sidebar = () => {
               <li>
                 <a
                   href="#"
-                  class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6"
+                  className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6"
                 >
-                  <span class="inline-flex justify-center items-center ml-3">
+                  <span className="inline-flex justify-center items-center ml-3">
                     <svg
-                      class="w-5 h-5"
+                      className="w-5 h-5"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -39,7 +43,7 @@ const Sidebar = () => {
                       ></path>
                     </svg>
                   </span>
-                  <span class="ml-2 text-sm tracking-wide truncate">
+                  <span className="ml-2 text-sm tracking-wide truncate">
                     Dashboard
                   </span>
                 </a>
@@ -47,39 +51,60 @@ const Sidebar = () => {
               {/* <li>
                 <a
                   href="#"
-                  class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6"
+                  className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6"
                 >
-                  <span class="inline-flex justify-center items-center ml-3">
+                  <span className="inline-flex justify-center items-center ml-3">
                     <IoStatsChart className="w-5 h-5" />
                   </span>
-                  <span class="ml-2 text-sm tracking-wide truncate">Reportes</span>
+                  <span className="ml-2 text-sm tracking-wide truncate">Reportes</span>
                 </a>
               </li> */}
-              <li>
+              <li
+                className="group relative"
+                onClick={() => setShowSubcategories(!showSubcategories)}
+              >
                 <a
                   href="#"
-                  class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6"
+                  className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6"
                 >
-                  <span class="inline-flex justify-center items-center ml-3">
+                  <span className="inline-flex justify-center items-center ml-3">
                     <FiShoppingCart className="w-5 h-5" />
                   </span>
-                  <span class="ml-2 text-sm tracking-wide truncate">
+                  <span className="ml-2 text-sm tracking-wide truncate">
                     Productos
                   </span>
                 </a>
+                <div
+                  className={`relative z-10 pb-2 bg-gray-800/30 w-full shadow-lg rounded mt-1 ${
+                    showSubcategories ? "block" : "hidden"
+                  }`}
+                >
+                  <a
+                    href="#"
+                    className="block px-4 py-2 text-sm focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800"
+                  >
+                    Mostrar productos
+                  </a>
+                  <a
+                    href="#"
+                    className="block px-4 py-2 text-sm focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800"
+                  >
+                    Agregar productos
+                  </a>
+                </div>
               </li>
               <li>
                 <a
                   href="#"
-                  class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6"
+                  className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6"
                 >
-                  <span class="inline-flex justify-center items-center ml-3">
+                  <span className="inline-flex justify-center items-center ml-3">
                     <GrDeliver className="w-5 h-5" />
                   </span>
-                  <span class="ml-2 text-sm tracking-wide truncate">
+                  <span className="ml-2 text-sm tracking-wide truncate">
                     Pedidos
                   </span>
-                  <span class="hidden md:block px-2 py-0.5 ml-auto text-xs font-medium tracking-wide text-red-500 bg-red-50 rounded-full">
+                  <span className="hidden md:block px-2 py-0.5 ml-auto text-xs font-medium tracking-wide text-red-500 bg-red-50 rounded-full">
                     1.2k
                   </span>
                 </a>
@@ -87,11 +112,11 @@ const Sidebar = () => {
               <li>
                 <a
                   href="#"
-                  class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6"
+                  className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6"
                 >
-                  <span class="inline-flex justify-center items-center ml-3">
+                  <span className="inline-flex justify-center items-center ml-3">
                     <svg
-                      class="w-5 h-5"
+                      className="w-5 h-5"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -105,22 +130,23 @@ const Sidebar = () => {
                       ></path>
                     </svg>
                   </span>
-                  <span class="ml-2 text-sm tracking-wide truncate">
+                  <span className="ml-2 text-sm tracking-wide truncate">
                     Mensajes
                   </span>
-                  <span class="hidden md:block px-2 py-0.5 ml-auto text-xs font-medium tracking-wide text-blue-500 bg-indigo-50 rounded-full">
+                  <span className="hidden md:block px-2 py-0.5 ml-auto text-xs font-medium tracking-wide text-blue-500 bg-indigo-50 rounded-full">
                     Nuevo
                   </span>
+                  
                 </a>
               </li>
               {/* <li>
                 <a
                   href="#"
-                  class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6"
+                  className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6"
                 >
-                  <span class="inline-flex justify-center items-center ml-3">
+                  <span className="inline-flex justify-center items-center ml-3">
                     <svg
-                      class="w-5 h-5"
+                      className="w-5 h-5"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -134,17 +160,17 @@ const Sidebar = () => {
                       ></path>
                     </svg>
                   </span>
-                  <span class="ml-2 text-sm tracking-wide truncate">
+                  <span className="ml-2 text-sm tracking-wide truncate">
                     Notificaciones
                   </span>
-                  <span class="hidden md:block px-2 py-0.5 ml-auto text-xs font-medium tracking-wide text-red-500 bg-red-50 rounded-full">
+                  <span className="hidden md:block px-2 py-0.5 ml-auto text-xs font-medium tracking-wide text-red-500 bg-red-50 rounded-full">
                     1.2k
                   </span>
                 </a>
               </li> */}
-              <li class="px-5 hidden md:block">
-                <div class="flex flex-row items-center mt-5 h-8">
-                  <div class="text-sm font-light tracking-wide text-gray-400 uppercase">
+              <li className="px-5 hidden md:block">
+                <div className="flex flex-row items-center mt-5 h-8">
+                  <div className="text-sm font-light tracking-wide text-gray-400 uppercase">
                     Ajustes
                   </div>
                 </div>
@@ -152,11 +178,11 @@ const Sidebar = () => {
               <li>
                 <a
                   href="#"
-                  class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6"
+                  className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6"
                 >
-                  <span class="inline-flex justify-center items-center ml-3">
+                  <span className="inline-flex justify-center items-center ml-3">
                     <svg
-                      class="w-5 h-5"
+                      className="w-5 h-5"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -170,7 +196,7 @@ const Sidebar = () => {
                       ></path>
                     </svg>
                   </span>
-                  <span class="ml-2 text-sm tracking-wide truncate">
+                  <span className="ml-2 text-sm tracking-wide truncate">
                     Perfil
                   </span>
                 </a>
@@ -178,11 +204,11 @@ const Sidebar = () => {
               <li>
                 <a
                   href="#"
-                  class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6"
+                  className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6"
                 >
-                  <span class="inline-flex justify-center items-center ml-3">
+                  <span className="inline-flex justify-center items-center ml-3">
                     <svg
-                      class="w-5 h-5"
+                      className="w-5 h-5"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -202,13 +228,26 @@ const Sidebar = () => {
                       ></path>
                     </svg>
                   </span>
-                  <span class="ml-2 text-sm tracking-wide truncate">
+                  <span className="ml-2 text-sm tracking-wide truncate">
                     Ajustes
                   </span>
                 </a>
               </li>
+              <li className="md:hidden">
+                <a
+                  href="#"
+                  className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6"
+                >
+                  <span className="inline-flex justify-center items-center ml-3">
+                    <LuLogOut className="text-xl" />
+                  </span>
+                  <span className="ml-2 text-sm tracking-wide truncate">
+                    Cerrar sesión
+                  </span>
+                </a>
+              </li>
             </ul>
-            <button class="mb-8 px-5 py-3 hidden md:block text-center text-xs md:mt-5 md:bg-white hover:bg-white/90 transition-colors duration-150 md:text-black md:rounded-lg md:mx-4">
+            <button className="mb-8 px-5 py-3 hidden md:block text-center text-xs md:mt-5 md:bg-white hover:bg-white/90 transition-colors duration-150 md:text-black md:rounded-lg md:mx-4">
               Cerrar sesión
             </button>
           </div>
