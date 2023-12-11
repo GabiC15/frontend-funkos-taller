@@ -2,6 +2,7 @@ import Layout from "@/components/common/layout";
 import CardProducto from "@/components/admin/productos/CardProducto";
 import Sidebar from "@/components/common/sidebar";
 import { IoAdd } from "react-icons/io5";
+import CargarProducto from "@/components/admin/productos/CargarProducto";
 
 const data = [
   {
@@ -77,12 +78,12 @@ export default function Producto() {
                 Productos
               </h1>
               <div className="grid grid-cols-1 gap-1 md:gap-5 mb-16">
-                <div className="flex flex-row-reverse mr-6 my-2 md:my-0">
+                {/* <div className="flex flex-row-reverse mr-6 my-2 md:my-0">
                   <button className="flex flex-row bg-gray-300/30 shadow-md p-2 items-center hover:text-green-500 hover:shadow-sm transition-all duration-200 justify-between rounded-xl">
                     <IoAdd className="h-6 w-6 px-0 ml-1" />
                     <span className="md:text-md text-sm mx-5">Agregar producto</span>
                   </button>
-                </div>
+                </div> */}
                 {data.map((prod, i) => (
                   <CardProducto producto={prod} key={prod["productId"]} />
                 ))}
