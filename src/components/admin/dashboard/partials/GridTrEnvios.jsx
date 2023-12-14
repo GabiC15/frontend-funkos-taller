@@ -26,10 +26,10 @@ const GridTrEnvios = ({ props }) => {
             </div>
           </div>
         </td>
-        <td className="px-4 py-3 text-sm">${shippingPrice}</td>
-        <td className="px-4 py-3 text-xs">
+        <td className="px-4 py-3 text-xs md:text-sm">${shippingPrice}</td>
+        <td className="px-4 py-3 text-xs md:text-sm">
           <span
-            className={`px-2 py-1 font-semibold leading-tight ${
+            className={`px-2 py-1 font-base md:font-semibold leading-tight text-xs ${
               shippingStatus
                 ? "text-green-700 bg-green-100 dark:bg-green-700 dark:text-green-100"
                 : "text-red-700 bg-red-100 dark:text-red-100 dark:bg-red-700"
@@ -39,7 +39,7 @@ const GridTrEnvios = ({ props }) => {
             {shippingStatus ? "Entregado" : "Sin entregar"}
           </span>
         </td>
-        <td className="px-4 py-3 text-sm">{shippingDate}</td>
+        <td className="px-4 py-3 text-xs md:text-sm">{shippingDate}</td>
       </tr>
     </>
   );

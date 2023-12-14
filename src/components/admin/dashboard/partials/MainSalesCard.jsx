@@ -7,8 +7,8 @@ const MainSalesCard = ({ props }) => {
         <div className="flex justify-center items-center w-14 h-14 bg-white rounded-full transition-all duration-300 transform group-hover:rotate-12">
           {img}
         </div>
-        <div className="text-right">
-          <p className="text-2xl">{total}</p>
+        <div className="text-right mr-2 md:mr-1">
+          <p className="text-xl md:text-2xl">{total}</p>
           <p>{title}</p>
         </div>
       </div>
