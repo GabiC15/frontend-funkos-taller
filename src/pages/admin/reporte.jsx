@@ -5,8 +5,8 @@ import MainCards from "@/components/admin/dashboard/MainCards";
 import SalesVolume from "@/components/admin/dashboard/SalesVolume";
 import NotificationPanel from "@/components/admin/dashboard/NotificationPanel";
 import OrdersControl from "@/components/admin/dashboard/OrdersControl";
-import DoughnutChart from "@/components/admin/dashboard/doughnutChart";
-import BarChart from "@/components/admin/dashboard/barChart";
+import DoughnutChart from "@/components/admin/dashboard/partials/doughnutChart";
+import ChartTable from "@/components/admin/dashboard/chartTable";
 
 export default function Reporte() {
   const dataSalesVolume = [
@@ -514,10 +514,10 @@ export default function Reporte() {
             {/* <!-- Statistics Cards --> */}
             <MainCards data={dataCards} />
             {/* <!-- ./Statistics Cards --> */}
-            
+
             <div className="md:flex md:justify-between my-3 mr-8 md:mr-0">
               <div className="w-full md:h-fit h-full mx-4 px-5 py-5 rounded shadow-lg md:mb-0 mb-7 bg-gray-100 dark:bg-gray-800">
-                <BarChart />
+                <ChartTable />
               </div>
               <div className="md:w-fit w-full md:h-fit h-full mx-4 px-5 py-5 rounded shadow-lg bg-gray-100 dark:bg-gray-800">
                 <DoughnutChart />
@@ -539,7 +539,6 @@ export default function Reporte() {
             {/* <!-- Orders Table --> */}
 
             {/* <Doughnut /> */}
-
           </div>
         </Layout>
       </div>
