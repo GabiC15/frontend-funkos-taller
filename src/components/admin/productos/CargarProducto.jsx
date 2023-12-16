@@ -22,22 +22,31 @@ const CargarProducto = () => {
     });
   };
 
-  const handleImageUpload = (e) => {
-    // const file = e.target.files[0];
-    // const reader = new FileReader();
-    // reader.onloadend = () => {
-    //   setFormData({
-    //     ...formData,
-    //     [e.target.name]: reader.result,
-    //   });
-    // };
-    // reader.readAsDataURL(file);
-
+  const handleImagesRemove = () => {
     setFormData({
       ...formData,
-      [e.target.name]: "file submitted",
+      ["picture_1"]: "",
+      ["picture_2"]: "",
+      ["picture_3"]: "",
+      ["picture_4"]: "",
     });
-    
+  };
+
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setFormData({
+        ...formData,
+        [e.target.name]: reader.result,
+      });
+    };
+    reader.readAsDataURL(file);
+
+    // setFormData({
+    //   ...formData,
+    //   [e.target.name]: "file submitted",
+    // });
   };
 
   const handleSubmit = (e) => {
@@ -61,68 +70,139 @@ const CargarProducto = () => {
         >
           <div className="flex-col w-full ml-5">
             <div className="flex justify-end">
-              <button className="pt-2">
+              <button 
+              className="pt-2"
+              onClick={handleImagesRemove}
+              >
                 <IoAdd className="w-6 h-6 text-slate-200 rotate-45 hover:text-slate-300" />
               </button>
             </div>
           </div>
           <div className="text-center flex justify-center pt-2">
-            <label
-              htmlFor="imageInput_1"
-              className="group w-24 h-20 md:h-24 rounded-3xl bg-white/40 flex items-center justify-center mx-1 hover:bg-white/30"
-            >
-              <IoAdd className="w-8 h-8 md:w-10 md:h-10 text-slate-200/90 group-hover:text-slate-300/90" />
-            </label>
-            <input
-              type="file"
-              className="hidden"
-              id="imageInput_1"
-              name="picture_1"
-              onChange={handleImageUpload}
-              multiple
-            />
-            <label
-              htmlFor="imageInput_2"
-              className="group w-24 h-20 md:h-24 rounded-3xl bg-white/40 flex items-center justify-center mx-1 hover:bg-white/30"
-            >
-              <IoAdd className="w-8 h-8 md:w-10 md:h-10 text-slate-200/90 group-hover:text-slate-300/90" />
-            </label>
-            <input
-              type="file"
-              className="hidden"
-              id="imageInput_2"
-              name="picture_2"
-              onChange={handleImageUpload}
-              multiple
-            />
-            <label
-              htmlFor="imageInput_3"
-              className="group w-24 h-20 md:h-24 rounded-3xl bg-white/40 flex items-center justify-center mx-1 hover:bg-white/30"
-            >
-              <IoAdd className="w-8 h-8 md:w-10 md:h-10 text-slate-200/90 group-hover:text-slate-300/90" />
-            </label>
-            <input
-              type="file"
-              className="hidden"
-              id="imageInput_3"
-              name="picture_3"
-              onChange={handleImageUpload}
-              multiple
-            />
-            <label
-              htmlFor="imageInput_4"
-              className="group w-24 h-20 md:h-24 rounded-3xl bg-white/40 flex items-center justify-center mx-1 hover:bg-white/30"
-            >
-              <IoAdd className="w-8 h-8 md:w-10 md:h-10 text-slate-200/90 group-hover:text-slate-300/90" />
-            </label>
-            <input
-              type="file"
-              className="hidden"
-              id="imageInput_4"
-              name="picture_4"
-              onChange={handleImageUpload}
-              multiple
-            />
+            <div className="">
+              <input
+                type="file"
+                className="hidden"
+                id="imageInput_1"
+                name="picture_1"
+                onChange={handleImageUpload}
+                multiple
+              />
+              <label
+                htmlFor="imageInput_1"
+                className={`group ${
+                  formData["picture_1"] ? "hidden" : null
+                } w-24 h-20 md:h-24 rounded-3xl hover:cursor-pointer bg-white/40 flex items-center justify-center mx-1 hover:bg-white/30`}
+              >
+                <IoAdd className="w-8 h-8 md:w-10 md:h-10 text-slate-200/90 group-hover:text-slate-300/90" />
+              </label>
+
+              {formData["picture_1"] && (
+                <img
+                  className={`group ${
+                    !formData["picture_1"] ? "hidden" : null
+                  } w-24 h-20 md:h-24 rounded-3xl hover:cursor-pointer bg-white/10 hover:opacity-90 flex items-center justify-center mx-1`}
+                  src={formData["picture_1"]}
+                  alt="Preview picture of Funko"
+                  onClick={() =>
+                    document.getElementById("imageInput_1").click()
+                  }
+                />
+              )}
+            </div>
+            <div className="">
+              <input
+                type="file"
+                className="hidden"
+                id="imageInput_2"
+                name="picture_2"
+                onChange={handleImageUpload}
+                multiple
+              />
+              <label
+                htmlFor="imageInput_2"
+                className={`group ${
+                  formData["picture_2"] ? "hidden" : null
+                } w-24 h-20 md:h-24 rounded-3xl hover:cursor-pointer bg-white/40 flex items-center justify-center mx-1 hover:bg-white/30`}
+              >
+                <IoAdd className="w-8 h-8 md:w-10 md:h-10 text-slate-200/90 group-hover:text-slate-300/90" />
+              </label>
+
+              {formData["picture_2"] && (
+                <img
+                  className={`group ${
+                    !formData["picture_2"] ? "hidden" : null
+                  } w-24 h-20 md:h-24 rounded-3xl hover:cursor-pointer bg-white/10 hover:opacity-90 flex items-center justify-center mx-1`}
+                  src={formData["picture_2"]}
+                  alt="Preview picture of Funko"
+                  onClick={() =>
+                    document.getElementById("imageInput_2").click()
+                  }
+                />
+              )}
+            </div>
+            <div className="">
+              <input
+                type="file"
+                className="hidden"
+                id="imageInput_3"
+                name="picture_3"
+                onChange={handleImageUpload}
+                multiple
+              />
+              <label
+                htmlFor="imageInput_3"
+                className={`group ${
+                  formData["picture_3"] ? "hidden" : null
+                } w-24 h-20 md:h-24 rounded-3xl hover:cursor-pointer bg-white/40 flex items-center justify-center mx-1 hover:bg-white/30`}
+              >
+                <IoAdd className="w-8 h-8 md:w-10 md:h-10 text-slate-200/90 group-hover:text-slate-300/90" />
+              </label>
+
+              {formData["picture_3"] && (
+                <img
+                  className={`group ${
+                    !formData["picture_3"] ? "hidden" : null
+                  } w-24 h-20 md:h-24 rounded-3xl hover:cursor-pointer bg-white/10 hover:opacity-90 flex items-center justify-center mx-1`}
+                  src={formData["picture_3"]}
+                  alt="Preview picture of Funko"
+                  onClick={() =>
+                    document.getElementById("imageInput_3").click()
+                  }
+                />
+              )}
+            </div>
+            <div className="">
+              <input
+                type="file"
+                className="hidden"
+                id="imageInput_4"
+                name="picture_4"
+                onChange={handleImageUpload}
+                multiple
+              />
+              <label
+                htmlFor="imageInput_4"
+                className={`group ${
+                  formData["picture_4"] ? "hidden" : null
+                } w-24 h-20 md:h-24 rounded-3xl hover:cursor-pointer bg-white/40 flex items-center justify-center mx-1 hover:bg-white/30`}
+              >
+                <IoAdd className="w-8 h-8 md:w-10 md:h-10 text-slate-200/90 group-hover:text-slate-300/90" />
+              </label>
+
+              {formData["picture_4"] && (
+                <img
+                  className={`group ${
+                    !formData["picture_4"] ? "hidden" : null
+                  } w-24 h-20 md:h-24 rounded-3xl hover:cursor-pointer bg-white/10 hover:opacity-90 flex items-center justify-center mx-1`}
+                  src={formData["picture_4"]}
+                  alt="Preview picture of Funko"
+                  onClick={() =>
+                    document.getElementById("imageInput_4").click()
+                  }
+                />
+              )}
+            </div>
             {/* <button
               className="group w-24 h-20 md:h-24 rounded-3xl bg-white/40 flex items-center justify-center mx-1 hover:bg-white/30"
               onClick={(e) => {
