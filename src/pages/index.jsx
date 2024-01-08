@@ -30,7 +30,7 @@ export async function getServerSideProps() {
   const { data } = await client.query({
     query: GET_PRODUCTOS,
     variables: {
-      // input: {},
+      input: {},
     },
   });
 
