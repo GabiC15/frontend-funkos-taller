@@ -344,7 +344,8 @@ export const data = [
   },
 ];
 
-export default function Recientes() {
+export default function Recientes({ funkos }) {
+  console.log(funkos);
   return (
     <>
       <div className="bg-gradient">
@@ -356,7 +357,7 @@ export default function Recientes() {
             Tener todos los personajes
           </h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5 mt-8 mx-4">
-            {data.map((d, i) => (
+            {funkos.map((d, i) => (
               <Producto producto={d} key={i} />
             ))}
           </div>
