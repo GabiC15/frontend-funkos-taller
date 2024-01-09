@@ -47,18 +47,19 @@ const items = [
   },
 ];
 
-export default function ItemsPedido() {
+export default function ItemsPedido({ lineasCarrito }) {
+  console.log(lineasCarrito);
   return (
     <>
       <div>
         <h2 className="text-xl font-bold">Productos</h2>
 
         <div className="flex flex-col gap-4 mt-4">
-          {items.map((p) => (
-            <div className="flex gap-3" key={p.productId}>
+          {lineasCarrito.map((linea) => (
+            <div className="flex gap-3" key={linea.producto.id}>
               <div className="basis-28 min-w-[7rem] h-28 rounded-md bg-black/20">
                 <Image
-                  src={p.images[0]}
+                  src={linea.producto.imagenes[0].path}
                   width={0}
                   height={0}
                   sizes="100vw"
@@ -68,12 +69,16 @@ export default function ItemsPedido() {
               </div>
               <div className="flex flex-col justify-between">
                 <h3 className="text-base md:text-lg font-extrabold uppercase">
-                  {p.title}
+                  {linea.producto.titulo}
                 </h3>
-                <p className="text-xs font-normal mt-0.5">#{p.productId}</p>
-                <p className="text-xs font-normal mt-1">Cantidad: x1</p>
+                <p className="text-xs font-normal mt-0.5">
+                  #{linea.producto.id}
+                </p>
+                <p className="text-xs font-normal mt-1">
+                  Cantidad: {linea.cantidad}
+                </p>
                 <h4 className="text-xl md:text-2xl font-bold mt-auto md:mt-0">
-                  ${Number.parseFloat(p.price.substring(1)) * 1000}
+                  ${linea.producto.precio * linea.cantidad}
                 </h4>
               </div>
             </div>
