@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Pagination from "@/components/common/pagination";
-import GridTrEnvios from "@/components/admin/dashboard/partials/GridTrEnvios";
+import GridTrEnvios from "@/components/admin/dashboard/partials/gridTrEnvios";
 
 
 

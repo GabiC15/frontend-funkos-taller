@@ -1,4 +1,4 @@
-import GridTrVentas from "@/components/admin/dashboard/partials/GridTrVentas";
+import GridTrVentas from "@/components/admin/dashboard/partials/gridTrVentas";
 
 const SalesVolume = ({ data }) => {
   return (

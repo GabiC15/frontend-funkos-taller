@@ -2,27 +2,16 @@ import { Bar } from "react-chartjs-2";
 import { ArcElement, CategoryScale, Chart, Legend, Tooltip, LinearScale, Title, BarElement } from "chart.js";
 Chart.register(ArcElement, CategoryScale, Legend, Tooltip, LinearScale, Title, BarElement);
 
-const BarChart = () => {
-  const data = {
-    labels: [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ],
+const BarChart = ({data}) => {
+  const { months, brutto, netto} = data[0];
+  console.log("months:" +data.months);
+  const dataBar = {
+    labels: months,
     datasets: [
       {
         label: "Brutto",
         borderRadius: 30,
-        data: [0.1, 0.4, 0.2, 0.3, 0.7, 0.4, 0.6, 0.3, 0.4, 0.5, 0.7, 0.23],
+        data: brutto,
         backgroundColor: "rgba(32, 214, 155, 1)",
         barThickness: 10,
         
@@ -30,7 +19,7 @@ const BarChart = () => {
       {
         label: "Netto",
         borderRadius: 20,
-        data: [0.07, 0.3, 0.15, 0.2, 0.5, 0.3, 0.8, 0.2, 0.4, 0.6, 0.3, 0.12],
+        data: netto,
         backgroundColor: "rgba(1, 98, 255, 1)",
         barThickness: 10,
         
@@ -50,7 +39,7 @@ const BarChart = () => {
           color: "white"
         },
         title: {
-          text: "Sales Report",
+          text: "Reporte de ventas por mes",
           display: true,
           color: "white",
           font: {
@@ -91,7 +80,7 @@ const BarChart = () => {
   
   return (
     <>
-      <Bar data={data} options={options} />
+      <Bar data={dataBar} options={options} />
     </>
   );
 };

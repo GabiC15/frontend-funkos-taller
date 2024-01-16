@@ -1,5 +1,6 @@
-const NotificationPanel = () => {
-  
+import NotificationMessage from "./partials/notificationMessage";
+
+const NotificationPanel = ({ data }) => {
   return (
     <>
       <div className="mr-8 md:mr-0 md:pr-8 flex md:my-4 flex-col md:w-full">
@@ -21,66 +22,18 @@ const NotificationPanel = () => {
               </div>
             </div>
             <div className="block w-full">
-              <div className="px-4 bg-gray-100 dark:bg-gray-600 text-gray-500 dark:text-gray-100 align-middle border border-solid border-gray-200 dark:border-gray-500 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+              {data.map((data, i) => (
+                <ul className="my-1 text-xs md:text-sm" key={i}>
+                  <li className="flex px-4" key={i}>
+                    <NotificationMessage data={data} key={i} />
+                  </li>
+                </ul>
+              ))}
+              {/* <div className="px-4 bg-gray-100 dark:bg-gray-600 text-gray-500 dark:text-gray-100 align-middle border border-solid border-gray-200 dark:border-gray-500 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
                 Hoy
-              </div>
-              <ul className="my-1 text-xs md:text-sm">
-                <li className="flex px-4">
-                  <div className="w-9 h-9 rounded-full flex-shrink-0 bg-indigo-500 my-2 mr-3">
-                    <svg
-                      className="w-9 h-9 fill-current text-indigo-50"
-                      viewBox="0 0 36 36"
-                    >
-                      <path d="M18 10c-4.4 0-8 3.1-8 7s3.6 7 8 7h.6l5.4 2v-4.4c1.2-1.2 2-2.8 2-4.6 0-3.9-3.6-7-8-7zm4 10.8v2.3L18.9 22H18c-3.3 0-6-2.2-6-5s2.7-5 6-5 6 2.2 6 5c0 2.2-2 3.8-2 3.8z"></path>
-                    </svg>
-                  </div>
-                  <div className="flex-grow flex items-center border-b border-gray-100 dark:border-gray-400 text-gray-600 dark:text-gray-100 py-2">
-                    <div className="flex-grow flex justify-between items-center">
-                      <div className="self-center">
-                        <a
-                          className="font-medium text-gray-800 hover:text-gray-900 dark:text-gray-50 dark:hover:text-gray-100"
-                          href="#0"
-                          style={{ outline: "none" }}
-                        >
-                          Nick Mark
-                        </a>{" "}
-                        mentioned{" "}
-                        <a
-                          className="font-medium text-gray-800 dark:text-gray-50 dark:hover:text-gray-100"
-                          href="#0"
-                          style={{ outline: "none" }}
-                        >
-                          Sara Smith
-                        </a>{" "}
-                        in a new post
-                      </div>
-                      <div className="flex-shrink-0 ml-2">
-                        <a
-                          className="flex items-center font-medium text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-500"
-                          href="#0"
-                          style={{ outline: "none" }}
-                        >
-                          Ver
-                          <span>
-                            <svg
-                              width="20"
-                              height="20"
-                              viewBox="0 0 20 20"
-                              fill="currentColor"
-                              className="transform transition-transform duration-500 ease-in-out"
-                            >
-                              <path
-                                fill-rule="evenodd"
-                                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                clip-rule="evenodd"
-                              ></path>
-                            </svg>
-                          </span>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </li>
+              </div> */}
+              {/* <ul className="my-1 text-xs md:text-sm">
+                <notificationMessage data={data} />
                 <li className="flex px-4">
                   <div className="w-9 h-9 rounded-full flex-shrink-0 bg-red-500 my-2 mr-3">
                     <svg
@@ -197,7 +150,7 @@ const NotificationPanel = () => {
                     </div>
                   </div>
                 </li>
-              </ul>
+              </ul> */}
             </div>
           </div>
         </div>
