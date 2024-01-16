@@ -501,6 +501,7 @@ export default function Reporte() {
     <>
       <div className="bg-gradient">
         <Layout>
+          <h1>Hello</h1>
           <div
             className="h-full ml-14 mt-14 mb-10 md:ml-64"
             // style={{maxWidth: '90%'}}
