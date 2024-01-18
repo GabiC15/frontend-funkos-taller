@@ -2,37 +2,39 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar as faStarSolid } from "@fortawesome/free-solid-svg-icons";
 import { faStar as faStarRegular } from "@fortawesome/free-regular-svg-icons";
 
-export default function Comentario() {
+export default function Comentario({ valoracion }) {
+  function getEstrellas(cantidad) {
+    return valoracion.cantidadEstrellas >= cantidad
+      ? faStarSolid
+      : faStarRegular;
+  }
+
   return (
     <>
       <div className="flex flex-col border-b pb-5">
         <div className="flex gap-1 mt-5">
           <FontAwesomeIcon
-            icon={faStarSolid}
+            icon={getEstrellas(1)}
             className="text-yellow-500 text-lg"
           />
           <FontAwesomeIcon
-            icon={faStarSolid}
+            icon={getEstrellas(2)}
             className="text-yellow-500 text-lg"
           />
           <FontAwesomeIcon
-            icon={faStarSolid}
+            icon={getEstrellas(3)}
             className="text-yellow-500 text-lg"
           />
           <FontAwesomeIcon
-            icon={faStarSolid}
+            icon={getEstrellas(4)}
             className="text-yellow-500 text-lg"
           />
           <FontAwesomeIcon
-            icon={faStarRegular}
+            icon={getEstrellas(5)}
             className="text-yellow-500 text-lg"
           />
         </div>
-        <p className="text-sm mt-2">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-          hendrerit magna ut nisi eleifend ultricies. Nunc suscipit, velit
-          scelerisque finibus placerat, est libero sodales ex.
-        </p>
+        <p className="text-sm mt-2">{valoracion.texto}</p>
       </div>
     </>
   );

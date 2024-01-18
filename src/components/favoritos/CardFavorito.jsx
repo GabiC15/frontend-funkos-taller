@@ -8,27 +8,27 @@ export default function CardFavorito({producto}){
             <div className="flex flex-row">
                 <div className="bg-white/20 px-6 md:h-32 md:p-6 rounded-[18px] flex items-center">
                     <Image
-                        src={producto.images[0]}
+                        src={producto.imagenes[0].path}
                         width={0}
                         height={0}
                         sizes="100vh"
                         className="cursor-pointer w-12 md:w-20 mx-auto scale-[1.6] md:scale-[1.7] hover:scale-[1.87] transition-all drop-shadow-lg hover:drop-shadow-2xl"
-                        alt={producto.title}
+                        alt={producto.titulo}
                     />
                 </div>
 
                 <div className="ml-4">
                     <div>
                         <a href="#">
-                            <h3 className="font-bold text-[0.9rem] max-w-[11.5rem]  sm:max-w-lg md:max-w-none md:text-xl uppercase">{producto.title}</h3>
+                            <h3 className="font-bold text-[0.9rem] max-w-[11.5rem]  sm:max-w-lg md:max-w-none md:text-xl uppercase">{producto.titulo}</h3>
                         </a>
 
                         <div className="text-xs mr-3 md:text-sm lg:text-base max-w-[16rem] sm:max-w-md md:max-w-lg lg:max-w-4xl">
-                            <p className="text-slate-300 line-clamp-2">{producto.description}</p>
+                            <p className="text-slate-300 line-clamp-2">{producto.descripcion}</p>
                         </div>
-                    
+
                         <div>
-                            <p className="mt-2 text-lg sm:text-xl md:text-2xl"><b>{producto.price}</b></p>
+                            <p className="mt-2 text-lg sm:text-xl md:text-2xl"><b>${producto.precio}</b></p>
                         </div>
                     </div>
                 </div>
