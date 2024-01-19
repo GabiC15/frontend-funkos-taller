@@ -1,18 +1,26 @@
 import { useState } from "react";
 import { IoAdd } from "react-icons/io5";
+import { useRouter } from "next/router";
 
 const CargarProducto = () => {
+  const router = useRouter();
+  // const { query: { producto } } = router;
+  const producto = router.query.data ? JSON.parse(router.query.data) : null;
+  // const { data } = router?.state || {};
+  // const producto = data ? JSON.parse(data) : null;
+  console.log(producto);
+
   const [formData, setFormData] = useState({
-    picture_1: "",
-    picture_2: "",
-    picture_3: "",
-    picture_4: "",
-    title: "",
-    description: "",
-    colection: "",
-    features: "",
-    number: "",
-    stock: "",
+    picture_1: producto?.imagenes[0]?.path,
+    picture_2: producto?.imagenes[1]?.path,
+    picture_3: producto?.imagenes[2]?.path,
+    picture_4: producto?.imagenes[3]?.path,
+    titulo: producto?.titulo ? producto?.titulo : "",
+    descripcion: producto?.descripcion ? producto?.descripcion : "",
+    categoria: producto?.categoria.padre.nombre ? producto?.categoria.padre.nombre : "",
+    subcategoria: producto?.categoria.nombre ? producto?.categoria.nombre : "",
+    caracteristicas: producto?.caracteristicas ? producto?.caracteristicas : "",
+    stock: producto?.stock ? producto?.stock : "",
   });
 
   const handleChange = (e) => {
@@ -222,8 +230,9 @@ const CargarProducto = () => {
             <input
               className="bg-transparent border-2 pl-1 border-slate-300/90 focus:border-slate-200 rounded-lg outline-none"
               type="text"
-              name="title"
+              name="titulo"
               onChange={handleChange}
+              value={ formData.titulo ? formData.titulo : ""}
             ></input>
           </div>
           <div className="flex flex-col pt-1 mx-auto">
@@ -231,13 +240,14 @@ const CargarProducto = () => {
               htmlFor="title"
               className="block text-bold font-medium text-white"
             >
-              Descripición
+              Descripción
             </label>
             <textarea
               className="bg-transparent border-2 pl-1 border-slate-300/90 py-2.5 focus:border-slate-200 rounded-lg outline-none"
               type="textarea"
-              name="description"
+              name="descripcion"
               onChange={handleChange}
+              value={ formData.descripcion ? formData.descripcion : ""}
             ></textarea>
           </div>
           <div className="flex flex-col pt-1 mx-auto">
@@ -245,13 +255,29 @@ const CargarProducto = () => {
               htmlFor="title"
               className="block text-bold font-medium text-white"
             >
-              Colección
+              Categoría
             </label>
             <input
               className="bg-transparent border-2 pl-1 border-slate-300/90 focus:border-slate-200 rounded-lg outline-none"
               type="text"
-              name="colection"
+              name="categoria"
               onChange={handleChange}
+              value={ formData.categoria ? formData.categoria : ""}
+            ></input>
+          </div>
+          <div className="flex flex-col pt-1 mx-auto">
+            <label
+              htmlFor="title"
+              className="block text-bold font-medium text-white"
+            >
+              Subcategoría
+            </label>
+            <input
+              className="bg-transparent border-2 pl-1 border-slate-300/90 focus:border-slate-200 rounded-lg outline-none"
+              type="text"
+              name="subcategoria"
+              onChange={handleChange}
+              value={ formData.subcategoria ? formData.subcategoria : ""}
             ></input>
           </div>
           <div className="flex flex-col pt-1 mx-auto">
@@ -264,22 +290,9 @@ const CargarProducto = () => {
             <input
               className="bg-transparent border-2 pl-1 border-slate-300/90 focus:border-slate-200 rounded-lg outline-none"
               type="text"
-              name="features"
+              name="caracteristicas"
               onChange={handleChange}
-            ></input>
-          </div>
-          <div className="flex flex-col pt-1 mx-auto">
-            <label
-              htmlFor="title"
-              className="block text-bold font-medium text-white"
-            >
-              Número
-            </label>
-            <input
-              className="bg-transparent border-2 pl-1 border-slate-300/90 focus:border-slate-200 rounded-lg outline-none"
-              type="text"
-              name="number"
-              onChange={handleChange}
+              value={ formData.caracteristicas ? formData.caracteristicas : ""}
             ></input>
           </div>
           <div className="flex flex-col pt-1 mx-auto">
@@ -294,6 +307,7 @@ const CargarProducto = () => {
               type="text"
               name="stock"
               onChange={handleChange}
+              value={ formData.stock ? formData.stock : ""}
             ></input>
           </div>
           <div className="text-center">
