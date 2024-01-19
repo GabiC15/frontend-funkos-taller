@@ -20,3 +20,26 @@ export const GET_PRODUCTOS = gql`
     }
   }
 `;
+
+export const GET_PRODUCTO = gql`
+  query GetProducto($id: Int!) {
+    producto(id: $id) {
+      id
+      titulo
+      descripcion
+      stock
+      precio
+      imagenes {
+        path
+      }
+      categoria {
+        id
+        nombre
+        padre {
+          id
+          nombre
+        }
+      }
+    }
+  }
+`;

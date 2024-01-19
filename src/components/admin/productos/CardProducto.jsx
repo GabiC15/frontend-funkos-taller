@@ -58,20 +58,7 @@ export default function CardFavorito({ producto }) {
           </button>
           <button
             className="h-7"
-            onClick={() => {
-                router.push({
-                  pathname: `/admin/add_producto/${producto.id}`,
-                  // as: router.pathname,
-                  query: { data : JSON.stringify(producto) },
-                  // state: { data: producto },
-                });
-              // }}
-              // router.push(`/admin/add_producto/${producto.id}`, undefined, {
-              //   shallow: true,
-              //   state: { data: JSON.stringify(producto) },
-              // });
-            }}
-          >
+            onClick={() => {router.push(`/admin/add_producto/${producto.id}`)}}>
             <BiSolidEditAlt className="w-full h-full" />
           </button>
         </div>
