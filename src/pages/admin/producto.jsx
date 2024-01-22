@@ -74,7 +74,7 @@ export default function Producto() {
   useEffect(() => {
     // if (loading) return 'Loading...';
     // if (error) return `No data! ${error.message}`;
-    console.log(data);
+    // console.log(data);
   }, [data, error, loading]);
 
   if (loading) return 'Loading...';

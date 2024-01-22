@@ -10,7 +10,7 @@ const add_producto = ({funko}) => {
     <>
       <Layout>
         <Sidebar />
-        <CargarProducto funko={funko} />
+        <CargarProducto producto={funko} />
       </Layout>
     </>
   );
