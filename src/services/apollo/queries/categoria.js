@@ -25,3 +25,16 @@ export const GET_CATEGORIA = gql`
     }
   }
 `;
+
+export const GET_SUBCATEGORIAS = gql`
+  query GetSubCategorias($id: Int!) {
+    subcategorias(categoriaId: $id) {
+      id
+      nombre
+      padre {
+        id
+        nombre
+      }
+    }
+  }
+`;

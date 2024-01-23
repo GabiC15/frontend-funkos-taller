@@ -19,12 +19,15 @@ const add_producto = ({funko}) => {
 export default add_producto;
 
 export async function getServerSideProps({ params }) {
-  const { data } = await client.query({
-    query: GET_PRODUCTO,
-    variables: {
-      id: Number.parseInt(params.id),
-    },
-  });
-
-  return { props: { funko: data.producto } };
+  if (!isNaN(params.id)) {
+    console.log("asdasdsa")
+    const { data } = await client.query({
+      query: GET_PRODUCTO,
+      variables: {
+        id: Number.parseInt(params.id),
+      },
+    });
+    return { props: { funko: data.producto } };
+  }
+  return { props: {} };
 }

@@ -1,21 +1,56 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { NetworkStatus, useQuery } from "@apollo/client";
-import { GET_CATEGORIAS } from "@/services/apollo/queries/categoria";
+import {
+  GET_CATEGORIAS,
+  GET_SUBCATEGORIAS,
+} from "@/services/apollo/queries/categoria";
 import List from "@/components/common/list";
 
 const ListCategorySubCategory = ({ dataList }) => {
-  const { data, error, loading } = useQuery(GET_CATEGORIAS);
+
+  const [selectedOptionCategory, setSelectedOptionCategory] = useState({
+    id: parseInt(dataList.categoriaId),
+    nombre: dataList.categoriaName,
+  });
+
+  const [selectedOptionSubCategory, setSelectedOptionSubCategory] = useState({
+    id: dataList.subcategoriaId,
+    nombre: dataList.subcategoriaName,
+  });
+
+
+  // console.log(selectedOptionCategory);
+
+  const {
+    data: dataCategory,
+    error: errorCategory,
+    loading: loadingCategory,
+  } = useQuery(GET_CATEGORIAS);
+
+  const optionsCategoria = dataCategory?.categorias;
+
   useEffect(() => {
     // if (loading) return 'Loading...';
     // if (error) return `No data! ${error.message}`;
     // console.log(data);
-  }, [data, error, loading]);
-
-  if (loading) return "Loading...";
-  if (error) return `No data! ${error.message}`;
-
+    setSelectedOptionSubCategory("")
+    
+  }, [selectedOptionCategory]);
   
-  const optionsCategoria = data.categorias;
+  const {
+    data: dataSubcategory,
+    error: errorSubcategory,
+    loading: loadingSubcategory,
+  } = useQuery(GET_SUBCATEGORIAS, { variables: { id: selectedOptionCategory?.id } });
+
+  console.log(selectedOptionCategory)
+
+  const optionsSubcategoria = dataSubcategory?.subcategorias;
+
+  if (loadingCategory || loadingSubcategory) return "Loading...";
+
+  if (errorCategory || errorSubcategory)
+    return `No data! ${(errorCategory?.message, errorSubcategory?.message)}`;
 
   return (
     <>
@@ -27,8 +62,8 @@ const ListCategorySubCategory = ({ dataList }) => {
           Categoria
         </label>
         <List
-          dataName={dataList.categoriaName}
-          dataId={dataList.categoriaId}
+          selectedOption={selectedOptionCategory}
+          setSelectedOption={setSelectedOptionCategory}
           optionsServerSide={optionsCategoria}
         />
       </div>
@@ -40,9 +75,9 @@ const ListCategorySubCategory = ({ dataList }) => {
           Subcategoria
         </label>
         <List
-          dataName={dataList.subcategoriaName}
-          dataId={dataList.subcategoriaId}
-          optionsServerSide={dataList.categoriaId ? optionsCategoria : null}
+          selectedOption={selectedOptionSubCategory}
+          setSelectedOption={setSelectedOptionSubCategory}
+          optionsServerSide={optionsSubcategoria}
         />
       </div>
     </>

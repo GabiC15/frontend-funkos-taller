@@ -1,32 +1,53 @@
 import { useEffect, useState } from "react";
 
-const List = ({ dataName, dataId, optionsServerSide }) => {
+const List = ({ selectedOption, setSelectedOption, optionsServerSide }) => {
   /** "selected" here is state variable which will hold the
    * value of currently selected dropdown.
    */
-  const [selected, setSelected] = useState("");
+  const [options, setOptions ] = useState("");
 
   /** Function that will set different values to state variable
    * based on which dropdown is selected
    */
   const changeSelectOptionHandler = (event) => {
-    setSelected(event.target.value);
+    const value = event.target.value.split(',');
+    setSelectedOption({id:  parseInt(value[0]), nombre: value[1]});
   };
 
-  const excludedCategoryId = dataId;
-  const filteredCategoryData = optionsServerSide ? optionsServerSide.filter(categoria => categoria.id !== excludedCategoryId) : null;
   
-  const optionsFiltered = filteredCategoryData;
-
   useEffect(() => {
-
-    const excludedCategoryId = dataId;
+    
+    const excludedCategoryId = selectedOption.id;
     const filteredCategoryData = optionsServerSide ? optionsServerSide.filter(categoria => categoria.id !== excludedCategoryId) : null;
-    const optionsFiltered = filteredCategoryData
-    return () => {optionsFiltered}
+    
+    const optionsFiltered = filteredCategoryData;
+    
+    const optionsList = optionsFiltered?.map((option, id) => (
+      <option key={option.id} value={`${option.id}, ${option.nombre}`}>
+        {option.nombre}
+      </option>
+    ));
+    
+    setOptions(optionsList); 
+    
+  }, [])
   
-  }, [selected])
-  console.log(selected);
+  
+    useEffect(() => {
+      const excludedCategoryId = selectedOption.id;
+    const filteredCategoryData = optionsServerSide ? optionsServerSide.filter(categoria => categoria.id !== excludedCategoryId) : null;
+    
+    const optionsFiltered = filteredCategoryData;
+    
+    const optionsList = optionsFiltered?.map((option, id) => (
+      <option key={option.id} value={`${option.id}, ${option.nombre}`}>
+        {option.nombre}
+      </option>
+    ));
+    
+    setOptions(optionsList); 
+  
+    }, [selectedOption])
 
   /** Different arrays for different dropdowns */
   const algorithm = [
@@ -41,7 +62,7 @@ const List = ({ dataName, dataId, optionsServerSide }) => {
   let type = null;
 
   /** This will be used to create set of options that user will see */
-  let options = null;
+  // let options = null;
 
   /** Setting Type variable according to dropdown */
   // if (select === "Algorithm") {
@@ -55,14 +76,10 @@ const List = ({ dataName, dataId, optionsServerSide }) => {
   /** If "Type" is null or undefined then options will be null,
    * otherwise it will create a options iterable based on our array
    */
-  if (type) {
-    options = type.map((el) => <option key={el}>{el}</option>);
-  }
-  options = optionsFiltered?.map((option, id) => (
-    <option key={id} value={option.id}>
-      {option.nombre}
-    </option>
-  ));
+  // if (type) {
+  //   options = type.map((el) => <option key={el}>{el}</option>);
+  // }
+
   //  return (
   //    <div
   //      style={{
@@ -103,13 +120,15 @@ const List = ({ dataName, dataId, optionsServerSide }) => {
       <select
         id="underline_select"
         className="bg-transparent border-2 pl-1 border-slate-300/90 focus:border-slate-200 rounded-lg outline-none"
-        value={selected}
+        key={selectedOption.id}
+        value={selectedOption.nombre}
         onChange={changeSelectOptionHandler}
       >
         <option
-          value={dataId}
-          defaultValue={`${dataName ? dataName : "Seleccione una"}`}
-        >{`${dataName ? dataName : "Seleccione una"}`}</option>
+          key={selectedOption.id}
+          value={`${selectedOption.id}, ${selectedOption.nombre}`}
+          defaultValue={`${selectedOption.nombre ? selectedOption.nombre : "Seleccione una"}`}
+        >{`${selectedOption.nombre ? selectedOption.nombre : "Seleccione una"}`}</option>
         {/* {options.map((option, i) => {
           <options key={i} value={options.id}>{option.nombre}</options>
         })} */}

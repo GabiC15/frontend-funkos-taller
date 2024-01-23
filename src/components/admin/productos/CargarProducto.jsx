@@ -7,6 +7,8 @@ import ListCategorySubCategory from "./ListCategorySubCategory";
 const CargarProducto = ({ producto }) => {
   const [addProducto, { data, loading, error }] = useMutation(ADD_PRODUCTO);
 
+  console.log(producto)
+
   const [formData, setFormData] = useState({
     picture_1: producto?.imagenes[0]?.path,
     picture_2: producto?.imagenes[1]?.path,
