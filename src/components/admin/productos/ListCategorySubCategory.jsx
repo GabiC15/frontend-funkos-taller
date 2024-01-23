@@ -6,8 +6,10 @@ import {
 } from "@/services/apollo/queries/categoria";
 import List from "@/components/common/list";
 
-const ListCategorySubCategory = ({ dataList }) => {
+const ListCategorySubCategory = ({ dataList, handleChange }) => {
 
+
+  
   const [selectedOptionCategory, setSelectedOptionCategory] = useState({
     id: parseInt(dataList.categoriaId),
     nombre: dataList.categoriaName,
@@ -17,9 +19,6 @@ const ListCategorySubCategory = ({ dataList }) => {
     id: dataList.subcategoriaId,
     nombre: dataList.subcategoriaName,
   });
-
-
-  // console.log(selectedOptionCategory);
 
   const {
     data: dataCategory,
@@ -33,7 +32,10 @@ const ListCategorySubCategory = ({ dataList }) => {
     // if (loading) return 'Loading...';
     // if (error) return `No data! ${error.message}`;
     // console.log(data);
-    setSelectedOptionSubCategory("")
+    if (dataList.categoriaId !== selectedOptionCategory.id) {
+      setSelectedOptionSubCategory("")
+      handleChange("subcategoria", null)
+    }
     
   }, [selectedOptionCategory]);
   
@@ -41,9 +43,7 @@ const ListCategorySubCategory = ({ dataList }) => {
     data: dataSubcategory,
     error: errorSubcategory,
     loading: loadingSubcategory,
-  } = useQuery(GET_SUBCATEGORIAS, { variables: { id: selectedOptionCategory?.id } });
-
-  console.log(selectedOptionCategory)
+  } = useQuery(GET_SUBCATEGORIAS, { variables: { id: selectedOptionCategory.id ? selectedOptionCategory.id : 0 } });
 
   const optionsSubcategoria = dataSubcategory?.subcategorias;
 
@@ -65,6 +65,8 @@ const ListCategorySubCategory = ({ dataList }) => {
           selectedOption={selectedOptionCategory}
           setSelectedOption={setSelectedOptionCategory}
           optionsServerSide={optionsCategoria}
+          handleChange={handleChange}
+          category={"categoria"}
         />
       </div>
       <div className="flex flex-col pt-1 mx-auto">
@@ -78,6 +80,8 @@ const ListCategorySubCategory = ({ dataList }) => {
           selectedOption={selectedOptionSubCategory}
           setSelectedOption={setSelectedOptionSubCategory}
           optionsServerSide={optionsSubcategoria}
+          handleChange={handleChange}
+          category={"subcategoria"}
         />
       </div>
     </>

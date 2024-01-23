@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const List = ({ selectedOption, setSelectedOption, optionsServerSide }) => {
+const List = ({ selectedOption, setSelectedOption, optionsServerSide, handleChange, category }) => {
   /** "selected" here is state variable which will hold the
    * value of currently selected dropdown.
    */
@@ -12,8 +12,10 @@ const List = ({ selectedOption, setSelectedOption, optionsServerSide }) => {
   const changeSelectOptionHandler = (event) => {
     const value = event.target.value.split(',');
     setSelectedOption({id:  parseInt(value[0]), nombre: value[1]});
+    console.log(category, value[0])
+    handleChange(category, value[0]);
   };
-
+  
   
   useEffect(() => {
     
@@ -46,9 +48,10 @@ const List = ({ selectedOption, setSelectedOption, optionsServerSide }) => {
     ));
     
     setOptions(optionsList); 
+    
+  }, [selectedOption])
   
-    }, [selectedOption])
-
+  // console.log(selectedOption)
   /** Different arrays for different dropdowns */
   const algorithm = [
     "Searching Algorithm",
@@ -114,14 +117,15 @@ const List = ({ selectedOption, setSelectedOption, optionsServerSide }) => {
 
   return (
     <>
-      <label htmlFor="underline_select" class="sr-only">
+      <label htmlFor="underline_select" className="sr-only">
         Underline select
       </label>
       <select
         id="underline_select"
         className="bg-transparent border-2 pl-1 border-slate-300/90 focus:border-slate-200 rounded-lg outline-none"
         key={selectedOption.id}
-        value={selectedOption.nombre}
+        value={selectedOption.name}
+        name={selectedOption.name}
         onChange={changeSelectOptionHandler}
       >
         <option

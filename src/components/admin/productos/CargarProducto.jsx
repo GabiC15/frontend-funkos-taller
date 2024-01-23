@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { IoAdd } from "react-icons/io5";
 import { ADD_PRODUCTO } from "@/services/apollo/mutations/carga_producto";
 import { useMutation } from "@apollo/client";
@@ -7,7 +7,12 @@ import ListCategorySubCategory from "./ListCategorySubCategory";
 const CargarProducto = ({ producto }) => {
   const [addProducto, { data, loading, error }] = useMutation(ADD_PRODUCTO);
 
-  console.log(producto)
+  const [categoryId, setCategoryId] = useState(
+    parseInt(producto?.categoria.padre.id)
+  );
+  const [subcategoryId, setSubcategoryId] = useState(
+    parseInt(producto?.categoria.id)
+  );
 
   const [formData, setFormData] = useState({
     picture_1: producto?.imagenes[0]?.path,
@@ -16,26 +21,53 @@ const CargarProducto = ({ producto }) => {
     picture_4: producto?.imagenes[3]?.path,
     titulo: producto?.titulo,
     descripcion: producto?.descripcion,
-    categoria: producto?.categoria.padre.nombre,
-    subcategoria: producto?.categoria.nombre,
+    categoriaId: categoryId,
+    subcategoriaId: subcategoryId,
     caracteristicas: producto?.caracteristicas,
     stock: producto?.stock,
     precio: producto?.precio,
   });
 
+  console.log(formData);
+
+  useEffect(() => {
+      setFormData({
+        ...formData,
+        ["categoriaId"]: parseInt(categoryId),
+      });
+
+  }, [categoryId]);
+
+  useEffect(() => {
+    setFormData({
+      ...formData,
+      ["subcategoriaId"]: parseInt(subcategoryId),
+    });
+
+}, [subcategoryId]);
+
   const dataList = {
-    categoriaId: parseInt(producto?.categoria.padre.id),
-    categoriaName: formData.categoria,
-    subcategoriaId: parseInt(producto?.categoria.id),
-    subcategoriaName: formData.subcategoria,
+    categoriaId: categoryId,
+    categoriaName: producto?.categoria.padre.nombre,
+    subcategoriaId: subcategoryId,
+    subcategoriaName: producto?.categoria.nombre,
   };
 
-  
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
+  };
+
+  const handleCategoryChange = (categoryName, value) => {
+    if (categoryName === "categoria") {
+      setCategoryId(value);
+    }
+    if (categoryName === "subcategoria") {
+      setSubcategoryId(value);
+    }
+    console.log(formData);
   };
 
   const handleImagesRemove = (e) => {
@@ -306,7 +338,11 @@ const CargarProducto = ({ producto }) => {
               value={formData.subcategoria ? formData.subcategoria : ""}
             ></input>
           </div> */}
-          <ListCategorySubCategory dataList={dataList} />
+          <ListCategorySubCategory
+            dataList={dataList}
+            handleChange={handleCategoryChange}
+          />
+
           <div className="flex flex-col pt-1 mx-auto">
             <label
               htmlFor="title"
