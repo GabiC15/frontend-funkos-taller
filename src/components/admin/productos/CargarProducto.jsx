@@ -5,13 +5,13 @@ import { useMutation } from "@apollo/client";
 import ListCategorySubCategory from "./ListCategorySubCategory";
 
 const CargarProducto = ({ producto }) => {
-  const [addProducto, { data, loading, error }] = useMutation(ADD_PRODUCTO);
+  const [createProducto, { data, loading, error }] = useMutation(ADD_PRODUCTO);
 
   const [categoryId, setCategoryId] = useState(
-    parseInt(producto?.categoria.padre.id)
+    parseInt(producto?.categoria?.padre?.id)
   );
   const [subcategoryId, setSubcategoryId] = useState(
-    parseInt(producto?.categoria.id)
+    parseInt(producto?.categoria?.id)
   );
 
   const [formData, setFormData] = useState({
@@ -48,9 +48,9 @@ const CargarProducto = ({ producto }) => {
 
   const dataList = {
     categoriaId: categoryId,
-    categoriaName: producto?.categoria.padre.nombre,
+    categoriaName: producto?.categoria?.padre?.nombre,
     subcategoriaId: subcategoryId,
-    subcategoriaName: producto?.categoria.nombre,
+    subcategoriaName: producto?.categoria?.nombre,
   };
 
   const handleChange = (e) => {
@@ -105,12 +105,14 @@ const CargarProducto = ({ producto }) => {
   };
 
   const handleAddProducto = (formData) => {
-    addProducto({
+    createProducto({
       variables: {
         input: {
           titulo: formData.titulo,
           descripcion: formData.descripcion,
-          // stock: formData.stock,
+          stock: parseInt(formData.stock),
+          precio: parseFloat(formData.precio),
+          categoriaId: formData.subcategoriaId,
         },
       },
     });
