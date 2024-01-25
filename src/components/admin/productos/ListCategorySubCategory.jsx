@@ -7,9 +7,6 @@ import {
 import List from "@/components/common/list";
 
 const ListCategorySubCategory = ({ dataList, handleChange }) => {
-
-
-  
   const [selectedOptionCategory, setSelectedOptionCategory] = useState({
     id: parseInt(dataList.categoriaId),
     nombre: dataList.categoriaName,
@@ -33,17 +30,20 @@ const ListCategorySubCategory = ({ dataList, handleChange }) => {
     // if (error) return `No data! ${error.message}`;
     // console.log(data);
     if (dataList.categoriaId !== selectedOptionCategory.id) {
-      setSelectedOptionSubCategory("")
-      handleChange("subcategoria", null)
+      setSelectedOptionSubCategory("");
+      handleChange("subcategoria", null);
     }
-    
   }, [selectedOptionCategory]);
-  
+
   const {
     data: dataSubcategory,
     error: errorSubcategory,
     loading: loadingSubcategory,
-  } = useQuery(GET_SUBCATEGORIAS, { variables: { id: selectedOptionCategory.id ? selectedOptionCategory.id : 0 } });
+  } = useQuery(GET_SUBCATEGORIAS, {
+    variables: {
+      id: selectedOptionCategory.id ? selectedOptionCategory.id : 0,
+    },
+  });
 
   const optionsSubcategoria = dataSubcategory?.subcategorias;
 
