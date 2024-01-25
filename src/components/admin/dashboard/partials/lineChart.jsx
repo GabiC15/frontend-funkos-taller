@@ -10,8 +10,8 @@ const LineChart = ({data}) => {
     
     datasets: [
       {
-        label: "Users Gained ",
-        data: data.map((data) => data.userGain),
+        label: "Ganancias",
+        data: data.map((data) => data.total),
         backgroundColor: [
           "rgba(75, 192, 192, 1)",
           "rgba(236, 240, 241, 1)",
@@ -27,12 +27,12 @@ const LineChart = ({data}) => {
 
   const options = {
     plugins: {
+      // title: {
+      //   display: true,
+      //   text: "Users Gained between 2016-2020",
+      // },
       title: {
-        display: true,
-        text: "Users Gained between 2016-2020",
-      },
-      title: {
-        text: "Reporte de ventas por año",
+        text: "Reporte de ganancias anuales",
         display: true,
         color: "white",
         font: {

@@ -4,7 +4,6 @@ Chart.register(ArcElement, CategoryScale, Legend, Tooltip, LinearScale, Title, B
 
 const BarChart = ({data}) => {
   const { months, brutto, netto} = data[0];
-  console.log("months:" +data.months);
   const dataBar = {
     labels: months,
     datasets: [

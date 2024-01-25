@@ -2,8 +2,29 @@ import { useState } from "react";
 import BarChart from "@/components/admin/dashboard/partials/barChart";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import LineChart from "./partials/lineChart";
+import { NetworkStatus, useQuery } from "@apollo/client";
+import { GET_TOTAL_PEDIDOS_POR_ANIO } from "@/services/apollo/queries/pedidos";
+
 
 const ChartTable = () => {
+
+  const [status, setStatus] = useState(false);
+
+  const {
+    data: dataLine,
+    error: errorLine,
+    loading: loadingLine,
+  } = useQuery(GET_TOTAL_PEDIDOS_POR_ANIO);
+
+  if (loadingLine)
+    return "Loading...";
+  if (errorLine
+  )
+    return `No data! ${
+      (errorLine.message
+      )
+    }`;
+
   
   const barData = [
     {
@@ -26,70 +47,6 @@ const ChartTable = () => {
     },
   ];
 
-  const lineData = [
-    {
-      id: 1,
-      year: 2016,
-      userGain: 80000,
-      userLost: 823,
-    },
-    {
-      id: 2,
-      year: 2017,
-      userGain: 45677,
-      userLost: 345,
-    },
-    {
-      id: 3,
-      year: 2018,
-      userGain: 78888,
-      userLost: 555,
-    },
-    {
-      id: 4,
-      year: 2019,
-      userGain: 90000,
-      userLost: 4555,
-    },
-    {
-      id: 5,
-      year: 2020,
-      userGain: 4300,
-      userLost: 234,
-    },
-    {
-      id: 6,
-      year: 2020,
-      userGain: 80000,
-      userLost: 823,
-    },
-    {
-      id: 7,
-      year: 2021,
-      userGain: 45677,
-      userLost: 345,
-    },
-    {
-      id: 8,
-      year: 2021,
-      userGain: 78888,
-      userLost: 555,
-    },
-    {
-      id: 9,
-      year: 2022,
-      userGain: 90000,
-      userLost: 4555,
-    },
-    {
-      id: 10,
-      year: 2023,
-      userGain: 23000,
-      userLost: 234,
-    },
-  ]
-
-  const [status, setStatus] = useState(false);
 
   return (
     <>
@@ -108,7 +65,7 @@ const ChartTable = () => {
             <MdKeyboardArrowRight className="w-5 h-5" />
           </button>
         </div>
-        {status ? <LineChart data={lineData} /> : <BarChart data={barData} />}
+        {status ? <LineChart data={dataLine.totalVentasPorAnio} /> : <BarChart data={barData} />}
       </div>
     </>
   );
