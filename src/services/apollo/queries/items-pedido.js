@@ -9,3 +9,14 @@ export const GET_ITEMS_MAS_VENDIDOS = gql`
     }
   }
 `;
+
+export const GET_VOLUMEN_ITEMS_PEDIDOS = gql`
+  query VOLUMEN_ITEMS_PEDIDOS {
+    volumenItemsPedidos {
+      productoId
+      productoTitulo
+      cantidadItem
+      cantidadTotal
+    }
+  }
+`;

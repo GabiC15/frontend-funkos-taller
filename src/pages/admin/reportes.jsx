@@ -16,26 +16,26 @@ export default function Reporte() {
     {
       productId: "74094",
       title: "Pop! Ichigo",
-      totalProdSales: "122",
-      totalSales: "287",
+      cantidadItem: "122",
+      cantidadTotal: "287",
     },
     {
       productId: "74394",
       title: "Pop! Batman",
-      totalProdSales: "73",
-      totalSales: "287",
+      cantidadItem: "73",
+      cantidadTotal: "287",
     },
     {
       productId: "74294",
       title: "Pop! Ichigo",
-      totalProdSales: "28",
-      totalSales: "287",
+      cantidadItem: "28",
+      cantidadTotal: "287",
     },
     {
       productId: "74194",
       title: "Pop! Ichigo",
-      totalProdSales: "24",
-      totalSales: "287",
+      cantidadItem: "24",
+      cantidadTotal: "287",
     },
   ];
 
@@ -407,73 +407,6 @@ export default function Reporte() {
 
   const [hydrated, setHydrated] = useState(false);
 
-  const dataDoughnut = {
-    backgroundColor: [
-      "rgb(2, 88, 255)",
-      "rgb(249, 151, 0)",
-      "rgb(255, 199, 0)",
-      "rgb(32, 214, 152)",
-    ],
-    labels: ["Funko 1", "Funko 2", "Funko 3", "Funko 4"],
-    datasets: [
-      {
-        label: "My First Dataset",
-        data: [300, 50, 100, 300],
-        backgroundColor: [
-          "rgb(2, 88, 255)",
-          "rgb(249, 151, 0)",
-          "rgb(255, 199, 0)",
-          "rgb(32, 214, 152)",
-        ],
-        hoverOffset: 4,
-      },
-    ],
-  };
-  const options = {
-    plugins: {
-      datalabels: {
-        color: "white",
-        formatter: (value, context) => {
-          return (
-            context.chart.data.labels[context.dataIndex] +
-            " (" +
-            context.dataset.label +
-            ")"
-          );
-        },
-        anchor: "end", // Align the label at the end of the arc
-        align: "start", // Start the label at the start of the arc
-        offset: 10, // Add space between the label and the doughnut
-      },
-      legend: {
-        display: true,
-        position: "right",
-        align: "Start",
-        labels: {
-          boxWidth: 7,
-          usePointStyle: true,
-          pointStyile: "circle",
-          color: "white",
-        },
-        title: {
-          text: "Reporte de ventas",
-          display: true,
-          color: "white",
-          font: {
-            size: 18,
-          },
-        },
-      },
-    },
-    elements: {
-      arc: {
-        weight: 0.7,
-        borderWidth: 3,
-      },
-    },
-    cutout: 80,
-  };
-
   useEffect(() => {
     setHydrated(true);
   }, []);
@@ -511,7 +444,7 @@ export default function Reporte() {
 
             <div className="md:flex">
               {/* <!-- ./Sales Traffic --> */}
-              <SalesVolume data={dataSalesVolume} />
+              <SalesVolume />
               {/* <!-- ./Sales Traffic --> */}
 
               {/* <!-- Recent Activities --> */}
