@@ -4,6 +4,7 @@ import { useQuery } from "@apollo/client";
 import { GET_VOLUMEN_ITEMS_PEDIDOS } from "@/services/apollo/queries/items-pedido";
 import { NetworkStatus } from "@apollo/client";
 import Pagination from "@/components/common/pagination";
+import Paginationa from "@/components/productos/pagination";
 
 const SalesVolume = () => {
   const { data, error, loading } = useQuery(GET_VOLUMEN_ITEMS_PEDIDOS);
@@ -17,15 +18,20 @@ const SalesVolume = () => {
 
   const dataPerPage = 5;
 
-  const pageCount = Math.ceil(dataVolume.length / dataPerPage);
+  const nPages = Math.ceil(dataVolume.length / dataPerPage)
 
-  const offset = currentPage * dataPerPage;
+  const indexOfLastPage = currentPage * dataPerPage;
+  const indexOfFirstPage = indexOfLastPage - dataPerPage;
 
-  const currentDataVolume = dataVolume.slice(offset, offset + dataPerPage);
+  const currentDataVolume =
+    dataVolume.length <= dataPerPage
+      ? dataVolume
+      : dataVolume.slice(indexOfFirstPage, indexOfLastPage);
+      
 
   return (
     <>
-      <div className="grid grid-cols-1 lg:w-full p-4 gap-4">
+      <div className="grid grid-cols-1 w-full p-4 gap-4">
         {/* <!-- Social Traffic --> */}
         <div className="relative flex flex-col min-w-0 mb-4 lg:mb-0 break-words bg-gray-50 dark:bg-gray-800 w-full shadow-lg rounded h-auto">
           <div className="rounded-t mb-0 px-0 border-0">
@@ -46,7 +52,7 @@ const SalesVolume = () => {
             </div>
             <div className="block w-full overflow-x-auto">
               <table className="items-center w-full bg-transparent border-collapse">
-                <thead>
+                <thead className="">
                   <tr>
                     <th className="px-4 bg-gray-100 dark:bg-gray-600 text-gray-500 dark:text-gray-100 align-middle border border-solid border-gray-200 dark:border-gray-500 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
                       Producto
@@ -59,7 +65,7 @@ const SalesVolume = () => {
                     </th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className="h-64 md:h-full">
                   {currentDataVolume.length > 0
                     ? currentDataVolume.map((prod, i) => (
                         <GridTrVentas props={prod} key={prod.productoId} />
@@ -77,14 +83,14 @@ const SalesVolume = () => {
             <span className="flex mt-2 sm:mt-auto sm:justify-end w-full">
               <nav className="w-full" aria-label="Table navigation">
                 <Pagination
-                  totalPosts={pageCount}
                   setCurrentPage={setCurrentPage}
                   currentPage={currentPage}
                   totalDataLength={dataVolume.length}
-                  dataCount={offset}
-                  currentData={currentDataVolume.length}
-                  dataPerPage={dataPerPage}
+                  dataLastIndex={indexOfLastPage}
+                  dataStartIndex={indexOfFirstPage}
+                  nPages={nPages}
                 />{" "}
+                {/* <Paginationa nPages={nPages} currentPage={currentPage} setCurrentPage={setCurrentPage} /> */}
               </nav>
             </span>
           </div>

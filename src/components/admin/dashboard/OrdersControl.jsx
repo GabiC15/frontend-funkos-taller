@@ -14,15 +14,16 @@ const OrdersControl = ({ data }) => {
 
   const shippingsPerPage = 5;
 
-  const pageCount = Math.ceil(shippings.length / shippingsPerPage);
+  const nPages = Math.ceil(shippings.length / shippingsPerPage);
 
-  const offset = currentPage * shippingsPerPage;
+  const indexOfLastPage = currentPage * shippingsPerPage;
+  const indexOfFirstPage = indexOfLastPage - shippingsPerPage;
 
   const currentShippings =
     shippings.length <= shippingsPerPage
       ? shippings.sort((a, b) => new Date(a.shippingDate) - new Date(b.shippingDate))
       : shippings
-          .slice(offset, offset + shippingsPerPage)
+          .slice(indexOfFirstPage, indexOfLastPage)
           .sort((a, b) => new Date(a.shippingDate) - new Date(b.shippingDate));
 
   return (
@@ -60,13 +61,12 @@ const OrdersControl = ({ data }) => {
             <span className="flex mt-2 sm:mt-auto sm:justify-end w-full">
               <nav className="w-full" aria-label="Table navigation">
                 <Pagination
-                  totalPosts={pageCount}
                   setCurrentPage={setCurrentPage}
                   currentPage={currentPage}
                   totalDataLength={shippings.length}
-                  dataCount={offset}
-                  currentData={currentShippings.length}
-                  dataPerPage={shippingsPerPage}
+                  dataStartIndex={indexOfFirstPage}
+                  dataLastIndex={indexOfLastPage}
+                  nPages={nPages}
                 />{" "}
               </nav>
             </span>

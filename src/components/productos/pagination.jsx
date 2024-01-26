@@ -1,4 +1,15 @@
-export default function Pagination() {
+export default function Paginationa({ nPages, currentPage, setCurrentPage }) {
+  const nextPage = (e) => {
+    e.preventDefault();
+    if (currentPage !== nPages) setCurrentPage(currentPage + 1);
+  };
+  const prevPage = (e) => {
+    e.preventDefault();
+    if (currentPage !== 1) setCurrentPage(currentPage - 1);
+  };
+
+  const pageNumbers = [...Array(nPages + 1).keys()].slice(1);
+
   return (
     <>
       <nav aria-label="Page navigation">
@@ -7,6 +18,7 @@ export default function Pagination() {
             <a
               href="#"
               className="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-white border border-e-0 border-chineseBlack rounded-s-lg hover:bg-gray-100 hover:text-gray-700"
+              onClick={prevPage}
             >
               <span className="sr-only">Previous</span>
               <svg
@@ -26,51 +38,22 @@ export default function Pagination() {
               </svg>
             </a>
           </li>
-          <li>
-            <a
-              href="#"
-              className="flex items-center justify-center px-3 h-8 leading-tight text-white border border-chineseBlack hover:bg-gray-100 hover:text-gray-700"
-            >
-              1
-            </a>
-          </li>
-          <li>
-            <a
-              href="#"
-              className="flex items-center justify-center px-3 h-8 leading-tight text-white border border-chineseBlack hover:bg-gray-100 hover:text-gray-700"
-            >
-              2
-            </a>
-          </li>
-          <li>
-            <a
-              href="#"
-              aria-current="page"
-              className="flex items-center justify-center px-3 h-8 leading-tight bg-black/20 text-white border border-chineseBlack hover:bg-gray-100 hover:text-gray-700"
-            >
-              3
-            </a>
-          </li>
-          <li>
-            <a
-              href="#"
-              className="flex items-center justify-center px-3 h-8 leading-tight text-white border border-chineseBlack hover:bg-gray-100 hover:text-gray-700"
-            >
-              4
-            </a>
-          </li>
-          <li>
-            <a
-              href="#"
-              className="flex items-center justify-center px-3 h-8 leading-tight text-white border border-chineseBlack hover:bg-gray-100 hover:text-gray-700"
-            >
-              5
-            </a>
-          </li>
+          {pageNumbers.map((pgNumber) => (
+            <li key={pgNumber}>
+              <a
+                href="#"
+                className="flex items-center justify-center px-3 h-8 leading-tight text-white border border-chineseBlack hover:bg-gray-100 hover:text-gray-700"
+                onClick={(e) => {e.preventDefault(); setCurrentPage(pgNumber)}}
+              >
+                {pgNumber}
+              </a>
+            </li>
+          ))}
           <li>
             <a
               href="#"
               className="flex items-center justify-center px-3 h-8 leading-tight text-white border border-chineseBlack rounded-e-lg hover:bg-gray-100 hover:text-gray-700"
+              onClick={nextPage}
             >
               <span className="sr-only">Next</span>
               <svg

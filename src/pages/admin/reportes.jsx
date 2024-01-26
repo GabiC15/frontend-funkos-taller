@@ -437,7 +437,7 @@ export default function Reporte() {
               <div className="w-full max-w-2xl md:h-fit h-full mx-4 px-5 py-5 rounded shadow-lg md:mb-0 mb-7 bg-gray-100 dark:bg-gray-800">
                 <ChartTable />
               </div>
-              <div className="md:w-fit w-full md:h-fit h-full mx-4 px-5 py-5 rounded shadow-lg bg-gray-100 dark:bg-gray-800">
+              <div className=" max-w-sm w-full md:h-fit h-full mx-4 px-5 py-4 rounded shadow-lg bg-gray-100 dark:bg-gray-800">
                 <DoughnutChart />
               </div>
             </div>
