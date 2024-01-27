@@ -13,10 +13,20 @@ export const GET_TOTAL_PEDIDOS_PAGOS = gql`
 `;
 
 export const GET_TOTAL_PEDIDOS_POR_ANIO = gql`
-  query {
-    totalVentasPorAnio(startYear: 2016, endYear: 2023) {
+  query GET_TOTAL_PEDIDOS_POR_ANIO ($input: VentasPorAnioInput!) {
+    totalVentasPorAnio(input: $input) {
       year
       total
+    }
+  }
+`;
+
+export const GET_TOTAL_PEDIDOS_POR_MES = gql`
+  query GET_VENTAS_POR_MES ($input: Int!) {
+    totalVentasPorMes(year: $input ) {
+      month
+      brutto
+      commission
     }
   }
 `;

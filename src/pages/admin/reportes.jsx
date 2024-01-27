@@ -453,7 +453,7 @@ export default function Reporte() {
             </div>
 
             {/* <!-- Orders Table --> */}
-            {hydrated && <OrdersControl data={dataOrders} />}
+            {hydrated && <OrdersControl />}
             {/* <!-- Orders Table --> */}
 
             {/* <Doughnut /> */}

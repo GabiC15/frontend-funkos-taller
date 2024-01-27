@@ -1,31 +1,61 @@
 import { Bar } from "react-chartjs-2";
-import { ArcElement, CategoryScale, Chart, Legend, Tooltip, LinearScale, Title, BarElement } from "chart.js";
-Chart.register(ArcElement, CategoryScale, Legend, Tooltip, LinearScale, Title, BarElement);
+import {
+  ArcElement,
+  CategoryScale,
+  Chart,
+  Legend,
+  Tooltip,
+  LinearScale,
+  Title,
+  BarElement,
+} from "chart.js";
 
-const BarChart = ({data}) => {
-  const { months, brutto, netto} = data[0];
+Chart.register(
+  ArcElement,
+  CategoryScale,
+  Legend,
+  Tooltip,
+  LinearScale,
+  Title,
+  BarElement
+);
+
+const BarChart = ({ data }) => {
+  const months = [
+    "Enero",
+    "Febrero",
+    "Marzo",
+    "Abril",
+    "Mayo",
+    "Junio",
+    "Julio",
+    "Agosto",
+    "Septiembre",
+    "Octubre",
+    "Noviembre",
+    "Diciembre",
+  ];
+
   const dataBar = {
-    labels: months,
+    labels: data.map((data) => months[parseInt(data.month) - 1]),
     datasets: [
       {
         label: "Brutto",
         borderRadius: 30,
-        data: brutto,
+        data: data.map((data) => data.brutto),
         backgroundColor: "rgba(32, 214, 155, 1)",
         barThickness: 10,
-        
       },
       {
         label: "Netto",
-        borderRadius: 20,
-        data: netto,
+        borderRadius: 30,
+        data: data.map((data) => data.brutto - data.commission),
         backgroundColor: "rgba(1, 98, 255, 1)",
         barThickness: 10,
-        
       },
     ],
   };
-  
+
   const options = {
     plugins: {
       legend: {
@@ -35,10 +65,10 @@ const BarChart = ({data}) => {
           boxWidth: 12,
           usePointStyle: true,
           pointStyle: "circle",
-          color: "white"
+          color: "white",
         },
         title: {
-          text: "Reporte de ventas por mes",
+          text: "Reporte de ganancias mensuales",
           display: true,
           color: "white",
           font: {
@@ -62,7 +92,6 @@ const BarChart = ({data}) => {
       },
       xAxis: {
         display: false,
-        
       },
       yAxis: {
         display: false,
@@ -76,7 +105,7 @@ const BarChart = ({data}) => {
       },
     },
   };
-  
+
   return (
     <>
       <Bar data={dataBar} options={options} />

@@ -3,29 +3,41 @@ import BarChart from "@/components/admin/dashboard/partials/barChart";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import LineChart from "./partials/lineChart";
 import { NetworkStatus, useQuery } from "@apollo/client";
-import { GET_TOTAL_PEDIDOS_POR_ANIO } from "@/services/apollo/queries/pedidos";
-
+import {
+  GET_TOTAL_PEDIDOS_POR_ANIO,
+  GET_TOTAL_PEDIDOS_POR_MES,
+} from "@/services/apollo/queries/pedidos";
 
 const ChartTable = () => {
-
   const [status, setStatus] = useState(false);
+  const startYear = 2016;
+  const endYear = 2023;
 
   const {
     data: dataLine,
     error: errorLine,
     loading: loadingLine,
-  } = useQuery(GET_TOTAL_PEDIDOS_POR_ANIO);
+  } = useQuery(GET_TOTAL_PEDIDOS_POR_ANIO, {
+    variables: {
+      input: {
+        startYear,
+        endYear,
+      }
+    }
+  });
 
-  if (loadingLine)
-    return "Loading...";
-  if (errorLine
-  )
-    return `No data! ${
-      (errorLine.message
-      )
-    }`;
+  const {
+    data: dataBar,
+    error: errorBar,
+    loading: loadingBar,
+  } = useQuery(GET_TOTAL_PEDIDOS_POR_MES, {
+    variables: { input: endYear },
+  });
 
-  
+  if (loadingLine || loadingBar) return "Loading...";
+  if (errorLine || errorBar)
+    return `No data! ${(errorLine?.message, errorBar?.message)}`;
+
   const barData = [
     {
       months: [
@@ -47,7 +59,6 @@ const ChartTable = () => {
     },
   ];
 
-
   return (
     <>
       <div className="">
@@ -65,7 +76,11 @@ const ChartTable = () => {
             <MdKeyboardArrowRight className="w-5 h-5" />
           </button>
         </div>
-        {status ? <LineChart data={dataLine.totalVentasPorAnio} /> : <BarChart data={barData} />}
+        {status ? (
+          <LineChart data={dataLine.totalVentasPorAnio} />
+        ) : (
+          <BarChart data={dataBar.totalVentasPorMes} />
+        )}
       </div>
     </>
   );
