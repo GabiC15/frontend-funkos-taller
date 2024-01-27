@@ -9,6 +9,18 @@ if (process.env.NODE_ENV === "development") {
 const client = new ApolloClient({
   uri: "http://localhost:4000/graphql",
   cache: new InMemoryCache(),
+  credentials: "include",
 });
+
+export const getClient = ({ req }) => {
+  return new ApolloClient({
+    uri: "http://localhost:4000/graphql",
+    cache: new InMemoryCache(),
+    credentials: "include",
+    headers: {
+      cookie: req.headers.cookie,
+    },
+  });
+};
 
 export default client;
