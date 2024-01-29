@@ -21,7 +21,7 @@ const data = {
   ],
 };
 
-export default function Detalle() {
+export default function Detalle({ funko }) {
   const [image, setImage] = useState(0);
 
   return (
@@ -29,11 +29,14 @@ export default function Detalle() {
       <div className="container mx-auto flex flex-col md:flex-row justify-center gap-8">
         <div className="flex flex-col px-4 md:px-0">
           <div className="md:hidden">
-            <Breadcrumb fandom={data.fandom} license={data.license} />
+            <Breadcrumb
+              fandom={funko.categoria.padre.nombre}
+              license={funko.categoria.nombre}
+            />
           </div>
           <div className="w-full md:w-96 h-min md:h-96 mt-3 md:mt-0 bg-black/20 rounded-md">
             <Image
-              src={data.images[image]}
+              src={funko.imagenes[image].path}
               width={0}
               height={0}
               sizes="100vw"
@@ -42,7 +45,7 @@ export default function Detalle() {
             />
           </div>
           <div className="flex gap-3 mt-3">
-            {data.images.map((img, i) => (
+            {funko.imagenes.map((img, i) => (
               <div
                 className={`w-20 h-20 rounded-md hover:bg-black/20 transition-colors ${
                   i == image
@@ -53,7 +56,7 @@ export default function Detalle() {
                 onClick={() => setImage(i)}
               >
                 <Image
-                  src={img}
+                  src={img.path}
                   width={0}
                   height={0}
                   sizes="100vw"
@@ -67,13 +70,16 @@ export default function Detalle() {
 
         <div className="flex flex-col w-full md:w-[26rem] px-4 md:px-0">
           <div className="hidden md:block">
-            <Breadcrumb fandom={data.fandom} license={data.license} />
+            <Breadcrumb
+              fandom={funko.categoria.padre.nombre}
+              license={funko.categoria.nombre}
+            />
           </div>
 
           <h1 className="text-2xl md:text-3xl font-black uppercase md:mt-2">
-            {data.title}
+            {funko.titulo}
           </h1>
-          <p className="mt-1 text-sm">{data.description}</p>
+          <p className="mt-1 text-sm">{funko.descripcion}</p>
           <div className="flex gap-1 mt-5">
             <FontAwesomeIcon
               icon={faStarSolid}
@@ -96,9 +102,7 @@ export default function Detalle() {
               className="text-yellow-500 text-2xl"
             />
           </div>
-          <h3 className="text-3xl font-bold mt-5">
-            ${Number.parseInt(data.price.replace("$", "")) * 1000}
-          </h3>
+          <h3 className="text-3xl font-bold mt-5">${funko.precio}</h3>
           <button className="w-full bg-chineseBlack py-2 rounded-lg mt-5">
             Comprar
           </button>

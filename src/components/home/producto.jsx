@@ -24,7 +24,7 @@ export default function Producto({ producto }) {
       <p className="font-medium text-md md:text-lg/tight mt-2 md:mt-3 line-clamp-2">
         {producto.titulo}
       </p>
-      <p className="font-light text-lg md:text-xl mt-auto">${15000}</p>
+      <p className="font-light text-lg md:text-xl mt-auto">${producto.precio}</p>
       <Link
         href=""
         className="bg-chineseBlack w-full flex items-center justify-between gap-5 px-4 py-2 rounded-full mt-2"

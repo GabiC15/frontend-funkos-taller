@@ -1,16 +1,21 @@
+import { FaCircleUser } from "react-icons/fa6";
+
 const GridTrEnvios = ({ props }) => {
-  const { userName, profilePicture, userEmail, shippingPrice, shippingStatus, shippingDate } = props;
+  const { pedido, costo, entregado } = props;
+  const { fecha, usuario } = pedido;
+  const { id, nombres, apellidos, email } = usuario;
+  const { year, month, day } = fecha;
 
   return (
     <>
-      <tr className="bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-900 text-gray-700 dark:text-gray-400">
+      <tr className="bg-gray-50 h-8 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-900 text-gray-700 dark:text-gray-400">
         <td className="px-4 py-3">
           <div className="flex items-center text-sm">
             <div className="relative hidden w-8 h-8 mr-3 rounded-full md:block">
               <img
                 className="object-cover w-full h-full rounded-full"
-                src={profilePicture}
-                alt=""
+                src="https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fpluspng.com%2Fimg-png%2Fpng-user-icon-circled-user-icon-2240.png&f=1&nofb=1&ipt=77478c8f18fb6b5b36e03daf8dc260cc2677aabbc6dd6424f6ee0767bc0d649c&ipo=images"
+                alt="Usuario"
                 loading="lazy"
               />
               <div
@@ -19,27 +24,27 @@ const GridTrEnvios = ({ props }) => {
               ></div>
             </div>
             <div>
-              <p className="font-semibold">{userName}</p>
+              <p className="font-semibold">{nombres} {apellidos}</p>
               <p className="text-xs text-gray-600 dark:text-gray-400">
-                {userEmail}
+                {email}
               </p>
             </div>
           </div>
         </td>
-        <td className="px-4 py-3 text-xs md:text-sm">${shippingPrice}</td>
+        <td className="px-4 py-3 text-xs md:text-sm">${costo}</td>
         <td className="px-4 py-3 text-xs md:text-sm">
           <span
             className={`px-2 py-1 font-base md:font-semibold leading-tight text-xs ${
-              shippingStatus
+              entregado
                 ? "text-green-700 bg-green-100 dark:bg-green-700 dark:text-green-100"
                 : "text-red-700 bg-red-100 dark:text-red-100 dark:bg-red-700"
             } rounded-full`}
           >
             {" "}
-            {shippingStatus ? "Entregado" : "Sin entregar"}
+            {entregado ? "Entregado" : "Sin entregar"}
           </span>
         </td>
-        <td className="px-4 py-3 text-xs md:text-sm">{shippingDate}</td>
+        <td className="px-4 py-3 text-xs md:text-sm">{year}-{month}-{day}</td>
       </tr>
     </>
   );

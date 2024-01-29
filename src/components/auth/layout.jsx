@@ -30,7 +30,7 @@ export default function Layout({ children }) {
               alt="Funko Star Wars"
             />
           </div>
-          <div className="max-w-[27.5rem] bg-lightSilver w-full flex flex-col items-center rounded-xl md:rounded-l-none md:rounded-r-xl px-16 md:px-24 justify-center">
+          <div className="max-w-[27.5rem] bg-lightSilver w-full flex flex-col items-center rounded-xl md:rounded-l-none md:rounded-r-xl px-16 md:px-24 justify-center relative">
             {children}
           </div>
         </div>

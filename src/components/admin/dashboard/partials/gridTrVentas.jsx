@@ -1,15 +1,15 @@
 const GridTrVentas = ({ props }) => {
-  const { title, totalProdSales, totalSales } = props;
-  const percentage = Math.round((totalProdSales / totalSales) * 100);
+  const { productoTitulo, cantidadItem, cantidadTotal } = props;
+  const percentage = Math.round((cantidadItem / cantidadTotal) * 100);
 
   return (
     <>
       <tr className="text-gray-700 dark:text-gray-100">
         <th className="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
-          {title}
+          {productoTitulo}
         </th>
         <td className="border-t-0 px-8 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-          {totalProdSales}
+          {cantidadItem}
         </td>
         <td className="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
           <div className="flex items-center">

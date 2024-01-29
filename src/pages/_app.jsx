@@ -4,6 +4,7 @@ import { Noto_Sans } from "next/font/google";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import { ApolloProvider } from "@apollo/client";
 import client from "@/services/apollo/client";
+import UserProvider from "@/components/providers/UserProvider";
 config.autoAddCss = false;
 
 const font = Noto_Sans({
@@ -15,7 +16,9 @@ export default function App({ Component, pageProps }) {
   return (
     <div className={font.className}>
       <ApolloProvider client={client}>
-        <Component {...pageProps} />
+        <UserProvider>
+          <Component {...pageProps} />
+        </UserProvider>
       </ApolloProvider>
     </div>
   );

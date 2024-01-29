@@ -1,8 +1,27 @@
 import { Doughnut } from "react-chartjs-2";
 import { ArcElement, CategoryScale, Chart, Legend, Tooltip } from "chart.js";
+import { NetworkStatus, useQuery } from "@apollo/client";
+import { GET_ITEMS_MAS_VENDIDOS } from "@/services/apollo/queries/items-pedido";
 Chart.register(ArcElement, CategoryScale, Legend, Tooltip);
 
 const DoughnutChart = () => {
+
+  const {
+    data,
+    error,
+    loading,
+  } = useQuery(GET_ITEMS_MAS_VENDIDOS);
+
+  if (loading)
+    return "Loading...";
+  if (error
+  )
+    return `No data! ${
+      (error.message
+      )
+    }`;
+
+
   const dataDoughnut = {
     backgroundColor: [
       "rgb(2, 88, 255)",
@@ -10,16 +29,17 @@ const DoughnutChart = () => {
       "rgb(255, 199, 0)",
       "rgb(32, 214, 152)",
     ],
-    labels: ["Funko 1", "Funko 2", "Funko 3", "Funko 4", "Funko 5", "Funko 6", "Funko 7", "Funko 8"],
+    labels: data.itemsMasPedidos.map((item) => item.productoTitulo ),
     datasets: [
       {
-        label: "My First Dataset",
-        data: [300, 50, 100, 300, 50, 100, 175, 250],
+        label: "Total vendidos:",
+        data: data.itemsMasPedidos.map((item) => item.cantidad),
         backgroundColor: [
           "rgb(2, 88, 255)",
           "rgb(249, 151, 0)",
-          "rgb(255, 199, 0)",
+          "rgb(255, 209, 0)",
           "rgb(32, 214, 152)",
+          "rgb(25, 188, 255)",
         ],
         hoverOffset: 4,
       },
@@ -49,11 +69,12 @@ const DoughnutChart = () => {
           color: "white",
         },
         title: {
-          text: "Reporte de ventas",
+          text: "Productos mas vendidos del mes",
           display: true,
           color: "white",
           font: {
             size: 18,
+            weight: "bold",
           },
         },
       },

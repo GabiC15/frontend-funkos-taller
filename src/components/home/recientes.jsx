@@ -345,7 +345,6 @@ export const data = [
 ];
 
 export default function Recientes({ funkos }) {
-  console.log(funkos);
   return (
     <>
       <div className="bg-gradient">
