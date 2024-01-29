@@ -3,6 +3,9 @@ import CardProducto from "@/components/admin/productos/CardProducto";
 import Sidebar from "@/components/common/sidebar";
 import { IoAdd } from "react-icons/io5";
 import CargarProducto from "@/components/admin/productos/CargarProducto";
+import { NetworkStatus, useQuery } from "@apollo/client";
+import { useEffect } from "react";
+import { GET_PRODUCTOS } from "@/services/apollo/queries/producto";
 
 const data = [
   {
@@ -66,6 +69,17 @@ const data = [
 ];
 
 export default function Producto() {
+
+  const { data, error, loading } = useQuery(GET_PRODUCTOS, {variables: { input: {}}});
+  useEffect(() => {
+    // if (loading) return 'Loading...';
+    // if (error) return `No data! ${error.message}`;
+    // console.log(data);
+  }, [data, error, loading]);
+
+  if (loading) return 'Loading...';
+  if (error) return `No data! ${error.message}`;
+
   return (
     <>
       <Layout>
@@ -73,7 +87,7 @@ export default function Producto() {
           <div className="md:ml-64 ml-12">
             <Sidebar />
 
-            <div className="container mx-auto flex flex-col">
+            <div className="container mx-auto flex flex-col md:px-10">
               <h1 className="text-3xl md:text-4xl font-black mt-12 mb-4 mx-4 uppercase">
                 Productos
               </h1>
@@ -84,7 +98,7 @@ export default function Producto() {
                     <span className="md:text-md text-sm mx-5">Agregar producto</span>
                   </button>
                 </div> */}
-                {data.map((prod, i) => (
+                {data.productos.map((prod, i) => (
                   <CardProducto producto={prod} key={prod["productId"]} />
                 ))}
               </div>

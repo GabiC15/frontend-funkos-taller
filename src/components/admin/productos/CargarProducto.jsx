@@ -1,19 +1,80 @@
-import { useState } from "react";
-import { IoAdd } from "react-icons/io5";
+import { useState, useEffect } from "react";
+import { ADD_PRODUCTO } from "@/services/apollo/mutations/carga_producto";
+import { useMutation } from "@apollo/client";
+import ListCategorySubCategory from "./ListCategorySubCategory";
+import CargarImagenes from "./CargarImagenes";
 
-const CargarProducto = () => {
+const CargarProducto = ({ producto }) => {
+  const [createProducto, { data, loading, error }] = useMutation(ADD_PRODUCTO);
+
+  const [categoryId, setCategoryId] = useState(
+    parseInt(producto?.categoria?.padre?.id)
+  );
+  const [subcategoryId, setSubcategoryId] = useState(
+    parseInt(producto?.categoria?.id)
+  );
+
+  const [submitImages, setSubmitImages] = useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setSubmitImages(true);
+    handleAddProducto(formData);
+  };
+
+  const handleAddProducto = (formData) => {
+    createProducto({
+      variables: {
+        input: {
+          titulo: formData.titulo,
+          descripcion: formData.descripcion,
+          stock: parseInt(formData.stock),
+          precio: parseFloat(formData.precio),
+          categoriaId: formData.subcategoriaId,
+        },
+      },
+    });
+  };
+
   const [formData, setFormData] = useState({
-    picture_1: "",
-    picture_2: "",
-    picture_3: "",
-    picture_4: "",
-    title: "",
-    description: "",
-    colection: "",
-    features: "",
-    number: "",
-    stock: "",
+    titulo: producto?.titulo,
+    descripcion: producto?.descripcion,
+    categoriaId: categoryId,
+    subcategoriaId: subcategoryId,
+    caracteristicas: producto?.caracteristicas,
+    stock: producto?.stock,
+    precio: producto?.precio,
   });
+
+  const imagesData = {
+    picture_1: producto?.imagenes[0]?.path,
+    picture_2: producto?.imagenes[1]?.path,
+    picture_3: producto?.imagenes[2]?.path,
+    picture_4: producto?.imagenes[3]?.path,
+  };
+
+  console.log(formData);
+
+  useEffect(() => {
+    setFormData({
+      ...formData,
+      ["categoriaId"]: parseInt(categoryId),
+    });
+  }, [categoryId]);
+
+  useEffect(() => {
+    setFormData({
+      ...formData,
+      ["subcategoriaId"]: parseInt(subcategoryId),
+    });
+  }, [subcategoryId]);
+
+  const dataList = {
+    categoriaId: categoryId,
+    categoriaName: producto?.categoria?.padre?.nombre,
+    subcategoriaId: subcategoryId,
+    subcategoriaName: producto?.categoria?.nombre,
+  };
 
   const handleChange = (e) => {
     setFormData({
@@ -22,39 +83,19 @@ const CargarProducto = () => {
     });
   };
 
-  const handleImagesRemove = () => {
-    setFormData({
-      ...formData,
-      ["picture_1"]: "",
-      ["picture_2"]: "",
-      ["picture_3"]: "",
-      ["picture_4"]: "",
-    });
+  const handleCategoryChange = (categoryName, value) => {
+    if (categoryName === "categoria") {
+      setCategoryId(value);
+    }
+    if (categoryName === "subcategoria") {
+      setSubcategoryId(value);
+    }
+    console.log(formData);
   };
 
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setFormData({
-        ...formData,
-        [e.target.name]: reader.result,
-      });
-    };
-    reader.readAsDataURL(file);
-
-    // setFormData({
-    //   ...formData,
-    //   [e.target.name]: "file submitted",
-    // });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // console.log(formData);
-
-    // Submit function
-  };
+  if (loading) return <p>Submitting...</p>;
+  if (error) return <p>Error: {error.message}</p>;
+  if (data) return <p>Producto added successfully!</p>;
 
   return (
     <>
@@ -66,151 +107,10 @@ const CargarProducto = () => {
 
         <form
           className="w-full px-20 md:w-1/3 md:px-0 ml-8 md:ml-12"
-          onSubmit={handleSubmit}
+          // onSubmit={handleSubmit}
         >
-          <div className="flex-col w-full ml-5">
-            <div className="flex justify-end">
-              <button 
-              className="pt-2"
-              onClick={handleImagesRemove}
-              >
-                <IoAdd className="w-6 h-6 text-slate-200 rotate-45 hover:text-slate-300" />
-              </button>
-            </div>
-          </div>
-          <div className="text-center flex justify-center pt-2">
-            <div className="">
-              <input
-                type="file"
-                className="hidden"
-                id="imageInput_1"
-                name="picture_1"
-                onChange={handleImageUpload}
-                multiple
-              />
-              <label
-                htmlFor="imageInput_1"
-                className={`group ${
-                  formData["picture_1"] ? "hidden" : null
-                } w-24 h-20 md:h-24 rounded-3xl hover:cursor-pointer bg-white/40 flex items-center justify-center mx-1 hover:bg-white/30`}
-              >
-                <IoAdd className="w-8 h-8 md:w-10 md:h-10 text-slate-200/90 group-hover:text-slate-300/90" />
-              </label>
-
-              {formData["picture_1"] && (
-                <img
-                  className={`group ${
-                    !formData["picture_1"] ? "hidden" : null
-                  } w-24 h-20 md:h-24 rounded-3xl hover:cursor-pointer bg-white/10 hover:opacity-90 flex items-center justify-center mx-1`}
-                  src={formData["picture_1"]}
-                  alt="Preview picture of Funko"
-                  onClick={() =>
-                    document.getElementById("imageInput_1").click()
-                  }
-                />
-              )}
-            </div>
-            <div className="">
-              <input
-                type="file"
-                className="hidden"
-                id="imageInput_2"
-                name="picture_2"
-                onChange={handleImageUpload}
-                multiple
-              />
-              <label
-                htmlFor="imageInput_2"
-                className={`group ${
-                  formData["picture_2"] ? "hidden" : null
-                } w-24 h-20 md:h-24 rounded-3xl hover:cursor-pointer bg-white/40 flex items-center justify-center mx-1 hover:bg-white/30`}
-              >
-                <IoAdd className="w-8 h-8 md:w-10 md:h-10 text-slate-200/90 group-hover:text-slate-300/90" />
-              </label>
-
-              {formData["picture_2"] && (
-                <img
-                  className={`group ${
-                    !formData["picture_2"] ? "hidden" : null
-                  } w-24 h-20 md:h-24 rounded-3xl hover:cursor-pointer bg-white/10 hover:opacity-90 flex items-center justify-center mx-1`}
-                  src={formData["picture_2"]}
-                  alt="Preview picture of Funko"
-                  onClick={() =>
-                    document.getElementById("imageInput_2").click()
-                  }
-                />
-              )}
-            </div>
-            <div className="">
-              <input
-                type="file"
-                className="hidden"
-                id="imageInput_3"
-                name="picture_3"
-                onChange={handleImageUpload}
-                multiple
-              />
-              <label
-                htmlFor="imageInput_3"
-                className={`group ${
-                  formData["picture_3"] ? "hidden" : null
-                } w-24 h-20 md:h-24 rounded-3xl hover:cursor-pointer bg-white/40 flex items-center justify-center mx-1 hover:bg-white/30`}
-              >
-                <IoAdd className="w-8 h-8 md:w-10 md:h-10 text-slate-200/90 group-hover:text-slate-300/90" />
-              </label>
-
-              {formData["picture_3"] && (
-                <img
-                  className={`group ${
-                    !formData["picture_3"] ? "hidden" : null
-                  } w-24 h-20 md:h-24 rounded-3xl hover:cursor-pointer bg-white/10 hover:opacity-90 flex items-center justify-center mx-1`}
-                  src={formData["picture_3"]}
-                  alt="Preview picture of Funko"
-                  onClick={() =>
-                    document.getElementById("imageInput_3").click()
-                  }
-                />
-              )}
-            </div>
-            <div className="">
-              <input
-                type="file"
-                className="hidden"
-                id="imageInput_4"
-                name="picture_4"
-                onChange={handleImageUpload}
-                multiple
-              />
-              <label
-                htmlFor="imageInput_4"
-                className={`group ${
-                  formData["picture_4"] ? "hidden" : null
-                } w-24 h-20 md:h-24 rounded-3xl hover:cursor-pointer bg-white/40 flex items-center justify-center mx-1 hover:bg-white/30`}
-              >
-                <IoAdd className="w-8 h-8 md:w-10 md:h-10 text-slate-200/90 group-hover:text-slate-300/90" />
-              </label>
-
-              {formData["picture_4"] && (
-                <img
-                  className={`group ${
-                    !formData["picture_4"] ? "hidden" : null
-                  } w-24 h-20 md:h-24 rounded-3xl hover:cursor-pointer bg-white/10 hover:opacity-90 flex items-center justify-center mx-1`}
-                  src={formData["picture_4"]}
-                  alt="Preview picture of Funko"
-                  onClick={() =>
-                    document.getElementById("imageInput_4").click()
-                  }
-                />
-              )}
-            </div>
-            {/* <button
-              className="group w-24 h-20 md:h-24 rounded-3xl bg-white/40 flex items-center justify-center mx-1 hover:bg-white/30"
-              onClick={(e) => {
-                e.preventDefault();
-              }}
-            >
-              <IoAdd className="w-8 h-8 md:w-10 md:h-10 text-slate-200/90 group-hover:text-slate-300/90" />
-            </button> */}
+          <div className="md:mr-2">
+            <CargarImagenes imagesData={imagesData} submitImages={submitImages} />
           </div>
           <div className="flex flex-col pt-4 mx-auto">
             <label
@@ -222,8 +122,9 @@ const CargarProducto = () => {
             <input
               className="bg-transparent border-2 pl-1 border-slate-300/90 focus:border-slate-200 rounded-lg outline-none"
               type="text"
-              name="title"
+              name="titulo"
               onChange={handleChange}
+              value={formData.titulo ? formData.titulo : ""}
             ></input>
           </div>
           <div className="flex flex-col pt-1 mx-auto">
@@ -231,28 +132,21 @@ const CargarProducto = () => {
               htmlFor="title"
               className="block text-bold font-medium text-white"
             >
-              Descripición
+              Descripción
             </label>
             <textarea
-              className="bg-transparent border-2 pl-1 border-slate-300/90 py-2.5 focus:border-slate-200 rounded-lg outline-none"
+              className="bg-transparent border-2 pl-1 h-40 border-slate-300/90 py-2.5 focus:border-slate-200 rounded-lg outline-none"
               type="textarea"
-              name="description"
+              name="descripcion"
               onChange={handleChange}
+              value={formData.descripcion ? formData.descripcion : ""}
             ></textarea>
           </div>
-          <div className="flex flex-col pt-1 mx-auto">
-            <label
-              htmlFor="title"
-              className="block text-bold font-medium text-white"
-            >
-              Colección
-            </label>
-            <input
-              className="bg-transparent border-2 pl-1 border-slate-300/90 focus:border-slate-200 rounded-lg outline-none"
-              type="text"
-              name="colection"
-              onChange={handleChange}
-            ></input>
+          <div>
+            <ListCategorySubCategory
+              dataList={dataList}
+              handleChange={handleCategoryChange}
+            />
           </div>
           <div className="flex flex-col pt-1 mx-auto">
             <label
@@ -264,22 +158,9 @@ const CargarProducto = () => {
             <input
               className="bg-transparent border-2 pl-1 border-slate-300/90 focus:border-slate-200 rounded-lg outline-none"
               type="text"
-              name="features"
+              name="caracteristicas"
               onChange={handleChange}
-            ></input>
-          </div>
-          <div className="flex flex-col pt-1 mx-auto">
-            <label
-              htmlFor="title"
-              className="block text-bold font-medium text-white"
-            >
-              Número
-            </label>
-            <input
-              className="bg-transparent border-2 pl-1 border-slate-300/90 focus:border-slate-200 rounded-lg outline-none"
-              type="text"
-              name="number"
-              onChange={handleChange}
+              value={formData.caracteristicas ? formData.caracteristicas : ""}
             ></input>
           </div>
           <div className="flex flex-col pt-1 mx-auto">
@@ -294,12 +175,29 @@ const CargarProducto = () => {
               type="text"
               name="stock"
               onChange={handleChange}
+              value={formData.stock ? formData.stock : ""}
+            ></input>
+          </div>
+          <div className="flex flex-col pt-1 mx-auto">
+            <label
+              htmlFor="title"
+              className="block text-bold font-medium text-white"
+            >
+              Precio
+            </label>
+            <input
+              className="bg-transparent border-2 pl-1 border-slate-300/90 focus:border-slate-200 rounded-lg outline-none"
+              type="text"
+              name="precio"
+              onChange={handleChange}
+              value={formData.precio ? formData.precio : ""}
             ></input>
           </div>
           <div className="text-center">
             <button
               type="submit"
               className="bg-chineseBlack my-5 py-2 rounded-xl w-full"
+              onClick={handleSubmit}
             >
               Publicar
             </button>{" "}

@@ -9,8 +9,11 @@ export const GET_TOTAL_PRODUCTOS = gql`
 export const GET_PRODUCTOS = gql`
   query GetProductos($input: ProductoQueryInput) {
     productos(input: $input) {
-      titulo
-      precio
+      id,
+      titulo,
+      descripcion,
+      precio,
+      stock,      
       imagenes {
         path
       }
@@ -30,6 +33,7 @@ export const GET_PRODUCTO = gql`
       id
       titulo
       descripcion
+      stock
       precio
       imagenes {
         path
