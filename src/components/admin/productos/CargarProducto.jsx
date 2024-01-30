@@ -46,14 +46,7 @@ const CargarProducto = ({ producto }) => {
     precio: producto?.precio,
   });
 
-  const imagesData = {
-    picture_1: producto?.imagenes[0]?.path,
-    picture_2: producto?.imagenes[1]?.path,
-    picture_3: producto?.imagenes[2]?.path,
-    picture_4: producto?.imagenes[3]?.path,
-  };
-
-  console.log(formData);
+  // console.log(formData);
 
   useEffect(() => {
     setFormData({
@@ -74,6 +67,13 @@ const CargarProducto = ({ producto }) => {
     categoriaName: producto?.categoria?.padre?.nombre,
     subcategoriaId: subcategoryId,
     subcategoriaName: producto?.categoria?.nombre,
+  };
+
+  const dataImages = {
+    picture_1: producto?.imagenes[0]?.path,
+    picture_2: producto?.imagenes[1]?.path,
+    picture_3: producto?.imagenes[2]?.path,
+    picture_4: producto?.imagenes[3]?.path,
   };
 
   const handleChange = (e) => {
@@ -107,10 +107,16 @@ const CargarProducto = ({ producto }) => {
 
         <form
           className="w-full px-20 md:w-1/3 md:px-0 ml-8 md:ml-12"
+          method="POST"
+          encType="multipart/form-data"
           // onSubmit={handleSubmit}
         >
           <div className="md:mr-2">
-            <CargarImagenes imagesData={imagesData} submitImages={submitImages} />
+            <CargarImagenes
+              dataImages={dataImages}
+              submitImages={submitImages}
+              formData={formData}
+            />
           </div>
           <div className="flex flex-col pt-4 mx-auto">
             <label
