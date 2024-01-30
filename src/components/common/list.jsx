@@ -7,7 +7,7 @@ const List = ({ selectedOption, setSelectedOption, optionsServerSide, handleChan
   const changeSelectOptionHandler = (event) => {
     const value = event.target.value.split(',');
     setSelectedOption({id:  parseInt(value[0]), nombre: value[1]});
-    console.log(category, value[0])
+    // console.log(category, value[0])
     handleChange(category, value[0]);
   };
   
@@ -53,7 +53,7 @@ const List = ({ selectedOption, setSelectedOption, optionsServerSide, handleChan
       </label>
       <select
         id="underline_select"
-        className="bg-transparent border-2 pl-1 border-slate-300/90 focus:border-slate-200 rounded-lg outline-none"
+        className="bg-transparent border-2 pl-2 border-slate-300/90 focus:border-slate-200 rounded-lg outline-none"
         key={selectedOption.id}
         value={selectedOption.nombre}
         onChange={changeSelectOptionHandler}

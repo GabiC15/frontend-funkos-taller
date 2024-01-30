@@ -1,35 +1,20 @@
 import { useEffect, useState } from "react";
 import { IoAdd } from "react-icons/io5";
-import { storage } from "@/services/firebase/firebase";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { uploadBytesResumable, getUploadTaskSnapshot } from "firebase/storage";
-import Modal from "./Modal";
-import { projectStorage } from "@/services/firebase/firebase";
-import Dialog from "./Modal";
+
+// import { projectStorage } from "@/services/firebase/firebase";
+// import Dialog from "./Modal";
+
 // import { v4 as uuidv4 } from "uuid";
 
-const CargarImagenes = ({ dataImages, submitImages, formData }) => {
-  const [open, setOpen] = useState(false)
-  const [image1AsUrl, setImage1AsUrl] = useState("");
-  const [image2AsUrl, setImage2AsUrl] = useState("");
-  const [image3AsUrl, setImage3AsUrl] = useState("");
-  const [image4AsUrl, setImage4AsUrl] = useState("");
-  const [image1AsFile, setImage1AsFile] = useState("");
-  const [image2AsFile, setImage2AsFile] = useState("");
-  const [image3AsFile, setImage3AsFile] = useState("");
-  const [image4AsFile, setImage4AsFile] = useState("");
-  const [imagesFile, setImagesFile] = useState({
-    picture_1: dataImages.picture_1,
-    picture_2: dataImages.picture_2,
-    picture_3: dataImages.picture_3,
-    picture_4: dataImages.picture_4,
-  });
-  const [imagesUrl, setImagesUrl] = useState({
-    picture_1: dataImages.picture_1,
-    picture_2: dataImages.picture_2,
-    picture_3: dataImages.picture_3,
-    picture_4: dataImages.picture_4,
-  });
+const CargarImagenes = ({ dataImages, submitImages, formData, imagesFile, setImagesFile, }) => {
+
+ 
+  // const [imagesUrl, setImagesUrl] = useState({
+  //   picture_1: dataImages.picture_1,
+  //   picture_2: dataImages.picture_2,
+  //   picture_3: dataImages.picture_3,
+  //   picture_4: dataImages.picture_4,
+  // });
 
   const [imagesBox, setImagesBox] = useState({
     picture_1: dataImages.picture_1,
@@ -84,6 +69,8 @@ const CargarImagenes = ({ dataImages, submitImages, formData }) => {
     });
   };
 
+
+
   // const handleSubmitImages = () => {
   //   console.log("Uploading... imagesBox...");
   //   const image1Ref = ref(storage, `imagesBox/products/${imagesBox.picture_1}`);
@@ -95,7 +82,7 @@ const CargarImagenes = ({ dataImages, submitImages, formData }) => {
   //   });
   // };
 
-  // submitImages && handleSubmitImages();
+  // submitImages && handleImagesSubmit();
 
   const handleImagesRemove = (e) => {
     e.preventDefault();
@@ -106,70 +93,23 @@ const CargarImagenes = ({ dataImages, submitImages, formData }) => {
       ["picture_3"]: null,
       ["picture_4"]: null,
     });
-    setImage1AsFile(null);
-    setImage2AsFile(null);
-    setImage3AsFile(null);
-    setImage4AsFile(null);
+    setImagesFile({
+      ...imagesFile,
+      ["picture_1"]: null,
+      ["picture_2"]: null,
+      ["picture_3"]: null,
+      ["picture_4"]: null,
+    });
   };
 
-  const handleFireBaseUpload = (e) => {
-    e.preventDefault();
-    console.log("start of upload");
-    if (
-      !imagesFile["picture_1"] &&
-      !imagesFile["picture_2"] &&
-      !imagesFile["picture_3"] &&
-      !imagesFile["picture_4"]
-    ) {
-      console.error(`not an image, please upload one`);
-      return;
-    }
+  
 
-    for (let i = 1; i <= 4; i++) {
-      if (imagesFile[`picture_${i}`]) {
-        const { id: producto_id, titulo: producto_titulo } = formData;
-        const tituloFixed = producto_titulo.split(" ").join("_");
-        const storageRef = ref(storage, `/images/products/${producto_id}:${tituloFixed}:image_${i}`);
-        const uploadTask = uploadBytesResumable(
-          storageRef,
-          imagesFile[`picture_${i}`]
-          );
-          
-          uploadTask.on(
-            "state_changed",
-            (snapshot) => {
-              const progress =
-              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-              console.log(`Upload ${i} is ${progress}% done`);
-            },
-            (error) => {
-              console.log(`Error uploading ${i}:`, error);
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            console.log(`File ${i} available at`, downloadURL);
-            // Handle the download URL as needed
-            setImagesUrl({
-              ...imagesUrl,
-              [`picture_${i}`]: downloadURL,
-            });
-            setOpen(true);
-            // if (result) {
-              //   // User clicked "OK" or "Add new product"
-              //   // Add your logic here for "Add new product"
-              // } else {
-                //   // User clicked "Cancel" or "View product"
-                //   // Add your logic here for "View product"
-                // }
-              });
-            }
-            );
-          }
-        };
-      }
-      
-      return (
-        <>
+  // if (loading) console.log("Submitting...");
+  // if (error) console.log(`Error: ${error.message}`);
+  // if (data) console.log("Images added successfully!");
+
+  return (
+    <>
       <div className="flex-col w-full ml-5">
         <div className="flex justify-end">
           <button className="pt-2" onClick={handleImagesRemove}>
@@ -304,24 +244,15 @@ const CargarImagenes = ({ dataImages, submitImages, formData }) => {
           </div>
         </div>
       </div>
-      <button
+      {/* <button
         className="bg-black/20 mt-2 p-4 flex flex-row rounded-[8px] justify-center mx-4 border-[1px] border-[#282828]"
         // onClick={handleSubmitImages}
-        onClick={handleFireBaseUpload}
+        onClick={handleImagesSubmit}
       >
         {" "}
         Upload Images
-      </button>
-        <Modal open={open} onClose={() => setOpen(false)}>
-          <div className="text-center md:w-72 md:mx-12 py-2 mx-4 w-72">
+      </button> */}
 
-            {/* <CheckCircle size={56} className="mx-auto text-green-500" /> */}
-            <div className="mx-auto my-4 w-72 ">
-              <h3 className="text-lg font-black text-gray-800">¡Producto cargado con exito!</h3>
-              <p className="text-sm text-gray-500 pt-5">¿Desea seguir agregando productos o ver el producto cargado?</p>
-            </div>
-          </div>
-        </Modal>
     </>
   );
 };

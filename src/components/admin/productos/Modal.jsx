@@ -1,13 +1,22 @@
 import { X } from "react-feather";
-import { FaArrowRightLong } from "react-icons/fa6";
+import { useRouter } from "next/router";
 
-const Modal = ({ open, onClose, children }) => {
+const Modal = ({ open, onClose, children, producto_id }) => {
+  const router = useRouter();
+  const handleClickAgregar = () => {
+    router.reload("/admin/add_producto/nuevo");
+  };
+
+  const handleClickVerProducto = (e) => {
+    router.push(`/productos/${producto_id}`);
+  };
+
   return (
     <>
       <div
         onClick={onClose}
         className={`fixed inset-0 flex justify-center items-center transition-colors ${
-          open ? "visible bg-black/20" : "invisible"
+          open ? "visible bg-black/30" : "invisible"
         }`}
       >
         <div
@@ -24,8 +33,18 @@ const Modal = ({ open, onClose, children }) => {
           </button>
           {children}
           <div className="flex justify-between">
-            <button className="text-white font-medium text-sm bg-black border-2 border-black hover:border-black/70 hover:bg-black/90 rounded-xl p-2 mx-5 transition-all duration-150">Agregar otro</button>
-            <button className="text-black font-medium text-sm bg-teal-400 border-2 border-teal-400 hover:border-teal-500/70 hover:bg-teal-500/70 rounded-xl p-2 mx-5 transition-all duration-150">Ver producto</button>
+            <button
+              className="text-white font-medium text-sm bg-black border-2 border-black hover:border-black/70 hover:bg-black/90 rounded-xl p-2 mx-3 transition-all duration-150"
+              onClick={handleClickAgregar}
+            >
+              Agregar nuevo
+            </button>
+            <button
+              className="text-white font-medium text-sm bg-indigo-600 border-2 border-indigo-600 hover:border-indigo-700 hover:bg-indigo-700 rounded-xl p-2 mx-3 transition-all duration-150"
+              onClick={handleClickVerProducto}
+            >
+              Ver producto
+            </button>
           </div>
         </div>
       </div>

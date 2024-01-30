@@ -15,3 +15,17 @@ export const ADD_PRODUCTO = gql`
     }
   }
 `;
+
+
+export const ADD_IMAGES_PRODUCT = gql`
+  mutation CreateImagenProducto($input: ImagenProductoInput!) {
+    createImagenProducto(
+      input: $input
+    ) {
+      path
+      producto {
+        id
+      }
+    }
+  }
+`;
