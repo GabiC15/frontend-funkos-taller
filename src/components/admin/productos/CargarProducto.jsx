@@ -10,10 +10,12 @@ import { GET_MAX_PRODUCTO_ID } from "@/services/apollo/queries/producto";
 import { ADD_IMAGES_PRODUCT } from "@/services/apollo/mutations/carga_producto";
 import Modal from "./Modal";
 import ErrorMessageForm from "./ErrorMessageForm";
+import { v4 as uuidv4 } from "uuid";
 
 const CargarProducto = ({ producto }) => {
   const [open, setOpen] = useState(false);
   const [errorMessageForm, setErrorMessageForm] = useState("");
+  const [progress, setProgress] = useState(0);
 
   const [imagesFile, setImagesFile] = useState({
     picture_1: producto?.imagenes[0]?.path,
@@ -59,7 +61,7 @@ const CargarProducto = ({ producto }) => {
 
   const handleFormComplete = (e) => {
     e.preventDefault();
-    if (!formData.titulo || !formData.descripcion || !formData.stock || !formData.precio || !formData.caracteristicas) {
+    if (!formData.titulo || !formData.descripcion || !formData.stock || !formData.precio || !formData.caracteristicas || !formData.categoriaId || !formData.subcategoriaId) {
       setErrorMessageForm("Por favor llene todos los campos antes de continuar") 
       return false;
     }
@@ -75,9 +77,12 @@ const CargarProducto = ({ producto }) => {
     // console.log(imagesFile)
     const correct = handleFormComplete(e);
     if (correct) {
+      setProgress(32);
+      setOpen(true);
       await handleAddProducto(formData);
       await handleImagesSubmit(e);
-      setOpen(true);
+      setProgress(100);
+      // setProgress(100);
     }
   };
 
@@ -86,6 +91,11 @@ const CargarProducto = ({ producto }) => {
       setErrorMessageForm("")
     }, 8000)
   }, [handleSubmit])
+
+  useEffect(() => {
+    console.log(progress);
+  }, [progress])
+
 
   const handleUploadDbImages = async (imageUrl, dataImages, formData) => {
     const { producto_id } = formData;
@@ -101,6 +111,7 @@ const CargarProducto = ({ producto }) => {
             },
           },
         },
+        
         console.log("success", producto_id, maxProductoId)
       );
     } catch (error) {
@@ -126,28 +137,29 @@ const CargarProducto = ({ producto }) => {
         const { id: producto_id, titulo: producto_titulo } = formData;
         const tituloFixed = producto_titulo.split(" ").join("_");
         const idProducto = producto_id
-          ? producto_id
-          : dataImages.maxProductoId + 1;
+        ? producto_id
+        : dataImages.maxProductoId + 1;
         const storageRef = ref(
           storage,
-          `/images/products/${idProducto}:${tituloFixed}:image_${i}`
+          `/images/products/${idProducto}:${tituloFixed}:image_${i}_${uuidv4()}`
         );
         const uploadTask = uploadBytesResumable(
           storageRef,
           imagesFile[`picture_${i}`]
-        );
-
-        try {
-          const snapshot = await uploadTask;
-          const progress =
+          );
+          
+          try {
+            const snapshot = await uploadTask;
+            const progressFirebase =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log(`Upload ${i} is ${progress}% done`);
-          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-          console.log(`File ${i} available at`, downloadURL);
-          await handleUploadDbImages(downloadURL, dataImages, formData);
-        } catch (error) {
-          console.log(`Error uploading ${i}:`, error);
-        }
+            console.log(`Upload ${i} is ${progressFirebase}% done`);
+            const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+            console.log(`File ${i} available at`, downloadURL);
+            setProgress(prevProgress => prevProgress + 7 * i);
+            await handleUploadDbImages(downloadURL, dataImages, formData);
+          } catch (error) {
+            console.log(`Error uploading ${i}:`, error);
+          }
       }
     }
   };
@@ -164,6 +176,7 @@ const CargarProducto = ({ producto }) => {
         },
       },
     });
+    setProgress(45);
   };
 
   // console.log(formData);
@@ -218,7 +231,7 @@ const CargarProducto = ({ producto }) => {
   if (loadingMaxId) return "Loading...";
   if (errorMaxId) return `No data! ${error.message}`;
 
-  if (loading || loadingImagenProducto) return <p>Submitting...</p>;
+  // if (loading || loadingImagenProducto) return <p>Submitting...</p>;
   if (error || errorLoadingImagenProducto)
     return (
       <p>
@@ -347,10 +360,11 @@ const CargarProducto = ({ producto }) => {
           </div>
         </form>
       </div>
-      <Modal
+      {open && <Modal
         open={open}
         onClose={() => setOpen(false)}
         producto_id={formData.producto_id || dataImages.maxProductoId}
+        progress={progress}
       >
         <div className="text-center md:w-72 md:mx-12 py-2 mx-4 w-72">
           {/* <CheckCircle size={56} className="mx-auto text-green-500" /> */}
@@ -363,7 +377,7 @@ const CargarProducto = ({ producto }) => {
             </p>
           </div>
         </div>
-      </Modal>
+      </Modal>}
     </>
   );
 };
