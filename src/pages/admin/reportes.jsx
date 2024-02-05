@@ -433,7 +433,7 @@ export default function Reporte() {
             <MainCards />
             {/* <!-- ./Statistics Cards --> */}
 
-            <div className="md:flex md:justify-between my-3 mr-8 md:mr-0">
+            <div className="md:flex md:justify-between h-full my-3 mr-8 md:mr-0">
               <div className="w-full max-w-2xl md:h-fit h-full mx-4 px-5 py-5 rounded shadow-lg md:mb-0 mb-7 bg-gray-100 dark:bg-gray-800">
                 <ChartTable />
               </div>
@@ -448,7 +448,7 @@ export default function Reporte() {
               {/* <!-- ./Sales Traffic --> */}
 
               {/* <!-- Recent Activities --> */}
-              <NotificationPanel data={dataNotifications} />
+              <NotificationPanel />
               {/* <!-- ./Recent Activities --> */}
             </div>
 

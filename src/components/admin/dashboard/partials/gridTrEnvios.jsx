@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { FaCircleUser } from "react-icons/fa6";
 
 const GridTrEnvios = ({ props }) => {
@@ -5,6 +6,23 @@ const GridTrEnvios = ({ props }) => {
   const { fecha, usuario } = pedido;
   const { id, nombres, apellidos, email } = usuario;
   const { year, month, day } = fecha;
+
+  const [onPhone, setOnPhone] = useState(false);
+
+  const [sizeText, setSizeText] = useState(54);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 639px)");
+    const handleMediaQueryChange = (e) => {
+      setOnPhone(e.matches);
+      setSizeText(e.matches ? 20 : 54);
+    };
+    handleMediaQueryChange(mediaQuery);
+    mediaQuery.addListener(handleMediaQueryChange);
+    return () => {
+      mediaQuery.removeListener(handleMediaQueryChange);
+    };
+  }, []);
 
   return (
     <>
@@ -23,15 +41,18 @@ const GridTrEnvios = ({ props }) => {
                 aria-hidden="true"
               ></div>
             </div>
-            <div>
-              <p className="font-semibold">{nombres} {apellidos}</p>
-              <p className="text-xs text-gray-600 dark:text-gray-400">
+            <div className="flex-col flex-shrink-0 pr-5 ">
+              <p className="font-semibold w-20 md:w-full overflow-x-scroll">
+                {nombres} {apellidos}
+              </p>
+              <p className="text-xs w-20 md:w-full overflow-x-scroll text-gray-600 dark:text-gray-400">
+                {/* {email.length > 10 ? email.slice(0, 10) + "..." : email} */}
                 {email}
               </p>
             </div>
           </div>
         </td>
-        <td className="px-4 py-3 text-xs md:text-sm">${costo}</td>
+        {!onPhone && <td className="px-4 py-3 text-xs md:text-sm">${costo}</td>}
         <td className="px-4 py-3 text-xs md:text-sm">
           <span
             className={`px-2 py-1 font-base md:font-semibold leading-tight text-xs ${
@@ -44,7 +65,10 @@ const GridTrEnvios = ({ props }) => {
             {entregado ? "Entregado" : "Sin entregar"}
           </span>
         </td>
-        <td className="px-4 py-3 text-xs md:text-sm">{year}-{month}-{day}</td>
+        <td className="px-4 py-3 text-xs md:text-sm">
+          {year}-{month}-{day}
+        </td>
+        {onPhone && <td className="px-4 py-3 text-xs md:text-sm"></td>}
       </tr>
     </>
   );

@@ -21,6 +21,16 @@ Chart.register(
 );
 
 const BarChart = ({ data }) => {
+
+
+  let sizeText = 18;
+
+  
+  // Check if the screen size is in the `sm` breakpoint
+  if (window.matchMedia('(max-width: 639px)').matches) {
+    sizeText = 14;
+  }
+  
   const months = [
     "Enero",
     "Febrero",
@@ -72,7 +82,7 @@ const BarChart = ({ data }) => {
           display: true,
           color: "white",
           font: {
-            size: 18,
+            size: sizeText,
             weight: "bold",
           },
         },
