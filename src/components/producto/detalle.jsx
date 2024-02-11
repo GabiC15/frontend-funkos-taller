@@ -3,8 +3,12 @@ import {
   faPlus,
   faShoppingCart,
   faStar as faStarSolid,
+  faHeart as faHeartSolid,
 } from "@fortawesome/free-solid-svg-icons";
-import { faStar as faStarRegular } from "@fortawesome/free-regular-svg-icons";
+import {
+  faHeart as faHeartRegular,
+  faStar as faStarRegular,
+} from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useEffect, useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
@@ -19,6 +23,11 @@ import { CarritoContext } from "@/components/providers/CarritoProvider";
 import Breadcrumb from "@/components/producto/breadcrumb";
 import Image from "next/image";
 import Loading from "./loading";
+import {
+  GET_FAVORITO,
+  CREATE_FAVORITO,
+  DELETE_FAVORITO,
+} from "@/services/apollo/queries/favoritos";
 
 export default function Detalle({ funko }) {
   const router = useRouter();
@@ -28,6 +37,17 @@ export default function Detalle({ funko }) {
 
   const { data, refetch } = useQuery(GET_LINEA_CARRITO, {
     variables: { productoId: funko.id },
+  });
+
+  const { data: favoritoData } = useQuery(GET_FAVORITO, {
+    variables: { productoId: funko.id },
+  });
+
+  const [createFavorito] = useMutation(CREATE_FAVORITO, {
+    refetchQueries: [GET_FAVORITO],
+  });
+  const [deleteFavorito] = useMutation(DELETE_FAVORITO, {
+    refetchQueries: [GET_FAVORITO],
   });
 
   const [addLineaCarrito, { loading: loadingCreate, data: dataCreate }] =
@@ -42,6 +62,8 @@ export default function Detalle({ funko }) {
   useEffect(() => {
     if (dataCreate) showCarrito(true);
   }, [dataCreate, showCarrito]);
+
+  console.log(favoritoData);
 
   return (
     <>
@@ -121,7 +143,27 @@ export default function Detalle({ funko }) {
               className="text-yellow-500 text-2xl"
             />
           </div>
-          <h3 className="text-3xl font-bold mt-5">${funko.precio}</h3>
+
+          <div className="flex items-center gap-4 mt-5">
+            <h3 className="text-3xl font-bold">${funko.precio}</h3>
+            <button
+              onClick={
+                favoritoData?.favorito
+                  ? () =>
+                      deleteFavorito({ variables: { productoId: funko.id } })
+                  : () =>
+                      createFavorito({ variables: { productoId: funko.id } })
+              }
+            >
+              <FontAwesomeIcon
+                icon={favoritoData?.favorito ? faHeartSolid : faHeartRegular}
+                className={`text-3xl ${
+                  favoritoData?.favorito ? "text-red-500" : "text-gray-400"
+                }`}
+              />
+            </button>
+          </div>
+
           <div className="flex gap-2 mt-5">
             {!data?.lineaCarrito && (
               <div className="bg-black/20 flex items-center rounded-lg">
@@ -170,6 +212,7 @@ export default function Detalle({ funko }) {
 
               {(loadingCreate || loadingDelete) && <Loading />}
             </button>
+
             <button
               className="min-w-[3rem] bg-chineseBlack rounded-lg"
               onClick={() => router.push("/usuario/pedido")}
