@@ -19,9 +19,9 @@ export default function Productos() {
             <Sidebar />
             <div className="flex flex-col items-center">
               <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 mt-2">
-                {data.map((p, i) => (
+                {/* {data.map((p, i) => (
                   <Producto producto={p} key={i} />
-                ))}
+                ))} */}
               </div>
               <Pagination />
             </div>

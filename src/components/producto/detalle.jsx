@@ -1,28 +1,47 @@
-import Breadcrumb from "@/components/producto/breadcrumb";
-import Image from "next/image";
-import { faStar as faStarSolid } from "@fortawesome/free-solid-svg-icons";
+import {
+  faMinus,
+  faPlus,
+  faShoppingCart,
+  faStar as faStarSolid,
+} from "@fortawesome/free-solid-svg-icons";
 import { faStar as faStarRegular } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
-
-const data = {
-  productId: "74063",
-  title: "Pop! The Witch Mother",
-  description:
-    "The Original Witch is here to give the gift of magic to the Sanderson sisters! Welcome Pop! The Original Witch into your coven, or this enchantress might just put a spell on you. Brew up some fun with this bewitching, exclusive addition to your Hocus Pocus 2 collection! Vinyl figure is approximately 3.9-inches tall.",
-  price: "$15.00",
-  fandom: "Movies & TV",
-  license: "Disney",
-  type: "Pop!",
-  images: [
-    "https://funko.com/dw/image/v2/BGTS_PRD/on/demandware.static/-/Sites-funko-master-catalog/default/dwebd2d1d6/images/funko/upload/74063%20The%20Original%20Witch_GLAM-WEB.png?sw=800&sh=800",
-    "https://funko.com/dw/image/v2/BGTS_PRD/on/demandware.static/-/Sites-funko-master-catalog/default/dw089727fc/images/funko/upload/74063-POPDisney-HP2-TheOriginalWitch-Lifestyle-092723.jpg?sw=800&sh=800",
-    "https://funko.com/dw/image/v2/BGTS_PRD/on/demandware.static/-/Sites-funko-master-catalog/default/dw33b789ef/images/funko/upload/74063%20The%20Original%20Witch_FW_GLAM-1-WEB.png?sw=800&sh=800",
-  ],
-};
+import { useContext, useEffect, useState } from "react";
+import { useMutation, useQuery } from "@apollo/client";
+import {
+  CREATE_LINEA_CARRITO,
+  DELETE_LINEA_CARRITO,
+  GET_LINEAS_CARRITO,
+  GET_LINEA_CARRITO,
+} from "@/services/apollo/queries/linea-carrito";
+import { useRouter } from "next/router";
+import { CarritoContext } from "@/components/providers/CarritoProvider";
+import Breadcrumb from "@/components/producto/breadcrumb";
+import Image from "next/image";
+import Loading from "./loading";
 
 export default function Detalle({ funko }) {
+  const router = useRouter();
   const [image, setImage] = useState(0);
+  const [cantidad, setCantidad] = useState(1);
+  const { showCarrito } = useContext(CarritoContext);
+
+  const { data, refetch } = useQuery(GET_LINEA_CARRITO, {
+    variables: { productoId: funko.id },
+  });
+
+  const [addLineaCarrito, { loading: loadingCreate, data: dataCreate }] =
+    useMutation(CREATE_LINEA_CARRITO, { refetchQueries: [GET_LINEAS_CARRITO] });
+  const [deleteLineaCarrito, { loading: loadingDelete, data: dataDelete }] =
+    useMutation(DELETE_LINEA_CARRITO, { refetchQueries: [GET_LINEAS_CARRITO] });
+
+  useEffect(() => {
+    refetch({ productoId: funko.id });
+  }, [dataCreate, dataDelete, refetch, funko.id]);
+
+  useEffect(() => {
+    if (dataCreate) showCarrito(true);
+  }, [dataCreate, showCarrito]);
 
   return (
     <>
@@ -103,9 +122,64 @@ export default function Detalle({ funko }) {
             />
           </div>
           <h3 className="text-3xl font-bold mt-5">${funko.precio}</h3>
-          <button className="w-full bg-chineseBlack py-2 rounded-lg mt-5">
-            Comprar
-          </button>
+          <div className="flex gap-2 mt-5">
+            {!data?.lineaCarrito && (
+              <div className="bg-black/20 flex items-center rounded-lg">
+                <button
+                  onClick={
+                    cantidad > 1 ? () => setCantidad(cantidad - 1) : () => {}
+                  }
+                >
+                  <FontAwesomeIcon
+                    className="text-white text-lg mt-1 px-1.5"
+                    icon={faMinus}
+                  />
+                </button>
+                <div className="h-full flex items-center bg-chineseBlack px-4 rounded-lg">
+                  <p className="text-lg">{cantidad}</p>
+                </div>
+                <button
+                  onClick={
+                    cantidad < 9 ? () => setCantidad(cantidad + 1) : () => {}
+                  }
+                >
+                  <FontAwesomeIcon
+                    className="text-white text-lg mt-1 px-1.5"
+                    icon={faPlus}
+                  />
+                </button>
+              </div>
+            )}
+            <button
+              className="w-full h-10 bg-chineseBlack rounded-lg flex items-center justify-center"
+              onClick={() =>
+                data?.lineaCarrito
+                  ? deleteLineaCarrito({ variables: { productoId: funko.id } })
+                  : addLineaCarrito({
+                      variables: {
+                        input: { cantidad, productoId: funko.id },
+                      },
+                    })
+              }
+            >
+              {!loadingCreate &&
+                !loadingDelete &&
+                (data?.lineaCarrito
+                  ? "Quitar del carrito"
+                  : "Agregar al carrito")}
+
+              {(loadingCreate || loadingDelete) && <Loading />}
+            </button>
+            <button
+              className="min-w-[3rem] bg-chineseBlack rounded-lg"
+              onClick={() => router.push("/usuario/pedido")}
+            >
+              <FontAwesomeIcon
+                icon={faShoppingCart}
+                className="text-white text-xl mt-1"
+              />
+            </button>
+          </div>
         </div>
       </div>
     </>

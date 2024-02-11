@@ -5,6 +5,8 @@ import { config } from "@fortawesome/fontawesome-svg-core";
 import { ApolloProvider } from "@apollo/client";
 import client from "@/services/apollo/client";
 import UserProvider from "@/components/providers/UserProvider";
+import CarritoProvider from "@/components/providers/CarritoProvider";
+// import { initMercadoPago } from "@mercadopago/sdk-react";
 config.autoAddCss = false;
 
 const font = Noto_Sans({
@@ -12,12 +14,16 @@ const font = Noto_Sans({
   subsets: ["latin"],
 });
 
+// initMercadoPago(process.env.MP_PUBLIC_KEY);
+
 export default function App({ Component, pageProps }) {
   return (
     <div className={font.className}>
       <ApolloProvider client={client}>
         <UserProvider>
-          <Component {...pageProps} />
+          <CarritoProvider>
+            <Component {...pageProps} />
+          </CarritoProvider>
         </UserProvider>
       </ApolloProvider>
     </div>

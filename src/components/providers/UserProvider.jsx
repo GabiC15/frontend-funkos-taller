@@ -2,7 +2,7 @@ import { GET_USUARIO } from "@/services/apollo/queries/usuario";
 import { useQuery } from "@apollo/client";
 import React, { createContext, useEffect, useState } from "react";
 
-export const UserContext = createContext("light");
+export const UserContext = createContext();
 
 export default function UserProvider({ children }) {
   const [user, setUser] = useState({});
@@ -14,8 +14,8 @@ export default function UserProvider({ children }) {
 
   async function onUserChange(usuario) {
     setUser({
-      nombres: usuario.nombres,
-      apellidos: usuario.apellidos,
+      nombres: usuario?.nombres,
+      apellidos: usuario?.apellidos,
     });
   }
 

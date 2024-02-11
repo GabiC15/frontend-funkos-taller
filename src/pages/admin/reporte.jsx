@@ -42,6 +42,7 @@ export default function Reporte() {
       total: "1,467",
       img: [
         <svg
+          key={1}
           width="30"
           height="30"
           fill="none"
@@ -63,6 +64,7 @@ export default function Reporte() {
       total: "1,103",
       img: [
         <svg
+          key={1}
           width="30"
           height="30"
           fill="none"
@@ -84,6 +86,7 @@ export default function Reporte() {
       total: "875",
       img: [
         <svg
+          key={1}
           width="30"
           height="30"
           fill="none"
@@ -128,7 +131,8 @@ export default function Reporte() {
       userName: "Jolina Angeline",
       profilePicture:
         "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=200&amp;facepad=3&amp;fit=facearea&amp;s=707b9c33066bf8808c934c8ab394dff6",
-      message: "le dió una valoración de 5 estrellas al funko Pop! Sylvester Cat Slytherin",
+      message:
+        "le dió una valoración de 5 estrellas al funko Pop! Sylvester Cat Slytherin",
       date: "13-11-2022",
     },
     {
@@ -145,7 +149,6 @@ export default function Reporte() {
       message: "recibió el envío del funko Pop! Sylvester Cat Slytherin",
       date: "12-11-2022",
     },
-    
   ];
 
   const dataOrders = [
