@@ -56,7 +56,7 @@ export default function CardFavorito({ favorito }) {
             onClick={() =>
               deleteFavorito({
                 variables: {
-                  id: favorito.id,
+                  productoId: favorito.producto.id,
                 },
               })
             }

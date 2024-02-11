@@ -8,10 +8,7 @@ import OrdersControl from "@/components/admin/dashboard/OrdersControl";
 import DoughnutChart from "@/components/admin/dashboard/partials/doughnutChart";
 import ChartTable from "@/components/admin/dashboard/ChartTable";
 
-
 export default function Reporte() {
-  
-
   const dataSalesVolume = [
     {
       productId: "74094",
@@ -38,8 +35,6 @@ export default function Reporte() {
       cantidadTotal: "287",
     },
   ];
-
- 
 
   const dataNotifications = [
     {
@@ -457,7 +452,6 @@ export default function Reporte() {
             {/* <!-- Orders Table --> */}
 
             {/* <Doughnut /> */}
-
           </div>
         </Layout>
       </div>

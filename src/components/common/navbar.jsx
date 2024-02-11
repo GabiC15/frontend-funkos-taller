@@ -3,13 +3,16 @@ import {
   faCircleUser,
   faHeart,
 } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import Link from "next/link";
+import Carrito from "@/components/common/Carrito";
+import { CarritoContext } from "@/components/providers/CarritoProvider";
 
 export default function Navbar() {
   const [dropdown, setDropdown] = useState(false);
+  const { showCarrito } = useContext(CarritoContext);
 
   return (
     <>
@@ -55,13 +58,21 @@ export default function Navbar() {
                   placeholder="Search..."
                 />
               </div>
-              <div className="md:flex flex-row md:order-3 gap-8 hidden">
-                <FontAwesomeIcon size="xl" icon={faHeart} className="my-auto" />
-                <FontAwesomeIcon
-                  size="xl"
-                  icon={faCartShopping}
-                  className="my-auto"
-                />
+              <div className="md:flex flex-row md:order-3 items-center gap-8 hidden">
+                <Link href="/usuario/favoritos">
+                  <FontAwesomeIcon
+                    size="xl"
+                    icon={faHeart}
+                    className="my-auto"
+                  />
+                </Link>
+                <button onClick={() => showCarrito(true)}>
+                  <FontAwesomeIcon
+                    size="xl"
+                    icon={faCartShopping}
+                    className="my-auto"
+                  />
+                </button>
                 <FontAwesomeIcon
                   size="xl"
                   icon={faCircleUser}
@@ -155,6 +166,8 @@ export default function Navbar() {
             </ul>
           </div>
         </div>
+
+        <Carrito />
       </nav>
     </>
   );

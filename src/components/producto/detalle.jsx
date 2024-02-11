@@ -1,24 +1,67 @@
-import Breadcrumb from "@/components/producto/breadcrumb";
-import Image from "next/image";
 import {
-  faHeart as faHeartSolid,
+  faMinus,
+  faPlus,
+  faShoppingCart,
   faStar as faStarSolid,
+  faHeart as faHeartSolid,
 } from "@fortawesome/free-solid-svg-icons";
 import {
   faHeart as faHeartRegular,
   faStar as faStarRegular,
 } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
-import { useQuery } from "@apollo/client";
-import { GET_FAVORITO } from "@/services/apollo/queries/favoritos";
+import { useContext, useEffect, useState } from "react";
+import { useMutation, useQuery } from "@apollo/client";
+import {
+  CREATE_LINEA_CARRITO,
+  DELETE_LINEA_CARRITO,
+  GET_LINEAS_CARRITO,
+  GET_LINEA_CARRITO,
+} from "@/services/apollo/queries/linea-carrito";
+import { useRouter } from "next/router";
+import { CarritoContext } from "@/components/providers/CarritoProvider";
+import Breadcrumb from "@/components/producto/breadcrumb";
+import Image from "next/image";
+import Loading from "./loading";
+import {
+  GET_FAVORITO,
+  CREATE_FAVORITO,
+  DELETE_FAVORITO,
+} from "@/services/apollo/queries/favoritos";
 
 export default function Detalle({ funko }) {
+  const router = useRouter();
   const [image, setImage] = useState(0);
+  const [cantidad, setCantidad] = useState(1);
+  const { showCarrito } = useContext(CarritoContext);
 
-  const { loading, data } = useQuery(GET_FAVORITO, {
+  const { data, refetch } = useQuery(GET_LINEA_CARRITO, {
     variables: { productoId: funko.id },
   });
+
+  const { data: favoritoData } = useQuery(GET_FAVORITO, {
+    variables: { productoId: funko.id },
+  });
+
+  const [createFavorito] = useMutation(CREATE_FAVORITO, {
+    refetchQueries: [GET_FAVORITO],
+  });
+  const [deleteFavorito] = useMutation(DELETE_FAVORITO, {
+    refetchQueries: [GET_FAVORITO],
+  });
+
+  const [addLineaCarrito, { loading: loadingCreate, data: dataCreate }] =
+    useMutation(CREATE_LINEA_CARRITO, { refetchQueries: [GET_LINEAS_CARRITO] });
+  const [deleteLineaCarrito, { loading: loadingDelete, data: dataDelete }] =
+    useMutation(DELETE_LINEA_CARRITO, { refetchQueries: [GET_LINEAS_CARRITO] });
+
+  useEffect(() => {
+    refetch({ productoId: funko.id });
+  }, [dataCreate, dataDelete, refetch, funko.id]);
+
+  useEffect(() => {
+    if (dataCreate) showCarrito(true);
+  }, [dataCreate, showCarrito]);
 
   return (
     <>
@@ -102,17 +145,83 @@ export default function Detalle({ funko }) {
 
           <div className="flex items-center gap-4 mt-5">
             <h3 className="text-3xl font-bold">${funko.precio}</h3>
-            <FontAwesomeIcon
-              icon={data?.favorito ? faHeartSolid : faHeartRegular}
-              className={`text-3xl ${
-                data?.favorito ? "text-red-500" : "text-gray-400"
-              }`}
-            />
+            <button
+              onClick={
+                favoritoData?.favorito
+                  ? () =>
+                      deleteFavorito({ variables: { productoId: funko.id } })
+                  : () =>
+                      createFavorito({ variables: { productoId: funko.id } })
+              }
+            >
+              <FontAwesomeIcon
+                icon={favoritoData?.favorito ? faHeartSolid : faHeartRegular}
+                className={`text-3xl ${
+                  favoritoData?.favorito ? "text-red-500" : "text-gray-400"
+                }`}
+              />
+            </button>
           </div>
 
-          <button className="w-full bg-chineseBlack py-2 rounded-lg mt-5">
-            Comprar
-          </button>
+          <div className="flex gap-2 mt-5">
+            {!data?.lineaCarrito && (
+              <div className="bg-black/20 flex items-center rounded-lg">
+                <button
+                  onClick={
+                    cantidad > 1 ? () => setCantidad(cantidad - 1) : () => {}
+                  }
+                >
+                  <FontAwesomeIcon
+                    className="text-white text-lg mt-1 px-1.5"
+                    icon={faMinus}
+                  />
+                </button>
+                <div className="h-full flex items-center bg-chineseBlack px-4 rounded-lg">
+                  <p className="text-lg">{cantidad}</p>
+                </div>
+                <button
+                  onClick={
+                    cantidad < 9 ? () => setCantidad(cantidad + 1) : () => {}
+                  }
+                >
+                  <FontAwesomeIcon
+                    className="text-white text-lg mt-1 px-1.5"
+                    icon={faPlus}
+                  />
+                </button>
+              </div>
+            )}
+            <button
+              className="w-full h-10 bg-chineseBlack rounded-lg flex items-center justify-center"
+              onClick={() =>
+                data?.lineaCarrito
+                  ? deleteLineaCarrito({ variables: { productoId: funko.id } })
+                  : addLineaCarrito({
+                      variables: {
+                        input: { cantidad, productoId: funko.id },
+                      },
+                    })
+              }
+            >
+              {!loadingCreate &&
+                !loadingDelete &&
+                (data?.lineaCarrito
+                  ? "Quitar del carrito"
+                  : "Agregar al carrito")}
+
+              {(loadingCreate || loadingDelete) && <Loading />}
+            </button>
+
+            <button
+              className="min-w-[3rem] bg-chineseBlack rounded-lg"
+              onClick={() => router.push("/usuario/pedido")}
+            >
+              <FontAwesomeIcon
+                icon={faShoppingCart}
+                className="text-white text-xl mt-1"
+              />
+            </button>
+          </div>
         </div>
       </div>
     </>

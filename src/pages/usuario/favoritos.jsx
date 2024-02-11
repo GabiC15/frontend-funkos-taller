@@ -1,10 +1,8 @@
 import Layout from "@/components/common/layout";
 import CardFavorito from "@/components/favoritos/CardFavorito";
 import Loading from "@/components/producto/loading";
-
-import client, { getClient } from "@/services/apollo/client";
 import { GET_FAVORITOS } from "@/services/apollo/queries/favoritos";
-import { NetworkStatus, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 
 export default function Favoritos() {
   const { loading, data } = useQuery(GET_FAVORITOS);
@@ -23,7 +21,9 @@ export default function Favoritos() {
                   <CardFavorito favorito={favorito} key={favorito.id} />
                 ))
               ) : (
-                <Loading />
+                <div className="mx-auto">
+                  <Loading />
+                </div>
               )}
             </div>
           </div>

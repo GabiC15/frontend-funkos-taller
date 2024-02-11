@@ -25,8 +25,16 @@ export const GET_FAVORITO = gql`
   }
 `;
 
+export const CREATE_FAVORITO = gql`
+  mutation CreateFavorito($productoId: Int!) {
+    createFavorito(productoId: $productoId) {
+      id
+    }
+  }
+`;
+
 export const DELETE_FAVORITO = gql`
-  mutation DeleteFavorito($id: Int!) {
-    deleteFavorito(id: $id)
+  mutation DeleteFavorito($productoId: Int!) {
+    deleteFavorito(productoId: $productoId)
   }
 `;
