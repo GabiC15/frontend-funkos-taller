@@ -7,14 +7,14 @@ import { loadErrorMessages, loadDevMessages } from "@apollo/client/dev";
 // }
 
 const client = new ApolloClient({
-  uri: "http://localhost:4000/graphql",
+  uri: process.env.BACKEND_URL,
   cache: new InMemoryCache(),
   credentials: "include",
 });
 
 export const getClient = ({ req }) => {
   return new ApolloClient({
-    uri: "http://localhost:4000/graphql",
+    uri: process.env.BACKEND_URL,
     cache: new InMemoryCache(),
     credentials: "include",
     headers: {

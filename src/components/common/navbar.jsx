@@ -9,10 +9,13 @@ import Image from "next/image";
 import Link from "next/link";
 import Carrito from "@/components/common/Carrito";
 import { CarritoContext } from "@/components/providers/CarritoProvider";
+import { useRouter } from "next/router";
 
 export default function Navbar() {
+  const router = useRouter();
   const [dropdown, setDropdown] = useState(false);
   const { showCarrito } = useContext(CarritoContext);
+  const [search, setSearch] = useState();
 
   return (
     <>
@@ -52,10 +55,18 @@ export default function Navbar() {
                   <span className="sr-only">Search icon</span>
                 </div>
                 <input
-                  type="text"
-                  id="search-navbar"
-                  className="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+                  type="search"
+                  id="search-navbar-1"
+                  className="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
                   placeholder="Search..."
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key == "Enter")
+                      return router.push("/productos", {
+                        query: { busqueda: e.target.value },
+                      });
+                  }}
                 />
               </div>
               <div className="md:flex flex-row md:order-3 items-center gap-8 hidden">
@@ -132,7 +143,7 @@ export default function Navbar() {
               </div>
               <input
                 type="text"
-                id="search-navbar"
+                id="search-navbar-2"
                 className="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Search..."
               />
