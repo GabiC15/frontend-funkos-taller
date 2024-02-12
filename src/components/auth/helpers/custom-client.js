@@ -3,7 +3,7 @@ import { setContext } from "@apollo/client/link/context";
 
 export const getApolloClient = async (userCredential) => {
   const httpLink = createHttpLink({
-    uri: "http://localhost:4000/graphql",
+    uri: "https://backend-funkoplanet.onrender.com/graphql",
     credentials: "include",
   });
   const token = await userCredential.user.getIdToken();

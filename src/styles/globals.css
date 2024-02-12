@@ -22,3 +22,22 @@ body {
     @apply bg-fillGradient /*opacity-70 blur-[182px]*/;
   }
 }
+
+@layer utilities {
+  .side-scrollbar::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .side-scrollbar::-webkit-scrollbar-track {
+    border-radius: 100vh;
+  }
+
+  .side-scrollbar::-webkit-scrollbar-thumb {
+    border-radius: 100vh;
+    border: 3px solid rgba(255,255,255, 0.2);
+  }
+
+  .side-scrollbar::-webkit-scrollbar-thumb:hover {
+    border-color: rgba(255,255,255, 0.4);
+  }
+}
