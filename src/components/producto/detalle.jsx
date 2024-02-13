@@ -79,9 +79,8 @@ export default function Detalle({ funko }) {
               width={600}
               height={600}
               // sizes="100vw"
-              priority
               className="w-full drop-shadow-lg hover:scale-110 transition-transform rounded-md"
-              alt="Imagen Harry Poter"
+              alt={funko.titulo}
             />
           </div>
           <div className="flex gap-3 mt-3">
@@ -101,7 +100,7 @@ export default function Detalle({ funko }) {
                   height={75}
                   sizes="100vw"
                   className="w-full drop-shadow-lg hover:scale-110 transition rounded-md"
-                  alt="Imagen Harry Poter"
+                  alt={funko.titulo}
                 />
               </div>
             ))}
