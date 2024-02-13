@@ -21,6 +21,7 @@ export default function ItemsPedido() {
                     width={0}
                     height={0}
                     sizes="100vw"
+                    unoptimized
                     className="w-full drop-shadow-lg hover:scale-110 transition rounded-md"
                     alt="Imagen Harry Poter"
                   />

@@ -16,6 +16,7 @@ export default function CardFavorito({ producto }) {
               width={0}
               height={0}
               sizes="100vh"
+              unoptimized
               className="cursor-pointer w-12 md:w-20 mx-auto scale-[1.6] md:scale-[1.7] hover:scale-[1.87] transition-all drop-shadow-lg hover:drop-shadow-2xl"
               alt={titulo}
             />
@@ -58,7 +59,10 @@ export default function CardFavorito({ producto }) {
           </button>
           <button
             className="h-7"
-            onClick={() => {router.push(`/admin/add_producto/${producto.id}`)}}>
+            onClick={() => {
+              router.push(`/admin/add_producto/${producto.id}`);
+            }}
+          >
             <BiSolidEditAlt className="w-full h-full" />
           </button>
         </div>

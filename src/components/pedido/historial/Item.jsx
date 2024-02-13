@@ -17,6 +17,7 @@ export default function Item({ item, aprobado }) {
             width={0}
             height={0}
             sizes="75vw"
+            unoptimized
             className="w-full drop-shadow-lg hover:scale-110 transition rounded-md"
             alt="Imagen Harry Poter"
           />

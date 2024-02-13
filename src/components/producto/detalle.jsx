@@ -79,7 +79,7 @@ export default function Detalle({ funko }) {
               width={600}
               height={600}
               unoptimized
-              // sizes="100vw"
+              priority
               className="w-full drop-shadow-lg hover:scale-110 transition-transform rounded-md"
               alt={funko.titulo}
             />

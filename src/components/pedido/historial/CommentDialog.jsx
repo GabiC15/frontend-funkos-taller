@@ -85,6 +85,7 @@ export default function ValoracionDialog({ producto, show, setShow }) {
                         width={0}
                         height={0}
                         sizes="10rem"
+                        unoptimized
                         className="w-full drop-shadow-lg hover:scale-110 transition rounded-md"
                         alt="Imagen Harry Poter"
                       />
