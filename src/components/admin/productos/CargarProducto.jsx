@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
-import { ADD_PRODUCTO } from "@/services/apollo/mutations/carga_producto";
+import {
+  ADD_PRODUCTO,
+  UPDATE_PRODUCTO,
+} from "@/services/apollo/mutations/carga_producto";
 import { useMutation, useQuery } from "@apollo/client";
 import ListCategorySubCategory from "./ListCategorySubCategory";
 import { storage } from "@/services/firebase/firebase";
@@ -13,9 +16,11 @@ import ErrorMessageForm from "./ErrorMessageForm";
 import { v4 as uuidv4 } from "uuid";
 
 const CargarProducto = ({ producto }) => {
+  // ! HACER UPDATE DE PRODUCTO
   const [open, setOpen] = useState(false);
   const [errorMessageForm, setErrorMessageForm] = useState("");
-  const [progress, setProgress] = useState(0);
+  const [progress, setProgress] = useState(1);
+  const [productoId, setProductoId] = useState(producto?.id);
 
   const [imagesFile, setImagesFile] = useState({
     picture_1: producto?.imagenes[0]?.path,
@@ -30,7 +35,29 @@ const CargarProducto = ({ producto }) => {
     loading: loadingMaxId,
   } = useQuery(GET_MAX_PRODUCTO_ID);
 
-  const [createProducto, { data, loading, error }] = useMutation(ADD_PRODUCTO);
+  const [
+    createProducto,
+    { data: dataProducto, loading: loadingProducto, error: errorProducto },
+  ] = useMutation(ADD_PRODUCTO, {
+    onCompleted: (data) => {
+      console.log("dataProducto", data);
+      handleFinishSubmit(data);
+    },
+  });
+  const [
+    updateProducto,
+    {
+      data: dataProductoActualizar,
+      loading: loadingProductoActualizar,
+      error: errorProductoActualizar,
+    },
+  ] = useMutation(UPDATE_PRODUCTO, {
+    onCompleted: (data) => {
+      console.log("dataProducto", data);
+      handleFinishSubmit(data);
+    },
+  });
+
   const [
     createImagenProducto,
     {
@@ -50,6 +77,7 @@ const CargarProducto = ({ producto }) => {
   const [submitImages, setSubmitImages] = useState(false);
 
   const [formData, setFormData] = useState({
+    id: producto?.id,
     titulo: producto?.titulo,
     descripcion: producto?.descripcion,
     categoriaId: categoryId,
@@ -61,45 +89,83 @@ const CargarProducto = ({ producto }) => {
 
   const handleFormComplete = (e) => {
     e.preventDefault();
-    if (!formData.titulo || !formData.descripcion || !formData.stock || !formData.precio || !formData.caracteristicas || !formData.categoriaId || !formData.subcategoriaId) {
-      setErrorMessageForm("Por favor llene todos los campos antes de continuar") 
+    if (
+      !formData.titulo ||
+      !formData.descripcion ||
+      !formData.stock ||
+      !formData.precio ||
+      !formData.caracteristicas ||
+      !formData.categoriaId ||
+      !formData.subcategoriaId
+    ) {
+      setErrorMessageForm(
+        "Por favor llene todos los campos antes de continuar"
+      );
       return false;
-    }
-    else if (!imagesFile.picture_1 && !imagesFile.picture_2 && !imagesFile.picture_3 && !imagesFile.picture_4) {
-      setErrorMessageForm("Por favor cargue al menos una imagen del producto") 
+    } else if (
+      !imagesFile.picture_1 &&
+      !imagesFile.picture_2 &&
+      !imagesFile.picture_3 &&
+      !imagesFile.picture_4
+    ) {
+      setErrorMessageForm("Por favor cargue al menos una imagen del producto");
       return false;
     }
     return true;
-  }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     // console.log(imagesFile)
     const correct = handleFormComplete(e);
     if (correct) {
-      setProgress(32);
-      setOpen(true);
-      await handleAddProducto(formData);
-      await handleImagesSubmit(e);
-      setProgress(100);
+      try {
+        setProgress(32);
+        setOpen(true);
+        formData.id ? await handleUpdateProducto(formData) :
+        await handleCreateProducto(formData);
+        // await producto?.id ? await handleUpdateProducto(formData) : await handleCreateProducto(formData);
+        // await handleImagesSubmit(e, dataProducto);
+        // setProgress(100);
+        // console.log("producto", dataProducto);
+        // setProductoId(dataProducto.createProducto.id);
+      } catch (error) {
+        console.log(error);
+        setProgress(0);
+      }
       // setProgress(100);
     }
   };
 
+  const handleFinishSubmit = async (data) => {
+    formData.id
+      ? (setProductoId(formData.id), handleImagesUpdate(data))
+      : (setProductoId(data.createProducto.id), handleImagesSubmit(data));
+  };
+
   useEffect(() => {
     setTimeout(() => {
-      setErrorMessageForm("")
-    }, 8000)
-  }, [handleSubmit])
+      setErrorMessageForm("");
+    }, 8000);
+  }, [handleSubmit]);
 
-  useEffect(() => {
-    console.log(progress);
-  }, [progress])
+  // useEffect(() => {
+  //   console.log(progress);
+  // }, [progress]);
 
+  // useEffect(() => {
+  //   console.log("producto IDDD", productoId);
+  // }, [productoId])
 
-  const handleUploadDbImages = async (imageUrl, dataImages, formData) => {
-    const { producto_id } = formData;
+  const handleUploadDbImages = async (
+    imageUrl,
+    dataImages,
+    formData,
+    dataProducto
+  ) => {
+    const { id } = formData;
     const { maxProductoId } = dataImages;
+    console.log("id", id, "or", dataProducto.createProducto.id);
 
     try {
       await createImagenProducto(
@@ -107,20 +173,20 @@ const CargarProducto = ({ producto }) => {
           variables: {
             input: {
               path: imageUrl,
-              producto_id: producto_id || maxProductoId,
+              producto_id: await dataProducto.createProducto.id,
             },
           },
-        },
-        
-        console.log("success", producto_id, maxProductoId)
+        }
+
+        // console.log("success", producto_id, dataProducto.createProducto.id)
       );
     } catch (error) {
       console.error("Error in handleUploadDbImages:", error);
     }
   };
 
-  const handleImagesSubmit = async (e) => {
-    e.preventDefault();
+  const handleImagesSubmit = async (dataProducto) => {
+    // e.preventDefault();
 
     // if (
     //   !imagesFile["picture_1"] &&
@@ -131,14 +197,13 @@ const CargarProducto = ({ producto }) => {
     //   console.error(`not an image, please upload one`);
     //   return;
     // }
+    const { id: producto_id, titulo: producto_titulo } = formData;
+    const idProducto = producto_id || (await dataProducto.createProducto.id);
+    const tituloFixed = producto_titulo.split(" ").join("_");
+    // setProductoId(idProducto);
 
     for (let i = 1; i <= 4; i++) {
       if (imagesFile[`picture_${i}`]) {
-        const { id: producto_id, titulo: producto_titulo } = formData;
-        const tituloFixed = producto_titulo.split(" ").join("_");
-        const idProducto = producto_id
-        ? producto_id
-        : dataImages.maxProductoId + 1;
         const storageRef = ref(
           storage,
           `/images/products/${idProducto}:${tituloFixed}:image_${i}_${uuidv4()}`
@@ -146,27 +211,93 @@ const CargarProducto = ({ producto }) => {
         const uploadTask = uploadBytesResumable(
           storageRef,
           imagesFile[`picture_${i}`]
-          );
-          
-          try {
-            const snapshot = await uploadTask;
-            const progressFirebase =
+        );
+
+        try {
+          const snapshot = await uploadTask;
+          const progressFirebase =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            console.log(`Upload ${i} is ${progressFirebase}% done`);
-            const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-            console.log(`File ${i} available at`, downloadURL);
-            setProgress(prevProgress => prevProgress + 7 * i);
-            await handleUploadDbImages(downloadURL, dataImages, formData);
-          } catch (error) {
-            console.log(`Error uploading ${i}:`, error);
-          }
+          console.log(`Upload ${i} is ${progressFirebase}% done`);
+          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+          console.log(`File ${i} available at`, downloadURL);
+          setProgress((prevProgress) => prevProgress + 7 * i);
+          await handleUploadDbImages(
+            downloadURL,
+            dataImages,
+            formData,
+            dataProducto
+          );
+
+          setProgress(100);
+        } catch (error) {
+          console.log(`Error uploading ${i}:`, error);
+        }
       }
     }
   };
 
-  const handleAddProducto = (formData) => {
-    createProducto({
+  const handleImagesUpdate = async (dataProducto) => {
+    console.log("Submited succesfully");
+  //   const { id: producto_id, titulo: producto_titulo } = formData;
+  //   const idProducto = producto_id || (await dataProducto.createProducto.id);
+  //   const tituloFixed = producto_titulo.split(" ").join("_");
+  //   for (let i = 1; i <= 4; i++) {
+  //     if (imagesFile[`picture_${i}`]) {
+  //       const storageRef = ref(
+  //         storage,
+  //         `/images/products/${idProducto}:${tituloFixed}:image_${i}_${uuidv4()}`
+  //       );
+  //       const uploadTask = uploadBytesResumable(
+  //         storageRef,
+  //         imagesFile[`picture_${i}`]
+  //       );
+  //       try {
+  //         const snapshot = await uploadTask;
+  //         const progressFirebase =
+  //           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+  //         console.log(`Upload ${i} is ${progressFirebase}% done`);
+  //         const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+  //         console.log(`File ${i} available at`, downloadURL);
+  //         setProgress((prevProgress) => prevProgress + 7 * i);
+  //         await handleUploadDbImages(
+  //           downloadURL,
+  //           dataImages,
+  //           formData,
+  //           dataProducto
+  //         );
+  //         setProgress(100);
+  //       } catch (error) {
+  //         console.log(`Error uploading ${i}:`, error);
+  //       }
+  //     }
+  //   }
+  // };
+
+  // const handleCreateProducto = async (formData) => {
+  //   try {
+  //     await createProducto({
+  //       variables: {
+  //         input: {
+  //           titulo: formData.titulo,
+  //           descripcion: formData.descripcion,
+  //           stock: parseInt(formData.stock),
+  //           precio: parseFloat(formData.precio),
+  //           categoriaId: formData.subcategoriaId,
+  //         },
+  //       },
+  //     });
+  //     setProgress(45);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  };
+
+  // ! CONTINUAR UPDATE PRODUCTO
+
+  const handleUpdateProducto = async (formData) => {
+    await updateProducto({
       variables: {
+        id: parseInt(formData.id),
         input: {
           titulo: formData.titulo,
           descripcion: formData.descripcion,
@@ -187,7 +318,6 @@ const CargarProducto = ({ producto }) => {
       ["categoriaId"]: parseInt(categoryId),
     });
   }, [categoryId]);
-  
 
   useEffect(() => {
     setFormData({
@@ -232,19 +362,23 @@ const CargarProducto = ({ producto }) => {
   if (errorMaxId) return `No data! ${error.message}`;
 
   // if (loading || loadingImagenProducto) return <p>Submitting...</p>;
-  if (error || errorLoadingImagenProducto)
+  if (errorProducto || errorProductoActualizar || errorLoadingImagenProducto)
     return (
       <p>
-        Error: {error?.message}, {errorLoadingImagenProducto?.message}
+        Error: {errorProducto?.message}, {errorProductoActualizar?.message} ,
+        {errorLoadingImagenProducto?.message}
       </p>
     );
-  if (data && dataImagenProducto) console.log("Producto added successfully!");
+  if (dataProducto && dataImagenProducto)
+    console.log("Producto added successfully!", dataProducto);
+  if (dataProductoActualizar)
+    console.log("Product updated successfully!", dataProductoActualizar);
 
   return (
     <>
       <div className="bg-gradient min-h-screen py-12 flex justify-center flex-col md:flex-row">
         <h1 className="text-3xl md:text-4xl font-black mb-4 mx-4 uppercase text-center ml-20 md:ml-24 md:pt-12">
-          Cargar
+          {formData.id ? "Actualizar" : "Cargar"}
           <br /> productos
         </h1>
 
@@ -350,34 +484,40 @@ const CargarProducto = ({ producto }) => {
               className="bg-chineseBlack mt-5 mb-3 py-2 rounded-xl w-full"
               onClick={handleSubmit}
             >
-              Publicar
+              {producto?.id ? "Actualizar" : "Publicar"}
             </button>{" "}
             <div className="h-8">
-              {errorMessageForm !== "" && <ErrorMessageForm
-                message={errorMessageForm}
-              />}
+              {errorMessageForm !== "" && (
+                <ErrorMessageForm message={errorMessageForm} />
+              )}
             </div>
           </div>
         </form>
       </div>
-      {open && <Modal
-        open={open}
-        onClose={() => setOpen(false)}
-        producto_id={formData.producto_id || dataImages.maxProductoId}
-        progress={progress}
-      >
-        <div className="text-center md:w-72 md:mx-12 py-2 mx-4 w-72">
-          {/* <CheckCircle size={56} className="mx-auto text-green-500" /> */}
-          <div className="mx-auto my-4 w-72 ">
-            <h3 className="text-lg font-black text-gray-800">
-              ¡Producto cargado con exito!
-            </h3>
-            <p className="text-sm text-gray-500 pt-5">
-              ¿Desea seguir agregando productos o ver el producto cargado?
-            </p>
+      {open && (
+        <Modal
+          open={open}
+          onClose={() => setOpen(false)}
+          // producto_id={formData.producto_id || dataProducto.createProducto.id}
+          producto_id={productoId}
+          progress={progress}
+          word="producto"
+        >
+          <div className="text-center md:w-72 md:mx-12 py-2 mx-4 w-72">
+            {/* <CheckCircle size={56} className="mx-auto text-green-500" /> */}
+            <div className="mx-auto my-4 w-72 ">
+              <h3 className="text-lg font-black text-gray-800">
+                {producto?.id
+                  ? "¡Producto actualizado con exito!"
+                  : "¡Producto cargado con exito!"}
+              </h3>
+              <p className="text-sm text-gray-500 pt-5">
+                ¿Desea seguir agregando productos o ver el producto cargado?
+              </p>
+            </div>
           </div>
-        </div>
-      </Modal>}
+        </Modal>
+      )}
     </>
   );
 };

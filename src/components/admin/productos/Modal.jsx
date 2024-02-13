@@ -2,7 +2,7 @@ import { X } from "react-feather";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
-const Modal = ({ open, onClose, children, producto_id, progress }) => {
+const Modal = ({ open, onClose, children, producto_id, progress, word }) => {
   const router = useRouter();
   const handleClickAgregar = () => {
     router.reload("/admin/add_producto/nuevo");
@@ -32,7 +32,52 @@ const Modal = ({ open, onClose, children, producto_id, progress }) => {
 
   return (
     <>
-      {progress <= 99 && (
+      {progress === 0 && (
+        <div
+          onClick={onClose}
+          className={`fixed inset-0 flex justify-center items-center transition-colors ${
+            open ? "visible bg-black/30" : "invisible"
+          }`}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className={`bg-white rounded-xl shadow p-5 md:p-6 ml-14 md:mx-auto transition-all mx-auto ${
+              open
+                ? "scale-75 md:scale-100 opacity-100"
+                : "scale-125 opacity-0}"
+            }`}
+          >
+            <button
+              onClick={onClose}
+              className="absolute top-2 right-2 p-1 rounded-lg text-gray-400 bg-white hover:bg-gray-50 hover:text-gray-600"
+            >
+              <X />
+            </button>
+            <div className="text-center md:w-72 md:mx-12 py-2 mx-4 w-72">
+              <div className="mx-auto my-4 w-72 ">
+                <h3 className="text-lg font-black text-gray-800">
+                  ¡Se ha producido un error al cargar el {word}!
+                </h3>
+                <div className="flex mx-20 justify-between">
+                  {/* <p className="text-sm text-gray-500 pt-5">
+                    Error: 
+                  </p> */}
+                  {/* <p className="text-sm text-gray-500 pt-5">
+                    {progress}%
+                  </p> */}
+                </div>
+                <p className="text-sm text-gray-500 pt-5">
+                  Por favor intente nuevamente
+                </p>
+              </div>
+            </div>
+            <div className="flex justify-between">
+            </div>
+          </div>
+        </div>
+      )}
+
+      {progress >= 1 && progress <= 99 && (
         <div
           onClick={onClose}
           className={`fixed inset-0 flex justify-center items-center transition-colors ${
@@ -56,7 +101,7 @@ const Modal = ({ open, onClose, children, producto_id, progress }) => {
             <div className="text-center md:w-72 md:mx-12 py-2 mx-4 w-72">
               <div className="mx-auto my-4 w-72 ">
                 <h3 className="text-lg font-black text-gray-800">
-                  ¡Cargando producto...!
+                  ¡Cargando {word}...!
                 </h3>
                 <div className="flex mx-20 justify-between">
                   <p className="text-sm text-gray-500 pt-5">
@@ -122,7 +167,7 @@ const Modal = ({ open, onClose, children, producto_id, progress }) => {
                 className="text-white font-medium text-sm bg-indigo-600 border-2 border-indigo-600 hover:border-indigo-700 hover:bg-indigo-700 rounded-xl p-2 mx-3 transition-all duration-150"
                 onClick={handleClickVerProducto}
               >
-                Ver producto
+                Ver {word}
               </button>
             </div>
           </div>

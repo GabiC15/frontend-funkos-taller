@@ -5,6 +5,7 @@ export const ADD_PRODUCTO = gql`
     createProducto(
       input: $input
     ) {
+      id
       titulo
       descripcion
       stock
@@ -15,6 +16,25 @@ export const ADD_PRODUCTO = gql`
     }
   }
 `;
+
+export const UPDATE_PRODUCTO = gql`
+  mutation UpdateProducto($id: Int!, $input: ProductoInput!) {
+    updateProducto(
+      id: $id
+      input: $input
+    ) {
+      id
+      titulo
+      descripcion
+      stock
+      precio
+      categoria {
+        id
+      }
+    }
+  }
+`;
+
 
 
 export const ADD_IMAGES_PRODUCT = gql`

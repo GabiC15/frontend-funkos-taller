@@ -23,6 +23,7 @@ const data = {
 
 export default function Detalle({ funko }) {
   const [image, setImage] = useState(0);
+  console.log(funko);
 
   return (
     <>
@@ -36,7 +37,7 @@ export default function Detalle({ funko }) {
           </div>
           <div className="w-full md:w-96 h-min md:h-96 mt-3 md:mt-0 bg-black/20 rounded-md">
             <Image
-              src={funko.imagenes[image].path}
+              src={funko.imagenes[image].path || funko}
               width={0}
               height={0}
               sizes="100vw"
