@@ -14,6 +14,7 @@ const client = new ApolloClient({
 
 export const getClient = ({ req }) => {
   return new ApolloClient({
+    ssrMode: true,
     uri: process.env.NEXT_PUBLIC_BACKEND_URL,
     cache: new InMemoryCache(),
     credentials: "include",
