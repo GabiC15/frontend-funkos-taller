@@ -91,9 +91,9 @@ export default function Productos() {
                   <Loading />
                 </div>
               )}
-              {productos.length === 0 && (
+              {productos.length === 0 && !productosLoading && (
                 <div className="mx-auto mt-10">
-                  <p>No se encontraron funkos para esta busqueda</p>
+                  <p>No se encontraron funkos para esta búsqueda</p>
                 </div>
               )}
             </div>
