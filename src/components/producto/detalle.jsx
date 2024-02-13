@@ -28,6 +28,7 @@ import {
   CREATE_FAVORITO,
   DELETE_FAVORITO,
 } from "@/services/apollo/queries/favoritos";
+import { urlWithSize } from "@/utils/url-with-size";
 
 export default function Detalle({ funko }) {
   const router = useRouter();
@@ -75,12 +76,13 @@ export default function Detalle({ funko }) {
           </div>
           <div className="w-full md:w-96 h-min md:h-96 mt-3 md:mt-0 bg-black/20 rounded-md">
             <Image
-              src={funko.imagenes[image].path}
+              src={urlWithSize(funko.imagenes[image].path, 500, 500)}
               width={0}
               height={0}
-              sizes="100vw"
+              unoptimized
+              priority
               className="w-full drop-shadow-lg hover:scale-110 transition-transform rounded-md"
-              alt="Imagen Harry Poter"
+              alt={funko.titulo}
             />
           </div>
           <div className="flex gap-3 mt-3">
@@ -95,12 +97,14 @@ export default function Detalle({ funko }) {
                 onClick={() => setImage(i)}
               >
                 <Image
-                  src={img.path}
+                  src={urlWithSize(img.path, 100, 100)}
                   width={0}
                   height={0}
+                  unoptimized
+                  priority
                   sizes="100vw"
                   className="w-full drop-shadow-lg hover:scale-110 transition rounded-md"
-                  alt="Imagen Harry Poter"
+                  alt={funko.titulo}
                 />
               </div>
             ))}

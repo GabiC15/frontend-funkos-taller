@@ -13,6 +13,7 @@ export default function ItemCarrito({ itemCarrito }) {
             width={0}
             height={0}
             sizes="4.5rem"
+            unoptimized
             className="min-w-[4.5rem] drop-shadow-lg hover:scale-110 transition rounded-md"
             alt="Imagen Harry Poter"
           />

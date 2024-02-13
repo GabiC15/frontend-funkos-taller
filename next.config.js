@@ -6,6 +6,9 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "funko.com",
+        port: "",
+        pathname:
+          "/dw/image/v2/BGTS_PRD/on/demandware.static/-/Sites-funko-master-catalog/default/**",
       },
     ],
   },
