@@ -12,8 +12,8 @@ export default function Producto({ producto }) {
             src={producto.imagenes[0].path}
             width={0}
             height={0}
-            sizes="100vw"
             unoptimized
+            priority
             className="w-full md:w-36 mx-auto scale-[1.6] md:scale-[1.7] hover:scale-[1.87] transition-all drop-shadow-lg hover:drop-shadow-2xl"
             alt="Funko Star Wars"
           />
