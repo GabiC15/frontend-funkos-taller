@@ -76,8 +76,8 @@ export default function Detalle({ funko }) {
           <div className="w-full md:w-96 h-min md:h-96 mt-3 md:mt-0 bg-black/20 rounded-md">
             <Image
               src={funko.imagenes[image].path}
-              width={0}
-              height={0}
+              width={600}
+              height={600}
               sizes="100vw"
               className="w-full drop-shadow-lg hover:scale-110 transition-transform rounded-md"
               alt="Imagen Harry Poter"
@@ -96,8 +96,8 @@ export default function Detalle({ funko }) {
               >
                 <Image
                   src={img.path}
-                  width={0}
-                  height={0}
+                  width={75}
+                  height={75}
                   sizes="100vw"
                   className="w-full drop-shadow-lg hover:scale-110 transition rounded-md"
                   alt="Imagen Harry Poter"
