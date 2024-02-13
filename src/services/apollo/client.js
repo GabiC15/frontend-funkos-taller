@@ -7,14 +7,14 @@ import { loadErrorMessages, loadDevMessages } from "@apollo/client/dev";
 // }
 
 const client = new ApolloClient({
-  uri: "https://funkoplanet.online/graphql",
+  uri: process.env.NEXT_PUBLIC_BACKEND_URL,
   cache: new InMemoryCache(),
   credentials: "include",
 });
 
 export const getClient = ({ req }) => {
   return new ApolloClient({
-    uri: "https://funkoplanet.online/graphql",
+    uri: process.env.NEXT_PUBLIC_BACKEND_URL,
     cache: new InMemoryCache(),
     credentials: "include",
     headers: {
