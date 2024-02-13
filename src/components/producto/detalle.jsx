@@ -78,6 +78,7 @@ export default function Detalle({ funko }) {
               src={funko.imagenes[image].path}
               width={600}
               height={600}
+              unoptimized
               // sizes="100vw"
               className="w-full drop-shadow-lg hover:scale-110 transition-transform rounded-md"
               alt={funko.titulo}
@@ -98,6 +99,7 @@ export default function Detalle({ funko }) {
                   src={img.path}
                   width={75}
                   height={75}
+                  unoptimized
                   sizes="100vw"
                   className="w-full drop-shadow-lg hover:scale-110 transition rounded-md"
                   alt={funko.titulo}
