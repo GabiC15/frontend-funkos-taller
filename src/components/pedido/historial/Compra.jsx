@@ -24,7 +24,7 @@ export default function Compra() {
   return (
     <>
       <div className="bg-gradient">
-        <div className="max-w-screen-lg flex min-h-[70vh] mx-auto py-10 px-6 md:px-0">
+        <div className="max-w-screen-lg w-full flex min-h-[70vh] mx-auto py-10 px-6 md:px-0">
           {pedido ? (
             <div>
               <h2 className="text-2xl md:text-3xl font-bold">

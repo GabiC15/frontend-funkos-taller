@@ -78,7 +78,8 @@ export default function Detalle({ funko }) {
               src={funko.imagenes[image].path}
               width={600}
               height={600}
-              sizes="100vw"
+              // sizes="100vw"
+              priority
               className="w-full drop-shadow-lg hover:scale-110 transition-transform rounded-md"
               alt="Imagen Harry Poter"
             />
