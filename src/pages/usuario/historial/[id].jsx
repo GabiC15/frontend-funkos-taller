@@ -19,6 +19,11 @@ export async function getServerSideProps(context) {
     variables: {
       id: Number.parseInt(context.params.id),
     },
+    context: {
+      headers: {
+        cookie: context.req.headers.cookie,
+      },
+    },
   });
 
   return { props: { pedido: data.pedido } };
