@@ -28,6 +28,7 @@ import {
   CREATE_FAVORITO,
   DELETE_FAVORITO,
 } from "@/services/apollo/queries/favoritos";
+import { urlWithSize } from "@/utils/url-with-size";
 
 export default function Detalle({ funko }) {
   const router = useRouter();
@@ -75,7 +76,7 @@ export default function Detalle({ funko }) {
           </div>
           <div className="w-full md:w-96 h-min md:h-96 mt-3 md:mt-0 bg-black/20 rounded-md">
             <Image
-              src={`${funko.imagenes[image].path}?sw=500&sh=500`}
+              src={urlWithSize(funko.imagenes[image].path, 500, 500)}
               width={0}
               height={0}
               unoptimized
@@ -96,7 +97,7 @@ export default function Detalle({ funko }) {
                 onClick={() => setImage(i)}
               >
                 <Image
-                  src={`${img.path}?sw=100&sh=100`}
+                  src={urlWithSize(img.path, 100, 100)}
                   width={0}
                   height={0}
                   unoptimized

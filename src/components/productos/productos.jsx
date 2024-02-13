@@ -87,8 +87,13 @@ export default function Productos() {
                 </div>
               </InfiniteScroll>
               {productosLoading && (
-                <div className="mx-auto mt-16">
+                <div className="mx-auto mt-10">
                   <Loading />
+                </div>
+              )}
+              {productos.length === 0 && (
+                <div className="mx-auto mt-10">
+                  <p>No se encontraron funkos para esta busqueda</p>
                 </div>
               )}
             </div>
