@@ -19,7 +19,6 @@ export default function Compra() {
     },
   });
 
-  console.log(error);
   const pedido = pedidoData?.pedido;
   return (
     <>
@@ -34,7 +33,7 @@ export default function Compra() {
                 Fecha: {pedido.fecha} -{" "}
                 {!!pedido.pago
                   ? paymentStatus[pedido.pago.status]
-                  : "El pago ha sido cancelado por el usuario"}
+                  : "El pago está pendiente"}
               </p>
               <div className="flex flex-col md:flex-row justify-between mt-5">
                 <Info pedido={pedido} />

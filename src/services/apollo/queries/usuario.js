@@ -30,3 +30,9 @@ export const CREATE_USUARIO = gql`
     }
   }
 `;
+
+export const LOGOUT_USUARIO = gql`
+  mutation LogoutUsuario {
+    logout
+  }
+`;
