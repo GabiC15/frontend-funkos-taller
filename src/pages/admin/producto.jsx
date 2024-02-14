@@ -6,6 +6,7 @@ import CargarProducto from "@/components/admin/productos/CargarProducto";
 import { NetworkStatus, useQuery } from "@apollo/client";
 import { useEffect } from "react";
 import { GET_PRODUCTOS } from "@/services/apollo/queries/producto";
+import { redirectRol } from "@/utils/redirect-rol";
 
 const data = [
   {
@@ -69,15 +70,16 @@ const data = [
 ];
 
 export default function Producto() {
-
-  const { data, error, loading } = useQuery(GET_PRODUCTOS, {variables: { input: {}}});
+  const { data, error, loading } = useQuery(GET_PRODUCTOS, {
+    variables: { input: {} },
+  });
   useEffect(() => {
     // if (loading) return 'Loading...';
     // if (error) return `No data! ${error.message}`;
     // console.log(data);
   }, [data, error, loading]);
 
-  if (loading) return 'Loading...';
+  if (loading) return "Loading...";
   if (error) return `No data! ${error.message}`;
 
   return (
@@ -108,4 +110,11 @@ export default function Producto() {
       </Layout>
     </>
   );
+}
+
+export async function getServerSideProps(context) {
+  return {
+    props: {},
+    redirect: redirectRol(context, ["ADMIN"]),
+  };
 }

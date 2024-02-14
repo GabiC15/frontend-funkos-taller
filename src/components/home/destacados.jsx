@@ -35,6 +35,7 @@ export default function Destacados() {
             width={0}
             height={0}
             sizes="100vw"
+            priority
             className="w-56 md:w-80 mt-7 mx-auto md:my-auto"
             alt="Imagen Harry Poter"
           />

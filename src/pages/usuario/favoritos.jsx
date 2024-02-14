@@ -2,6 +2,7 @@ import Layout from "@/components/common/layout";
 import CardFavorito from "@/components/favoritos/CardFavorito";
 import Loading from "@/components/producto/loading";
 import { GET_FAVORITOS } from "@/services/apollo/queries/favoritos";
+import { redirectRol, RedirectUrl } from "@/utils/redirect-rol";
 import { useQuery } from "@apollo/client";
 
 export default function Favoritos() {
@@ -31,4 +32,11 @@ export default function Favoritos() {
       </Layout>
     </>
   );
+}
+
+export async function getServerSideProps(context) {
+  return {
+    props: {},
+    redirect: redirectRol(context, ["CLIENTE"]),
+  };
 }
