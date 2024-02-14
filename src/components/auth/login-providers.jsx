@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { authProviders } from "@/components/auth/helpers/auth-provider";
-import { faFacebook, faGoogle } from "@fortawesome/free-brands-svg-icons";
+import { faGithub, faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { errorCodesFirebase } from "@/errors/firebase";
 import { getApolloClient } from "./helpers/custom-client";
 import { LOGIN_USUARIO } from "@/services/apollo/queries/usuario";
@@ -56,7 +56,7 @@ export default function LoginProviders({ setError }) {
         <button onClick={onProvidersLogin}>
           <FontAwesomeIcon
             id="github"
-            icon={faFacebook}
+            icon={faGithub}
             size="xl"
             className="text-chineseBlack"
           />
