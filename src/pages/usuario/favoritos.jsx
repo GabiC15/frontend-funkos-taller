@@ -2,7 +2,7 @@ import Layout from "@/components/common/layout";
 import CardFavorito from "@/components/favoritos/CardFavorito";
 import Loading from "@/components/producto/loading";
 import { GET_FAVORITOS } from "@/services/apollo/queries/favoritos";
-import { redirectRol, RedirectUrl } from "@/utils/redirect-rol";
+import { redirectRol } from "@/utils/redirect-rol";
 import { useQuery } from "@apollo/client";
 
 export default function Favoritos() {

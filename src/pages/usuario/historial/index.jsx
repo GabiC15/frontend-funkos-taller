@@ -1,5 +1,6 @@
 import Layout from "@/components/common/layout";
 import CardFunkoHistorial from "@/components/historial-compras/CardFunkoHistorial";
+import { redirectRol } from "@/utils/redirect-rol";
 
 const compras = [
   [
