@@ -2,6 +2,8 @@ import {
   faCartShopping,
   faCircleUser,
   faHeart,
+  faRightFromBracket,
+  faRightToBracket,
 } from "@fortawesome/free-solid-svg-icons";
 import { useContext, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,12 +12,23 @@ import Link from "next/link";
 import Carrito from "@/components/common/Carrito";
 import { CarritoContext } from "@/components/providers/CarritoProvider";
 import { useRouter } from "next/router";
+import { UserContext } from "../providers/UserProvider";
+import { useMutation } from "@apollo/client";
+import { GET_USUARIO, LOGOUT_USUARIO } from "@/services/apollo/queries/usuario";
+import client from "@/services/apollo/client";
 
 export default function Navbar() {
   const router = useRouter();
   const [dropdown, setDropdown] = useState(false);
   const { showCarrito } = useContext(CarritoContext);
   const [search, setSearch] = useState();
+  const { user } = useContext(UserContext);
+
+  const [logout] = useMutation(LOGOUT_USUARIO, {
+    onCompleted: () => {
+      router.push("/auth/login");
+    },
+  });
 
   return (
     <>
@@ -84,11 +97,23 @@ export default function Navbar() {
                     className="my-auto"
                   />
                 </button>
-                <FontAwesomeIcon
-                  size="xl"
-                  icon={faCircleUser}
-                  className="my-auto"
-                />
+                {user ? (
+                  <button onClick={() => logout()}>
+                    <FontAwesomeIcon
+                      size="xl"
+                      icon={faRightFromBracket}
+                      className="my-auto"
+                    />
+                  </button>
+                ) : (
+                  <Link href="/auth/login">
+                    <FontAwesomeIcon
+                      size="xl"
+                      icon={faRightToBracket}
+                      className="my-auto"
+                    />
+                  </Link>
+                )}
               </div>
             </div>
             <button
@@ -159,12 +184,12 @@ export default function Navbar() {
                 </a>
               </li>
               <li>
-                <a
-                  href="#"
+                <Link
+                  href="/productos"
                   className="block py-2 px-3 text-white rounded md:hover:bg-transparent md:hover:text-blue-700 md:p-0"
                 >
-                  About
-                </a>
+                  Productos
+                </Link>
               </li>
               <li>
                 <a

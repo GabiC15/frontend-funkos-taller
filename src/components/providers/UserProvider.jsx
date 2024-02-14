@@ -5,17 +5,18 @@ import React, { createContext, useEffect, useState } from "react";
 export const UserContext = createContext();
 
 export default function UserProvider({ children }) {
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState();
   const { data, error } = useQuery(GET_USUARIO);
 
   useEffect(() => {
-    if (data) onUserChange(data.usuario);
+    if (data?.usuario) onUserChange(data.usuario);
+    else setUser();
   }, [data, error]);
 
   async function onUserChange(usuario) {
     setUser({
-      nombres: usuario?.nombres,
-      apellidos: usuario?.apellidos,
+      nombres: usuario.nombres,
+      apellidos: usuario.apellidos,
     });
   }
 
