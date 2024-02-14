@@ -7,6 +7,7 @@ import NotificationPanel from "@/components/admin/dashboard/NotificationPanel";
 import OrdersControl from "@/components/admin/dashboard/OrdersControl";
 import DoughnutChart from "@/components/admin/dashboard/partials/doughnutChart";
 import ChartTable from "@/components/admin/dashboard/ChartTable";
+import { redirectRol } from "@/utils/redirect-rol";
 
 export default function Reporte() {
   const dataSalesVolume = [
@@ -457,4 +458,11 @@ export default function Reporte() {
       </div>
     </>
   );
+}
+
+export async function getServerSideProps(context) {
+  return {
+    props: {},
+    redirect: redirectRol(context, ["ADMIN"]),
+  };
 }
