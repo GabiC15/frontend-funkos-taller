@@ -5,22 +5,19 @@ import { GET_ITEMS_MAS_VENDIDOS } from "@/services/apollo/queries/items-pedido";
 Chart.register(ArcElement, CategoryScale, Legend, Tooltip);
 
 const DoughnutChart = () => {
+  let sizeText = 18;
+  let cutoutSize = 70;
 
-  const {
-    data,
-    error,
-    loading,
-  } = useQuery(GET_ITEMS_MAS_VENDIDOS);
+  // Check if the screen size is in the `sm` breakpoint
+  if (window.matchMedia("(max-width: 639px)").matches) {
+    sizeText = 14;
+    cutoutSize = 30;
+  }
 
-  if (loading)
-    return "Loading...";
-  if (error
-  )
-    return `No data! ${
-      (error.message
-      )
-    }`;
+  const { data, error, loading } = useQuery(GET_ITEMS_MAS_VENDIDOS);
 
+  if (loading) return "Loading...";
+  if (error) return `No data! ${error.message}`;
 
   const dataDoughnut = {
     backgroundColor: [
@@ -29,7 +26,7 @@ const DoughnutChart = () => {
       "rgb(255, 199, 0)",
       "rgb(32, 214, 152)",
     ],
-    labels: data.itemsMasPedidos.map((item) => item.productoTitulo ),
+    labels: data.itemsMasPedidos.map((item) => item.productoTitulo),
     datasets: [
       {
         label: "Total vendidos:",
@@ -63,6 +60,7 @@ const DoughnutChart = () => {
         position: "top",
         align: "Start",
         labels: {
+          // boxHeight: 50,
           boxWidth: 17,
           usePointStyle: true,
           pointStyile: "circle",
@@ -73,7 +71,7 @@ const DoughnutChart = () => {
           display: true,
           color: "white",
           font: {
-            size: 18,
+            size: sizeText,
             weight: "bold",
           },
         },
@@ -85,7 +83,9 @@ const DoughnutChart = () => {
         borderWidth: 2,
       },
     },
-    cutout: 70,
+    cutout: cutoutSize,
+
+    resize: true,
   };
 
   return <Doughnut data={dataDoughnut} options={chartOptions} />;

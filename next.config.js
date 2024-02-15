@@ -2,13 +2,15 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
+    domains: ['funko.com'],
     remotePatterns: [
       {
-        protocol: "https",
-        hostname: "funko.com",
-        port: "",
-        pathname:
-          "/dw/image/v2/BGTS_PRD/on/demandware.static/-/Sites-funko-master-catalog/default/**",
+        protocol: 'https',
+        hostname: 'firebasestorage.googleapis.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'funko.com',
       },
     ],
   },

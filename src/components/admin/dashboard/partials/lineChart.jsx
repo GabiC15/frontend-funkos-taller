@@ -5,6 +5,15 @@ Chart.register(ArcElement, PointElement, LineElement);
 
 const LineChart = ({data}) => {
 
+
+  let sizeText = 18;
+
+  
+  // Check if the screen size is in the `sm` breakpoint
+  if (window.matchMedia('(max-width: 639px)').matches) {
+    sizeText = 14;
+  }
+
   const [chartData, setChartData] = useState({
     labels: data.map((data) => data.year),
     
@@ -36,7 +45,8 @@ const LineChart = ({data}) => {
         display: true,
         color: "white",
         font: {
-          size: 18,
+          size: sizeText,
+          weight: "bold",
         },
       },
       legend: {
