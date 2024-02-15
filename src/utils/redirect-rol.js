@@ -16,6 +16,6 @@ export const redirectRol = (context, roles) => {
   if (roles.includes(data.rol)) return;
 
   return {
-    destination: "/auth/not-authorized",
+    destination: "/",
   };
 };
