@@ -16,6 +16,12 @@ export default function Formulario() {
       .then(
         () => {
           console.log('SUCCESS!');
+          const f_name_input = document.getElementById("first_name")
+          f_name_input.value = ""
+          const  mail_input = document.getElementById("mail")
+          mail_input.value = ""
+          const  mensaje_input = document.getElementById("mensaje")
+          mensaje_input.value = ""
         },
         (error) => {
           console.log('FAILED...', error.text);
