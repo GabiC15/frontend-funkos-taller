@@ -11,7 +11,7 @@ import { uploadBytesResumable, getUploadTaskSnapshot } from "firebase/storage";
 import CargarImagenes from "./CargarImagenes";
 import { GET_MAX_PRODUCTO_ID } from "@/services/apollo/queries/producto";
 import { ADD_IMAGES_PRODUCT } from "@/services/apollo/mutations/carga_producto";
-import Modal from "./Modal";
+import Modal from "./ProgressModal";
 import ErrorMessageForm from "./ErrorMessageForm";
 import { v4 as uuidv4 } from "uuid";
 
@@ -99,7 +99,7 @@ const CargarProducto = ({ producto }) => {
       !formData.subcategoriaId
     ) {
       setErrorMessageForm(
-        "Por favor llene todos los campos antes de continuar"
+        "Por favor complete todos los campos antes de continuar"
       );
       return false;
     } else if (
@@ -272,24 +272,25 @@ const CargarProducto = ({ producto }) => {
   //     }
   //   }
   // };
+  };
 
-  // const handleCreateProducto = async (formData) => {
-  //   try {
-  //     await createProducto({
-  //       variables: {
-  //         input: {
-  //           titulo: formData.titulo,
-  //           descripcion: formData.descripcion,
-  //           stock: parseInt(formData.stock),
-  //           precio: parseFloat(formData.precio),
-  //           categoriaId: formData.subcategoriaId,
-  //         },
-  //       },
-  //     });
-  //     setProgress(45);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
+  const handleCreateProducto = async (formData) => {
+    try {
+      await createProducto({
+        variables: {
+          input: {
+            titulo: formData.titulo,
+            descripcion: formData.descripcion,
+            stock: parseInt(formData.stock),
+            precio: parseFloat(formData.precio),
+            categoriaId: formData.subcategoriaId,
+          },
+        },
+      });
+      setProgress(45);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   // ! CONTINUAR UPDATE PRODUCTO

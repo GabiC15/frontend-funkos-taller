@@ -2,14 +2,15 @@ import { X } from "react-feather";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
-const Modal = ({ open, onClose, children, producto_id, progress, word }) => {
+const ProgressModal = ({ open, onClose, children, id, progress, word, routeNew, routeView }) => {
   const router = useRouter();
   const handleClickAgregar = () => {
-    router.reload("/admin/add_producto/nuevo");
+    router.push(`${routeNew}`);
+    router.reload();
   };
 
   const handleClickVerProducto = (e) => {
-    router.push(`/productos/${producto_id}`);
+    router.push(`${routeNew, routeView}${id}`);
   };
 
   // const [progress, setProgress] = useState(35);
@@ -177,4 +178,4 @@ const Modal = ({ open, onClose, children, producto_id, progress, word }) => {
   );
 };
 
-export default Modal;
+export default ProgressModal;

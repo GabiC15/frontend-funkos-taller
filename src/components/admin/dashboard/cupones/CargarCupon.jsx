@@ -1,24 +1,35 @@
-import { useState, useEffect } from 'react';
-import Modal from '../../productos/Modal'
-import ErrorMessageForm from '../../productos/ErrorMessageForm'
+import { useState, useEffect } from "react";
+import { useMutation } from "@apollo/client";
+import { ADD_CUPON, UPDATE_CUPON } from "@/services/apollo/mutations/carga_cupon";
+import Modal from "../../productos/ProgressModal";
+import ErrorMessageForm from "../../productos/ErrorMessageForm";
 
-const CargarCupon = () => {
-
+const CargarCupon = ({ cupon }) => {
   //* nombre: String!
   //* porcentaje: Int!
   //* validoDesde: String!
   //* validoHasta: String!
 
   const [formData, setFormData] = useState({
-    nombre:"",
-    porcentaje: "",
-    validoDesde: "",
-    validoHasta: "",
+    nombre: cupon?.nombre,
+    porcentaje: cupon?.porcentaje,
+    validoDesde: cupon?.validoDesde,
+    validoHasta: cupon?.validoHasta,
   });
+
+  const [createCupon, { data, loading, error }] = useMutation(ADD_CUPON, {
+    onCompleted: (data) => {
+      console.log("dataCupon", data);
+      setIdCupon(data.createCupon.id);
+    },
+  });
+
+  const [updateCupon, { data: dataUpdate, loading: loadingUpdate, error: errorUpdate }] = useMutation(UPDATE_CUPON)
 
   const [open, setOpen] = useState(false);
   const [errorMessageForm, setErrorMessageForm] = useState("");
   const [progress, setProgress] = useState(1);
+  const [idCupon, setIdCupon] = useState(cupon?.id || 0);
 
   const handleChange = (e) => {
     setFormData({
@@ -27,19 +38,97 @@ const CargarCupon = () => {
     });
   };
 
+  const handleFormComplete = (e) => {
+    e.preventDefault();
+    if (
+      !formData.nombre ||
+      !formData.porcentaje ||
+      !formData.validoDesde ||
+      !formData.validoHasta
+    ) {
+      setErrorMessageForm(
+        "Por favor complete todos los campos antes de continuar"
+      );
+      return false;
+    }
+    return true;
+  };
+
+  const handleCreateCupon = async (formData) => {
+    try {
+      await createCupon({
+        variables: {
+          input: {
+            nombre: formData.nombre,
+            porcentaje: parseInt(formData.porcentaje),
+            validoDesde: formData.validoDesde,
+            validoHasta: formData.validoHasta,
+          },
+        },
+      });
+      setProgress(45);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleUpdateCupon = async (formData) => {
+    try {
+      await updateCupon({
+        variables: {
+          id: cupon?.id,
+          input: {
+            nombre: formData.nombre,
+            porcentaje: parseInt(formData.porcentaje),
+            validoDesde: formData.validoDesde,
+            validoHasta: formData.validoHasta,
+          },
+        },
+      });
+      setProgress(45);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const correct = handleFormComplete(e);
+    if (correct) {
+      try {
+        setProgress(32);
+        setOpen(true);
+        cupon?.id ? await handleUpdateCupon(formData) : await handleCreateCupon(formData);
+      } catch (error) {
+        console.log(error);
+        setProgress(0);
+      }
+      setProgress(100);
+    }
   };
+
+  useEffect(() => {
+    setTimeout(() => {
+      setErrorMessageForm("");
+    }, 8000);
+  }, [handleSubmit]);
 
   useEffect(() => {
     console.log("formData", formData);
   }, [formData]);
 
+  if (error) return <p>Error: {error.message}</p>;
+
+  if (data) {
+    console.log("Cupon added successfully!", data);
+  }
+
   return (
     <>
       <div className="bg-gradient min-h-screen py-12 flex justify-center flex-col md:flex-row">
         <h1 className="text-3xl md:text-4xl font-black mb-4 mx-4 uppercase text-center ml-20 md:ml-24 md:pt-12">
-          Cargar
+          {cupon?.id ? "Editar" : "Cargar"}
           <br /> cupón
         </h1>
 
@@ -137,36 +226,41 @@ const CargarCupon = () => {
               className="bg-chineseBlack mt-5 mb-3 py-2 rounded-xl w-full"
               onClick={handleSubmit}
             >
-              Publicar
+              {cupon?.id ? "Actualizar" : "Publicar"}
             </button>{" "}
             <div className="h-8">
-              {errorMessageForm !== "" && <ErrorMessageForm
-                message={errorMessageForm}
-              />}
+              {errorMessageForm !== "" && (
+                <ErrorMessageForm message={errorMessageForm} />
+              )}
             </div>
           </div>
         </form>
       </div>
-      {open && <Modal
-        open={open}
-        onClose={() => setOpen(false)}
-        producto_id={formData.producto_id || dataImages.maxProductoId}
-        progress={progress}
-        word="cupón"
-      >
-        <div className="text-center md:w-72 md:mx-12 py-2 mx-4 w-72">
-          {/* <CheckCircle size={56} className="mx-auto text-green-500" /> */}
-          <div className="mx-auto my-4 w-72 ">
-            <h3 className="text-lg font-black text-gray-800">
-              ¡Producto cargado con exito!
-            </h3>
-            <p className="text-sm text-gray-500 pt-5">
-              ¿Desea seguir agregando productos o ver el producto cargado?
-            </p>
+      {open && (
+        <Modal
+          open={open}
+          onClose={() => setOpen(false)}
+          id={idCupon}
+          progress={progress}
+          word="cupón"
+          routeNew="/admin/carga_cupon/nuevo"
+          routeView="/admin/cupones/"
+        >
+          <div className="text-center md:w-72 md:mx-12 py-2 mx-4 w-72">
+            {/* <CheckCircle size={56} className="mx-auto text-green-500" /> */}
+            <div className="mx-auto my-4 w-72 ">
+              <h3 className="text-lg font-black text-gray-800">
+                ¡Cupón {cupon?.id ? "actualizado" : "cargado"} con exito!
+              </h3>
+              <p className="text-sm text-gray-500 pt-5">
+                ¿Desea seguir agregando cupones o ver el cupón cargado?
+              </p>
+            </div>
           </div>
-        </div>
-      </Modal>}
+        </Modal>
+      )}
     </>
-)}
+  );
+};
 
-export default CargarCupon
+export default CargarCupon;

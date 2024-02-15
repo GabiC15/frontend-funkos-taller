@@ -113,7 +113,7 @@ const Sidebar = () => {
                   }`}
                 >
                   <Link
-                    href="/admin/productos"
+                    href="/admin/cupones"
                     className="block px-4 py-2 text-sm focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800"
                   >
                     Mostrar cupones

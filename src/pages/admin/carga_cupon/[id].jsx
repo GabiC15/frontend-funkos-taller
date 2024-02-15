@@ -1,32 +1,32 @@
 import Layout from "@/components/common/layout";
 import Sidebar from "@/components/common/sidebar";
 import client from "@/services/apollo/client";
-import { GET_PRODUCTO } from "@/services/apollo/queries/producto";
+import { GET_CUPON } from "@/services/apollo/queries/cupon";
 import CargarCupon from "@/components/admin/dashboard/cupones/CargarCupon";
 
 
-const add_producto = () => {
+const add_cupon = ({cupon}) => {
   return (
     <>
       <Layout>
         <Sidebar />
-        <CargarCupon />
+        <CargarCupon cupon={cupon} />
       </Layout>
     </>
   );
 };
 
-export default add_producto;
+export default add_cupon;
 
-// export async function getServerSideProps({ params }) {
-//   if (!isNaN(params.id)) {
-//     const { data } = await client.query({
-//       query: GET_PRODUCTO,
-//       variables: {
-//         id: Number.parseInt(params.id),
-//       },
-//     });
-//     return { props: { funko: data.producto } };
-//   }
-//   return { props: {} };
-// }
+export async function getServerSideProps({ params }) {
+  if (!isNaN(params.id)) {
+    const { data } = await client.query({
+      query: GET_CUPON,
+      variables: {
+        id: Number.parseInt(params.id),
+      },
+    });
+    return { props: { cupon: data.cupon } };
+  }
+  return { props: {} };
+}
