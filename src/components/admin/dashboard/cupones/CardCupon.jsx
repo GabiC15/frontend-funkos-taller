@@ -36,7 +36,7 @@ export default function CardCupon({ cupon }) {
   return (
     <>
       {/* <div className="bg-black/20 mt-2 p-4 flex flex-row rounded-[8px] justify-between mx-4 border-[1px] border-[#282828]"> */}
-      <div className="flex flex-row md:flex-col mx-4 md:mx-2">
+      <div className="flex flex-row md:flex-col mx-4 my-1 md:my-0 md:mx-2">
         {/* <div className="bg-white/20 px-6 md:h-32 md:p-6 rounded-[18px] flex items-center"> */}
         {/* <Image
               src={image}
