@@ -2,7 +2,7 @@ import Producto from "@/components/home/producto";
 import { GET_PRODUCTOS } from "@/services/apollo/queries/producto";
 import { useQuery } from "@apollo/client";
 
-export default function Relacionados({categoriaId}) {
+export default function Relacionados({ categoriaId }) {
   const { data, error, loading } = useQuery(GET_PRODUCTOS, {
     variables: {
       input: {
@@ -20,9 +20,16 @@ export default function Relacionados({categoriaId}) {
         </h3>
         <div className="grid grid-cols-2 md:flex gap-4 mt-6">
           {loading && "Cargando..."}
-          {data && data.productos.slice(0, 4).map((producto) => (
-            <Producto producto={producto} key={producto.id} />
-          ))}
+          {data &&
+            data.productos
+              .slice(0, 4)
+              .map((producto) => (
+                <Producto
+                  className="lg:w-52"
+                  producto={producto}
+                  key={producto.id}
+                />
+              ))}
         </div>
       </div>
     </>

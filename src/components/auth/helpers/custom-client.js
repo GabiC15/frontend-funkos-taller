@@ -1,12 +1,12 @@
 import { ApolloClient, InMemoryCache, createHttpLink } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 
-export const getApolloClient = async (userCredential) => {
+export const getApolloClient = async (userCredential, authId) => {
   const httpLink = createHttpLink({
-    uri: "http://localhost:4000/graphql",
+    uri: process.env.NEXT_PUBLIC_BACKEND_URL,
     credentials: "include",
   });
-  const token = await userCredential.user.getIdToken();
+  const token = authId || (await userCredential.user.getIdToken());
   const authLink = setContext((request, previousContext) => ({
     headers: { authorization: `Bearer ${token}` },
   }));

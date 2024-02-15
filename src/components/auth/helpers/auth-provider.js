@@ -6,11 +6,11 @@ import {
 } from "firebase/auth";
 
 export const authProviders = {
-  google: async () => {
+  google: () => {
     const googleProvider = new GoogleAuthProvider();
     return signInWithPopup(auth, googleProvider);
   },
-  github: async () => {
+  github: () => {
     const githubProvider = new GithubAuthProvider();
     return signInWithPopup(auth, githubProvider);
   },

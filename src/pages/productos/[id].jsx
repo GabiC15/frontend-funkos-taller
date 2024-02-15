@@ -28,5 +28,7 @@ export async function getServerSideProps({ params }) {
     },
   });
 
-  return { props: { funko: data.producto } };
+  return data?.producto
+    ? { props: { funko: data.producto } }
+    : { notFound: true };
 }

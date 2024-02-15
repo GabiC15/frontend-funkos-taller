@@ -2,14 +2,33 @@ import {
   faCartShopping,
   faCircleUser,
   faHeart,
+  faRightFromBracket,
+  faRightToBracket,
 } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import Link from "next/link";
+import Carrito from "@/components/common/Carrito";
+import { CarritoContext } from "@/components/providers/CarritoProvider";
+import { useRouter } from "next/router";
+import { UserContext } from "../providers/UserProvider";
+import { useMutation } from "@apollo/client";
+import { GET_USUARIO, LOGOUT_USUARIO } from "@/services/apollo/queries/usuario";
+import client from "@/services/apollo/client";
 
 export default function Navbar() {
+  const router = useRouter();
   const [dropdown, setDropdown] = useState(false);
+  const { showCarrito } = useContext(CarritoContext);
+  const [search, setSearch] = useState();
+  const { user } = useContext(UserContext);
+
+  const [logout] = useMutation(LOGOUT_USUARIO, {
+    onCompleted: () => {
+      router.push("/auth/login");
+    },
+  });
 
   return (
     <>
@@ -49,24 +68,52 @@ export default function Navbar() {
                   <span className="sr-only">Search icon</span>
                 </div>
                 <input
-                  type="text"
-                  id="search-navbar"
-                  className="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+                  type="search"
+                  id="search-navbar-1"
+                  className="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
                   placeholder="Search..."
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key == "Enter")
+                      return router.push("/productos", {
+                        query: { busqueda: e.target.value },
+                      });
+                  }}
                 />
               </div>
-              <div className="md:flex flex-row md:order-3 gap-8 hidden">
-                <FontAwesomeIcon size="xl" icon={faHeart} className="my-auto" />
-                <FontAwesomeIcon
-                  size="xl"
-                  icon={faCartShopping}
-                  className="my-auto"
-                />
-                <FontAwesomeIcon
-                  size="xl"
-                  icon={faCircleUser}
-                  className="my-auto"
-                />
+              <div className="md:flex flex-row md:order-3 items-center gap-8 hidden">
+                <Link href="/usuario/favoritos">
+                  <FontAwesomeIcon
+                    size="xl"
+                    icon={faHeart}
+                    className="my-auto"
+                  />
+                </Link>
+                <button onClick={() => showCarrito(true)}>
+                  <FontAwesomeIcon
+                    size="xl"
+                    icon={faCartShopping}
+                    className="my-auto"
+                  />
+                </button>
+                {user ? (
+                  <button onClick={() => logout()}>
+                    <FontAwesomeIcon
+                      size="xl"
+                      icon={faRightFromBracket}
+                      className="my-auto"
+                    />
+                  </button>
+                ) : (
+                  <Link href="/auth/login">
+                    <FontAwesomeIcon
+                      size="xl"
+                      icon={faRightToBracket}
+                      className="my-auto"
+                    />
+                  </Link>
+                )}
               </div>
             </div>
             <button
@@ -121,7 +168,7 @@ export default function Navbar() {
               </div>
               <input
                 type="text"
-                id="search-navbar"
+                id="search-navbar-2"
                 className="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Search..."
               />
@@ -137,12 +184,12 @@ export default function Navbar() {
                 </a>
               </li>
               <li>
-                <a
-                  href="#"
+                <Link
+                  href="/productos"
                   className="block py-2 px-3 text-white rounded md:hover:bg-transparent md:hover:text-blue-700 md:p-0"
                 >
-                  About
-                </a>
+                  Productos
+                </Link>
               </li>
               <li>
                 <a
@@ -155,6 +202,8 @@ export default function Navbar() {
             </ul>
           </div>
         </div>
+
+        <Carrito />
       </nav>
     </>
   );

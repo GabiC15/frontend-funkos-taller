@@ -1,4 +1,5 @@
 import Layout from "@/components/common/layout";
+import { redirectRol } from "@/utils/redirect-rol";
 import { useRouter } from "next/router";
 
 export default function Producto() {
@@ -9,4 +10,11 @@ export default function Producto() {
       <Layout>Producto: {router.query.id}</Layout>
     </>
   );
+}
+
+export async function getServerSideProps(context) {
+  return {
+    props: {},
+    redirect: redirectRol(context, ["ADMIN"]),
+  };
 }
