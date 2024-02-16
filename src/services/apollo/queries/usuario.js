@@ -35,6 +35,9 @@ export const CREATE_USUARIO = gql`
       nombres
       apellidos
       email
+      rol {
+        nombre
+      }
     }
   }
 `;
