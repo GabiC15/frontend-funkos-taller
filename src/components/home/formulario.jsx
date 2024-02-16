@@ -1,9 +1,11 @@
-import {useRef} from 'react'
+import {useRef, useState} from 'react'
 import emailjs from '@emailjs/browser';
 import Image from "next/image";
+import ConsultaAlert from './consultaAlert';
 
 export default function Formulario() {
 
+  const [showAlert, setShowAlert] = useState(true);
   const form = useRef();
 
   const sendEmail = (e) => {
@@ -13,8 +15,10 @@ export default function Formulario() {
       .sendForm('service_dy531ev', 'template_ly7ksjg', form.current, {
         publicKey: 'snHso6b8EsjFJe8G7',
       })
+
       .then(
         () => {
+          setShowAlert(true);
           console.log('SUCCESS!');
           const f_name_input = document.getElementById("first_name")
           f_name_input.value = ""
@@ -22,18 +26,20 @@ export default function Formulario() {
           mail_input.value = ""
           const  mensaje_input = document.getElementById("mensaje")
           mensaje_input.value = ""
+          
         },
         (error) => {
           console.log('FAILED...', error.text);
         },
       );
+
   };
 
   return (
     <>
       <div className="bg-[url(/home/formulario-bg.png)] bg-cover w-full">
         <div className="container mx-auto flex flex-col md:flex-row justify-center items-center md:items-between py-12 md:py-20 px-4 md:px-0 gap-10 md:gap-40">
-          <form ref={form} onSubmit={sendEmail}>
+          <form ref={form} onSubmit={sendEmail} id='contacto'>
             <div className="flex flex-col w-full md:w-[30rem]">
               <h4 className="text-xl font-bold">ESCRIBENOS POR CONSULTAS!</h4>
               <label
@@ -46,7 +52,7 @@ export default function Formulario() {
                 type="text"
                 id="first_name"
                 name='first_name'
-                className="bg-transparent border-2 border-white text-white text-sm rounded-lg focus:ring-white block w-full p-2.5"
+                className="bg-transparent border-2 border-white text-white placeholder:text-slate-300 text-sm rounded-lg focus:ring-white block w-full p-2.5"
                 placeholder="Ingrese su nombre"
                 required
               />
@@ -60,7 +66,7 @@ export default function Formulario() {
                 type="text"
                 id="mail"
                 name='mail'
-                className="bg-transparent border-2 border-white text-white text-sm rounded-lg focus:ring-white block w-full p-2.5"
+                className="bg-transparent border-2 border-white text-white placeholder:text-slate-300 text-sm rounded-lg focus:ring-white block w-full p-2.5"
                 placeholder="Ingrese su email"
                 required
               />
@@ -75,7 +81,7 @@ export default function Formulario() {
                 name='mensaje'
                 rows="5"
                 cols="33"
-                className="bg-transparent border-2 border-white text-white text-sm rounded-lg focus:ring-white block w-full p-2.5 max-h-36"
+                className="bg-transparent border-2 border-white text-white placeholder:text-slate-300 text-sm rounded-lg focus:ring-white block w-full p-2.5 max-h-36"
                 placeholder="Ingrese su consulta"
                 required
               ></textarea>
@@ -95,8 +101,12 @@ export default function Formulario() {
             className="w-2/3 md:w-1/4 my-auto -order-1 md:order-1 drop-shadow-lg"
             alt="Funko Star Wars"
           />
+        
         </div>
+        <ConsultaAlert showAlert={showAlert} setShowAlert={setShowAlert}/>
       </div>
+      
+
     </>
   );
 }
