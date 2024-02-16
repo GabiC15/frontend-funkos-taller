@@ -45,7 +45,7 @@ export default function LoginProviders({ setError }) {
 
   return (
     <>
-      <div className="flex gap-6 mt-3">
+      <div className="flex gap-6 mt-3 justify-center">
         <button>
           <FontAwesomeIcon
             onClick={onProvidersLogin}
