@@ -22,7 +22,7 @@ export default function PedidosSection() {
               <CardFunkoHistorial compra={compra} key={i} />
             ))}
             {pedidosData?.pedidos.length === 0 && (
-              <p>No hay comrpas disponibles</p>
+              <p>No hay compras disponibles</p>
             )}
           </div>
         </div>
