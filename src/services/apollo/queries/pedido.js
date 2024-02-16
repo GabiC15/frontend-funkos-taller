@@ -39,6 +39,49 @@ export const GET_PEDIDO = gql`
   }
 `;
 
+export const GET_PEDIDOS = gql`
+  query GetPedidos {
+    pedidos {
+      id
+      fecha
+      usuario {
+        nombres
+        apellidos
+      }
+      pago {
+        id
+        monto
+        status
+      }
+      cupon {
+        nombre
+        porcentaje
+      }
+      envio {
+        codigoPostal
+        provincia {
+          nombre
+        }
+        ciudad
+        direccion
+        costo
+      }
+      itemsPedido {
+        id
+        cantidad
+        precioProducto
+        producto {
+          id
+          titulo
+          imagenes {
+            path
+          }
+        }
+      }
+    }
+  }
+`;
+
 export const CREATE_PEDIDO = gql`
   mutation CreatePedido($input: PedidoInput!) {
     createPedido(input: $input) {

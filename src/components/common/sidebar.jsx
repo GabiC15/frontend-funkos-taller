@@ -134,7 +134,6 @@ const Sidebar = () => {
                   <span className="hidden md:block px-2 py-0.5 ml-auto text-xs font-medium tracking-wide text-blue-500 bg-indigo-50 rounded-full">
                     Nuevo
                   </span>
-                  
                 </a>
               </li>
               {/* <li>

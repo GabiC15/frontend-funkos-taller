@@ -1,4 +1,4 @@
-import Producto from "@/components/home/producto";
+import Producto from "@/components/home/Producto";
 import Sidebar from "@/components/productos/sidebar";
 import Loading from "../producto/loading";
 import InfiniteScroll from "react-infinite-scroll-component";

@@ -1,4 +1,4 @@
-import Producto from "@/components/home/producto";
+import Producto from "@/components/home/Producto";
 import Link from "next/link";
 
 export default function Recientes({ funkos }) {
@@ -18,7 +18,7 @@ export default function Recientes({ funkos }) {
             ))}
           </div>
           <Link
-            href=""
+            href="/productos"
             className="bg-chineseBlack my-10 py-2 px-14 rounded-full hover:bg-white/20 transition-colors"
           >
             <p className="text-lg font-semibold">Ver todos los productos</p>

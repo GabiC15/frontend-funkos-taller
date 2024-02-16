@@ -1,10 +1,13 @@
+import PedidosSection from "@/components/admin/pedidos/Pedidos";
 import Layout from "@/components/common/layout";
 import { redirectRol } from "@/utils/redirect-rol";
 
 export default function Pedidos() {
   return (
     <>
-      <Layout>Pedidos</Layout>
+      <Layout>
+        <PedidosSection />
+      </Layout>
     </>
   );
 }

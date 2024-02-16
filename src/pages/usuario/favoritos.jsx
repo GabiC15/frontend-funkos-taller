@@ -12,19 +12,21 @@ export default function Favoritos() {
     <>
       <Layout>
         <div className="bg-gradient min-h-screen">
-          <div className="container mx-auto flex flex-col">
-            <h1 className="text-3xl md:text-4xl font-black mt-12 mb-4 mx-4 uppercase">
+          <div className="container max-w-5xl mx-auto flex flex-col px-4">
+            <h1 className="text-3xl md:text-4xl font-black mt-14 mb-3 uppercase">
               Favoritos
             </h1>
-            <div className="grid grid-cols-1 gap-1 md:gap-5 mb-16">
-              {!loading ? (
-                data.favoritos.map((favorito, i) => (
-                  <CardFavorito favorito={favorito} key={favorito.id} />
-                ))
-              ) : (
+            <div className="grid grid-cols-1 gap-1 md:gap-2 mb-16">
+              {loading && (
                 <div className="mx-auto">
                   <Loading />
                 </div>
+              )}
+              {data?.favoritos.map((favorito, i) => (
+                <CardFavorito favorito={favorito} key={favorito.id} />
+              ))}
+              {data?.favoritos.length === 0 && (
+                <p>No se han encontrado favoritos</p>
               )}
             </div>
           </div>

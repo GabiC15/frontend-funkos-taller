@@ -16,9 +16,11 @@ import { getApolloClient } from "@/components/auth/helpers/custom-client";
 import LoginProviders from "@/components/auth/login-providers";
 import Alert from "@/components/auth/alert";
 import Loading from "../producto/loading";
+import { useSearchParams } from "next/navigation";
 
 export default function Login() {
   const router = useRouter();
+  const params = useSearchParams();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { onUserChange } = useContext(UserContext);
@@ -52,7 +54,7 @@ export default function Login() {
       return;
     }
 
-    router.push("/");
+    router.push(params.get("redirectTo") ?? "/");
   }
 
   async function onLogin(userCredential) {
