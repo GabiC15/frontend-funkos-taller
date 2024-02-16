@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { faFacebook, faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { CREATE_USUARIO } from "@/services/apollo/queries/usuario";
@@ -182,7 +183,16 @@ export default function Register() {
         </button>
       </form>
 
-      <div className="border-b border-chineseBlack w-full my-6"></div>
+      <p className="text-black text-xs mt-3 text-center">Ya tengo cuenta.
+        <Link
+          href="/auth/login"
+          className="ml-1 text-[#0000FF]"
+        >
+         Iniciar sesion
+        </Link>
+      </p>
+
+      <div className="border-b border-chineseBlack w-full my-4"></div>
 
       {!authId && (
         <div>
