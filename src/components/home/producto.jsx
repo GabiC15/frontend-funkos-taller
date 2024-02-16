@@ -10,7 +10,7 @@ export default function Producto({ producto, className }) {
       <div
         className={`bg-black/20 lg:w-[14.5rem] h-[23.5rem] md:h-[25rem] flex flex-col text-start items-start p-4 border-[1px] border-[#282828] rounded-[18px] shadow-sm ${className}`}
       >
-        <div className="bg-white/20 w-full md:h-[11.5rem] rounded-[18px] py-8 px-6 md:px-10">
+        <div className="bg-white/20 w-full md:h-[11.5rem] rounded-[18px] py-8 px-6 md:px-10 overflow-hidden">
           <Image
             src={urlWithSize(producto.imagenes[0].path, 250, 250)}
             width={0}

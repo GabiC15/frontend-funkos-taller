@@ -6,6 +6,10 @@ export const LOGIN_USUARIO = gql`
       id
       nombres
       apellidos
+      email
+      rol {
+        nombre
+      }
     }
   }
 `;
@@ -16,6 +20,10 @@ export const GET_USUARIO = gql`
       id
       nombres
       apellidos
+      email
+      rol {
+        nombre
+      }
     }
   }
 `;

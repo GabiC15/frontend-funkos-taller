@@ -29,12 +29,14 @@ import {
   DELETE_FAVORITO,
 } from "@/services/apollo/queries/favoritos";
 import { urlWithSize } from "@/utils/url-with-size";
+import { UserContext } from "../providers/UserProvider";
 
 export default function Detalle({ funko }) {
   const router = useRouter();
   const [image, setImage] = useState(0);
   const [cantidad, setCantidad] = useState(1);
   const { showCarrito } = useContext(CarritoContext);
+  const { user } = useContext(UserContext);
 
   const { data, refetch } = useQuery(GET_LINEA_CARRITO, {
     variables: { productoId: funko.id },
@@ -69,12 +71,9 @@ export default function Detalle({ funko }) {
       <div className="container mx-auto flex flex-col md:flex-row justify-center gap-8">
         <div className="flex flex-col px-4 md:px-0">
           <div className="md:hidden">
-            <Breadcrumb
-              fandom={funko.categoria.padre.nombre}
-              license={funko.categoria.nombre}
-            />
+            <Breadcrumb producto={funko} />
           </div>
-          <div className="w-full md:w-96 h-min md:h-96 mt-3 md:mt-0 bg-black/20 rounded-md">
+          <div className="w-full md:w-96 h-min md:h-96 mt-3 md:mt-0 bg-black/20 rounded-md overflow-hidden">
             <Image
               src={urlWithSize(funko.imagenes[image].path, 500, 500)}
               width={0}
@@ -113,10 +112,7 @@ export default function Detalle({ funko }) {
 
         <div className="flex flex-col w-full md:w-[26rem] px-4 md:px-0">
           <div className="hidden md:block">
-            <Breadcrumb
-              fandom={funko.categoria.padre.nombre}
-              license={funko.categoria.nombre}
-            />
+            <Breadcrumb producto={funko} />
           </div>
 
           <h1 className="text-2xl md:text-3xl font-black uppercase md:mt-2">
@@ -149,83 +145,103 @@ export default function Detalle({ funko }) {
 
           <div className="flex items-center gap-4 mt-5">
             <h3 className="text-3xl font-bold">${funko.precio}</h3>
-            <button
-              onClick={
-                favoritoData?.favorito
-                  ? () =>
-                      deleteFavorito({ variables: { productoId: funko.id } })
-                  : () =>
-                      createFavorito({ variables: { productoId: funko.id } })
-              }
-            >
-              <FontAwesomeIcon
-                icon={favoritoData?.favorito ? faHeartSolid : faHeartRegular}
-                className={`text-3xl ${
-                  favoritoData?.favorito ? "text-red-500" : "text-gray-400"
-                }`}
-              />
-            </button>
-          </div>
-
-          <div className="flex gap-2 mt-5">
-            {!data?.lineaCarrito && (
-              <div className="bg-black/20 flex items-center rounded-lg">
-                <button
-                  onClick={
-                    cantidad > 1 ? () => setCantidad(cantidad - 1) : () => {}
-                  }
-                >
-                  <FontAwesomeIcon
-                    className="text-white text-lg mt-1 px-1.5"
-                    icon={faMinus}
-                  />
-                </button>
-                <div className="h-full flex items-center bg-chineseBlack px-4 rounded-lg">
-                  <p className="text-lg">{cantidad}</p>
-                </div>
-                <button
-                  onClick={
-                    cantidad < 9 ? () => setCantidad(cantidad + 1) : () => {}
-                  }
-                >
-                  <FontAwesomeIcon
-                    className="text-white text-lg mt-1 px-1.5"
-                    icon={faPlus}
-                  />
-                </button>
-              </div>
+            {user?.rol !== "ADMIN" && (
+              <button
+                onClick={() =>
+                  user
+                    ? favoritoData?.favorito
+                      ? deleteFavorito({
+                          variables: { productoId: funko.id },
+                        })
+                      : createFavorito({
+                          variables: { productoId: funko.id },
+                        })
+                    : router.push("/auth/login", {
+                        query: {
+                          redirectTo: `/productos/${funko.id}`,
+                        },
+                      })
+                }
+              >
+                <FontAwesomeIcon
+                  icon={favoritoData?.favorito ? faHeartSolid : faHeartRegular}
+                  className={`text-3xl ${
+                    favoritoData?.favorito ? "text-red-500" : "text-gray-400"
+                  }`}
+                />
+              </button>
             )}
-            <button
-              className="w-full h-10 bg-chineseBlack rounded-lg flex items-center justify-center"
-              onClick={() =>
-                data?.lineaCarrito
-                  ? deleteLineaCarrito({ variables: { productoId: funko.id } })
-                  : addLineaCarrito({
-                      variables: {
-                        input: { cantidad, productoId: funko.id },
-                      },
-                    })
-              }
-            >
-              {!loadingCreate &&
-                !loadingDelete &&
-                (data?.lineaCarrito
-                  ? "Quitar del carrito"
-                  : "Agregar al carrito")}
-
-              {(loadingCreate || loadingDelete) && <Loading />}
-            </button>
-
-            <button
-              className="min-w-[3rem] bg-chineseBlack rounded-lg"
-              onClick={() => router.push("/usuario/pedido")}
-            >
-              <FontAwesomeIcon
-                icon={faShoppingCart}
-                className="text-white text-xl mt-1"
-              />
-            </button>
           </div>
+
+          {user?.rol !== "ADMIN" && (
+            <div className="flex gap-2 mt-5">
+              {!data?.lineaCarrito && (
+                <div className="bg-black/20 flex items-center rounded-lg">
+                  <button
+                    onClick={
+                      cantidad > 1 ? () => setCantidad(cantidad - 1) : () => {}
+                    }
+                  >
+                    <FontAwesomeIcon
+                      className="text-white text-lg mt-1 px-1.5"
+                      icon={faMinus}
+                    />
+                  </button>
+                  <div className="h-full flex items-center bg-chineseBlack px-4 rounded-lg">
+                    <p className="text-lg">{cantidad}</p>
+                  </div>
+                  <button
+                    onClick={
+                      cantidad < 9 ? () => setCantidad(cantidad + 1) : () => {}
+                    }
+                  >
+                    <FontAwesomeIcon
+                      className="text-white text-lg mt-1 px-1.5"
+                      icon={faPlus}
+                    />
+                  </button>
+                </div>
+              )}
+              <button
+                className="w-full h-10 bg-chineseBlack rounded-lg flex items-center justify-center"
+                onClick={() =>
+                  user
+                    ? data?.lineaCarrito
+                      ? deleteLineaCarrito({
+                          variables: { productoId: funko.id },
+                        })
+                      : addLineaCarrito({
+                          variables: {
+                            input: { cantidad, productoId: funko.id },
+                          },
+                        })
+                    : router.push("/auth/login", {
+                        query: {
+                          redirectTo: `/productos/${funko.id}`,
+                        },
+                      })
+                }
+              >
+                {!loadingCreate &&
+                  !loadingDelete &&
+                  (data?.lineaCarrito
+                    ? "Quitar del carrito"
+                    : "Agregar al carrito")}
+
+                {(loadingCreate || loadingDelete) && <Loading />}
+              </button>
+
+              <button
+                className="min-w-[3rem] bg-chineseBlack rounded-lg"
+                onClick={() => router.push("/usuario/pedido")}
+              >
+                <FontAwesomeIcon
+                  icon={faShoppingCart}
+                  className="text-white text-xl mt-1"
+                />
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </>

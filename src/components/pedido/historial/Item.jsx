@@ -32,11 +32,7 @@ export default function Item({ item, aprobado }) {
                 className=" bg-black/20 min-w-[1.75rem] h-7 pr-0.5 rounded-lg"
                 onClick={() => setOpenDialog(true)}
               >
-                <FontAwesomeIcon
-                  icon={faComment}
-                  size="md"
-                  className="text-white ml-1"
-                />
+                <FontAwesomeIcon icon={faComment} className="text-white ml-1" />
               </button>
             )}
           </div>

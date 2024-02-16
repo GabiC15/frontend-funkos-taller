@@ -1,21 +1,17 @@
-import {
-  faCartShopping,
-  faCircleUser,
-  faHeart,
-  faRightFromBracket,
-  faRightToBracket,
-} from "@fortawesome/free-solid-svg-icons";
-import { useContext, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import Link from "next/link";
 import Carrito from "@/components/common/Carrito";
+import { useContext, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { CarritoContext } from "@/components/providers/CarritoProvider";
 import { useRouter } from "next/router";
 import { UserContext } from "../providers/UserProvider";
-import { useMutation } from "@apollo/client";
-import { GET_USUARIO, LOGOUT_USUARIO } from "@/services/apollo/queries/usuario";
-import client from "@/services/apollo/client";
+import {
+  faCartShopping,
+  faHeart,
+  faScrewdriverWrench,
+} from "@fortawesome/free-solid-svg-icons";
+import UserNavbar from "./UserNavbar";
 
 export default function Navbar() {
   const router = useRouter();
@@ -24,15 +20,9 @@ export default function Navbar() {
   const [search, setSearch] = useState();
   const { user } = useContext(UserContext);
 
-  const [logout] = useMutation(LOGOUT_USUARIO, {
-    onCompleted: () => {
-      router.push("/auth/login");
-    },
-  });
-
   return (
     <>
-      <nav className="bg-chineseBlack border-gray-200">
+      <nav className="bg-chineseBlack border-gray-200 px-2">
         <div className="max-w-screen-2xl flex flex-wrap items-center justify-between mx-auto p-4">
           <Link
             href="/"
@@ -83,37 +73,36 @@ export default function Navbar() {
                 />
               </div>
               <div className="md:flex flex-row md:order-3 items-center gap-8 hidden">
-                <Link href="/usuario/favoritos">
-                  <FontAwesomeIcon
-                    size="xl"
-                    icon={faHeart}
-                    className="my-auto"
-                  />
-                </Link>
-                <button onClick={() => showCarrito(true)}>
-                  <FontAwesomeIcon
-                    size="xl"
-                    icon={faCartShopping}
-                    className="my-auto"
-                  />
-                </button>
-                {user ? (
-                  <button onClick={() => logout()}>
+                {user?.rol === "CLIENTE" && (
+                  <Link href="/usuario/favoritos">
                     <FontAwesomeIcon
                       size="xl"
-                      icon={faRightFromBracket}
-                      className="my-auto"
-                    />
-                  </button>
-                ) : (
-                  <Link href="/auth/login">
-                    <FontAwesomeIcon
-                      size="xl"
-                      icon={faRightToBracket}
+                      icon={faHeart}
                       className="my-auto"
                     />
                   </Link>
                 )}
+                {user?.rol === "ADMIN" && (
+                  <Link href="/admin/reportes">
+                    <FontAwesomeIcon
+                      size="xl"
+                      icon={faScrewdriverWrench}
+                      className="my-auto"
+                    />
+                  </Link>
+                )}
+
+                {user?.rol === "CLIENTE" && (
+                  <button onClick={() => showCarrito(true)}>
+                    <FontAwesomeIcon
+                      size="xl"
+                      icon={faCartShopping}
+                      className="my-auto"
+                    />
+                  </button>
+                )}
+
+                <UserNavbar />
               </div>
             </div>
             <button
@@ -175,13 +164,13 @@ export default function Navbar() {
             </div>
             <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0">
               <li>
-                <a
-                  href="#"
+                <Link
+                  href="/"
                   className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:p-0"
                   aria-current="page"
                 >
                   Home
-                </a>
+                </Link>
               </li>
               <li>
                 <Link
@@ -192,12 +181,12 @@ export default function Navbar() {
                 </Link>
               </li>
               <li>
-                <a
-                  href="#"
+                <Link
+                  href="/#contacto"
                   className="block py-2 px-3 text-white rounded md:hover:bg-transparent md:hover:text-blue-700 md:p-0"
                 >
-                  Services
-                </a>
+                  Contacto
+                </Link>
               </li>
             </ul>
           </div>

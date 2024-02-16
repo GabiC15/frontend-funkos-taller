@@ -13,15 +13,21 @@ export default function UserProvider({ children }) {
     else setUser();
   }, [data, error]);
 
-  async function onUserChange(usuario) {
+  function onUserChange(usuario) {
     setUser({
       nombres: usuario.nombres,
       apellidos: usuario.apellidos,
+      email: usuario.email,
+      rol: usuario.rol.nombre,
     });
   }
 
+  function logout() {
+    setUser();
+  }
+
   return (
-    <UserContext.Provider value={{ user, onUserChange }}>
+    <UserContext.Provider value={{ user, onUserChange, logout }}>
       {children}
     </UserContext.Provider>
   );

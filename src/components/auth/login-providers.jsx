@@ -7,9 +7,11 @@ import { LOGIN_USUARIO } from "@/services/apollo/queries/usuario";
 import { useRouter } from "next/router";
 import { UserContext } from "../providers/UserProvider";
 import { useContext } from "react";
+import { useSearchParams } from "next/navigation";
 
 export default function LoginProviders({ setError }) {
   const router = useRouter();
+  const params = useSearchParams();
   const { onUserChange } = useContext(UserContext);
 
   async function onProvidersLogin(event) {
@@ -37,7 +39,7 @@ export default function LoginProviders({ setError }) {
       });
     } else {
       onUserChange(data.login);
-      router.push("/");
+      router.push(params.get("redirectTo") ?? "/");
     }
   }
 

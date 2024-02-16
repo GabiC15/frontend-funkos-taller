@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { CarritoContext } from "@/components/providers/CarritoProvider";
 import ItemCarrito from "@/components/common/ItemCarrito";
 import { useMutation, useQuery } from "@apollo/client";
@@ -14,6 +14,7 @@ import { faX } from "@fortawesome/free-solid-svg-icons";
 
 export default function Carrito() {
   const { show, showCarrito } = useContext(CarritoContext);
+  const carritoRef = useRef(null);
 
   const { data } = useQuery(GET_LINEAS_CARRITO);
   const [deleteLineasCarrito, { loading: deleteLineasLoading }] = useMutation(
@@ -23,10 +24,24 @@ export default function Carrito() {
     }
   );
 
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  function handleClickOutside(event) {
+    if (carritoRef.current && !carritoRef.current.contains(event.target)) {
+      showCarrito(false);
+    }
+  }
+
   return (
     <>
       <div
         id="drawer-navigation"
+        ref={carritoRef}
         className={`flex flex-col fixed top-0 right-0 z-40 w-full md:w-80 h-screen p-6 overflow-y-auto transition-transform bg-chineseBlack ${
           show ? "+" : ""
         }translate-x-full`}
