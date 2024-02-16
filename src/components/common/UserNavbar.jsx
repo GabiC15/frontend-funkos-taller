@@ -5,6 +5,7 @@ import { UserContext } from "../providers/UserProvider";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/router";
 import {
+  faHistory,
   faRightFromBracket,
   faRightToBracket,
   faUserCircle,
@@ -19,6 +20,7 @@ export default function UserNavbar() {
 
   const [logout] = useMutation(LOGOUT_USUARIO, {
     onCompleted: () => {
+      setShow(false);
       logoutContext();
       router.push("/auth/login");
     },
@@ -56,7 +58,7 @@ export default function UserNavbar() {
           }`}
         >
           {user && (
-            <div className="px-4 py-3 text-sm text-gray-900 dark:text-white">
+            <div className="px-4 py-3 text-sm text-white">
               <div>
                 {user.nombres} {user.apellidos}
               </div>
@@ -92,6 +94,21 @@ export default function UserNavbar() {
             </a>
           </li>
         </ul> */}
+          {user?.rol === "CLIENTE" && (
+            <div className="px-4 py-2">
+              <Link
+                href="/usuario/historial"
+                className="flex justify-between w-full"
+              >
+                <p className="text-sm">Pedidos</p>
+                <FontAwesomeIcon
+                  size="sm"
+                  icon={faHistory}
+                  className="my-auto"
+                />
+              </Link>
+            </div>
+          )}
           <div className="px-4 py-2">
             {user ? (
               <button
