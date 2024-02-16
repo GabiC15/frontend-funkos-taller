@@ -6,7 +6,7 @@ import { urlWithSize } from "@/utils/url-with-size";
 
 export default function Producto({ producto, className }) {
   return (
-    <Link href={`productos/${producto.id}`}>
+    <Link href={`/productos/${producto.id}`}>
       <div
         className={`bg-black/20 lg:w-[14.5rem] h-[23.5rem] md:h-[25rem] flex flex-col text-start items-start p-4 border-[1px] border-[#282828] rounded-[18px] shadow-sm ${className}`}
       >

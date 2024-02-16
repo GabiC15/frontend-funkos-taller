@@ -1,4 +1,4 @@
-import Producto from "@/components/home/Producto";
+import Producto from "@/components/home/producto";
 import Link from "next/link";
 
 export default function Recientes({ funkos }) {
