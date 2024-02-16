@@ -4,16 +4,16 @@ export const GET_TOTAL_PRODUCTOS = gql`
   query {
     totalProductos
   }
-  `;
+`;
 
 export const GET_PRODUCTOS = gql`
   query GetProductos($input: ProductoQueryInput) {
     productos(input: $input) {
-      id,
-      titulo,
-      descripcion,
-      precio,
-      stock,      
+      id
+      titulo
+      descripcion
+      precio
+      stock
       imagenes {
         path
       }
@@ -46,6 +46,14 @@ export const GET_PRODUCTO = gql`
           nombre
         }
       }
+    }
+  }
+`;
+
+export const GET_MAX_PRODUCTO_ID = gql`
+  query GetMaxProductoId {
+    maxProductoId {
+      maxId
     }
   }
 `;

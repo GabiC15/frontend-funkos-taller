@@ -2,7 +2,7 @@ import Image from "next/image";
 import { BiSolidEditAlt } from "react-icons/bi";
 import { useRouter } from "next/router";
 
-export default function CardFavorito({ producto }) {
+export default function CardProducto({ producto }) {
   const { imagenes, titulo, descripcion, precio } = producto;
   const image = imagenes[0].path;
   const router = useRouter();
@@ -60,7 +60,7 @@ export default function CardFavorito({ producto }) {
           <button
             className="h-7"
             onClick={() => {
-              router.push(`/admin/add_producto/${producto.id}`);
+              router.push(`/admin/carga_producto/${producto.id}`);
             }}
           >
             <BiSolidEditAlt className="w-full h-full" />

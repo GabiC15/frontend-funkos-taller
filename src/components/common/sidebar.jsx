@@ -2,10 +2,14 @@ import { useState } from "react";
 import { FiShoppingCart } from "react-icons/fi";
 import { GrDeliver } from "react-icons/gr";
 import { LuLogOut } from "react-icons/lu";
-
+import { MdOutlineLocalOffer } from "react-icons/md";
+import { useRouter } from "next/router";
+import Link from "next/link";
 const Sidebar = () => {
-  const [showSubcategories, setShowSubcategories] = useState(false);
-
+  const [showSubcategoriesProducto, setShowSubcategoriesProducto] =
+    useState(false);
+  const [showSubcategoriesCupon, setShowSubcategoriesCupon] = useState(false);
+  const router = useRouter();
   return (
     <>
       <div className="flex flex-col flex-auto flex-shrink-0 mr-50 antialiased bg-white dark:bg-gray-700 text-black dark:text-white">
@@ -21,8 +25,8 @@ const Sidebar = () => {
                 </div>
               </li>
               <li>
-                <a
-                  href="#"
+                <Link
+                  href="/admin/reportes"
                   className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6"
                 >
                   <span className="inline-flex justify-center items-center ml-3">
@@ -44,7 +48,7 @@ const Sidebar = () => {
                   <span className="ml-2 text-sm tracking-wide truncate">
                     Dashboard
                   </span>
-                </a>
+                </Link>
               </li>
               {/* <li>
                 <a
@@ -59,12 +63,11 @@ const Sidebar = () => {
               </li> */}
               <li
                 className="group relative"
-                onClick={() => setShowSubcategories(!showSubcategories)}
+                onClick={() =>
+                  setShowSubcategoriesProducto(!showSubcategoriesProducto)
+                }
               >
-                <a
-                  href="#"
-                  className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6"
-                >
+                <a className="relative cursor-pointer flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6">
                   <span className="inline-flex justify-center items-center ml-3">
                     <FiShoppingCart className="w-5 h-5" />
                   </span>
@@ -74,26 +77,66 @@ const Sidebar = () => {
                 </a>
                 <div
                   className={`relative z-10 pb-2 bg-gray-800/30 w-full shadow-lg rounded mt-1 ${
-                    showSubcategories ? "block" : "hidden"
+                    showSubcategoriesProducto ? "block" : "hidden"
                   }`}
                 >
-                  <a
-                    href="#"
+                  <Link
+                    href="/admin/productos"
                     className="block px-4 py-2 text-sm focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800"
                   >
                     Mostrar productos
-                  </a>
-                  <a
-                    href="#"
+                  </Link>
+                  <Link
+                    href="/admin/carga_producto/nuevo"
                     className="block px-4 py-2 text-sm focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800"
                   >
                     Agregar productos
-                  </a>
+                  </Link>
+                </div>
+              </li>
+              <li
+                className="group relative"
+                onClick={() =>
+                  setShowSubcategoriesCupon(!showSubcategoriesCupon)
+                }
+              >
+                <a className="relative cursor-pointer flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6">
+                  <span className="inline-flex justify-center items-center ml-3">
+                    <MdOutlineLocalOffer className="w-5 h-5" />
+                  </span>
+                  <span className="ml-2 text-sm tracking-wide truncate">
+                    Cupones
+                  </span>
+                </a>
+                <div
+                  className={`relative z-10 pb-2 bg-gray-800/30 w-full shadow-lg rounded mt-1 ${
+                    showSubcategoriesCupon ? "block" : "hidden"
+                  }`}
+                >
+                  <Link
+                    href="/admin/cupones"
+                    className="block px-4 py-2 text-sm focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800"
+                  >
+                    Mostrar cupones
+                  </Link>
+                  <Link
+                    href="/admin/carga_cupon/nuevo"
+                    className="block px-4 py-2 text-sm focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800"
+                  >
+                    Agregar cupones
+                  </Link>
+                </div>
+              </li>
+              <li className="px-5 hidden md:block">
+                <div className="flex flex-row items-center h-8">
+                  <div className="text-sm font-light tracking-wide text-gray-400 uppercase">
+                    Notificaciones
+                  </div>
                 </div>
               </li>
               <li>
-                <a
-                  href="#"
+                <Link
+                  href="/admin/reportes"
                   className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6"
                 >
                   <span className="inline-flex justify-center items-center ml-3">
@@ -105,11 +148,11 @@ const Sidebar = () => {
                   <span className="hidden md:block px-2 py-0.5 ml-auto text-xs font-medium tracking-wide text-red-500 bg-red-50 rounded-full">
                     1.2k
                   </span>
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="#"
+                <Link
+                  href="/admin/reportes"
                   className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6"
                 >
                   <span className="inline-flex justify-center items-center ml-3">
@@ -134,7 +177,7 @@ const Sidebar = () => {
                   <span className="hidden md:block px-2 py-0.5 ml-auto text-xs font-medium tracking-wide text-blue-500 bg-indigo-50 rounded-full">
                     Nuevo
                   </span>
-                </a>
+                </Link>
               </li>
               {/* <li>
                 <a

@@ -20,7 +20,6 @@ export default add_producto;
 
 export async function getServerSideProps({ params }) {
   if (!isNaN(params.id)) {
-    console.log("asdasdsa");
     const { data } = await client.query({
       query: GET_PRODUCTO,
       variables: {
