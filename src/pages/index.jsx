@@ -2,7 +2,7 @@ import Layout from "@/components/common/layout";
 import Destacados from "@/components/home/destacados";
 import Faq from "@/components/home/faq";
 import Formulario from "@/components/home/formulario";
-import Recientes from "@/components/home/Recientes";
+import Recientes from "@/components/home/recientes";
 import { getClient } from "@/services/apollo/client";
 import { GET_PRODUCTOS } from "@/services/apollo/queries/producto";
 
