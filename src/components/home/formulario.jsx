@@ -5,7 +5,7 @@ import ConsultaAlert from './consultaAlert';
 
 export default function Formulario() {
 
-  const [showAlert, setShowAlert] = useState(true);
+  const [showAlert, setShowAlert] = useState(false);
   const form = useRef();
 
   const sendEmail = (e) => {
