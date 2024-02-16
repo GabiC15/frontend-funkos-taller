@@ -1,4 +1,4 @@
-import Producto from "@/components/home/Producto";
+import Producto from "@/components/home/producto";
 import { GET_PRODUCTOS } from "@/services/apollo/queries/producto";
 import { useQuery } from "@apollo/client";
 
