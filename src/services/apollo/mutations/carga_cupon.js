@@ -15,13 +15,11 @@ export const ADD_CUPON = gql`
 `;
 
 export const UPDATE_CUPON = gql`
-  mutation UpdateCupon($id: Int!, $input: CuponInput!) {
+  mutation UpdateCupon($id: Int!, $input: CuponUpdateInput!) {
     updateCupon(
       id: $id
       input: $input
-    ) {
-      nombre
-    }
+    )
   }
 `;
 

@@ -18,7 +18,7 @@ export default function Producto() {
   
   if (loading) return 'Loading...';
   if (error) return `No data! ${error.message}`;
-  // if (data) console.log(data.cupones);
+  if (data) console.log(data.cupones);
 
   return (
     <>
@@ -38,7 +38,7 @@ export default function Producto() {
                     <span className="md:text-md text-sm mx-5">Agregar producto</span>
                   </button>
                 </div> */}
-                {data.cupones.map((cupon, i) => (
+                {data.cupones.filter((cupon) => cupon.estado === true).map((cupon, i) => (
                   <CardCupon cupon={cupon} key={cupon["id"]} />
                 ))}
               </div>

@@ -10,7 +10,7 @@ const ProgressModal = ({ open, onClose, children, id, progress, word, routeNew, 
   };
 
   const handleClickVerProducto = (e) => {
-    router.push(`${routeNew, routeView}${id}`);
+    router.push(`${routeNew, routeView}`);
   };
 
   // const [progress, setProgress] = useState(35);
@@ -168,7 +168,7 @@ const ProgressModal = ({ open, onClose, children, id, progress, word, routeNew, 
                 className="text-white font-medium text-sm bg-indigo-600 border-2 border-indigo-600 hover:border-indigo-700 hover:bg-indigo-700 rounded-xl p-2 mx-3 transition-all duration-150"
                 onClick={handleClickVerProducto}
               >
-                Ver {word}
+                Ver {word === "cupón" ? "cupones" : word}
               </button>
             </div>
           </div>

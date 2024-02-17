@@ -1,15 +1,14 @@
 import { useState, useEffect } from "react";
 import { useMutation } from "@apollo/client";
-import { ADD_CUPON, UPDATE_CUPON } from "@/services/apollo/mutations/carga_cupon";
+import {
+  ADD_CUPON,
+  UPDATE_CUPON,
+} from "@/services/apollo/mutations/carga_cupon";
+import { GET_CUPONES } from "@/services/apollo/queries/cupon";
 import Modal from "../../productos/ProgressModal";
 import ErrorMessageForm from "../../productos/ErrorMessageForm";
 
 const CargarCupon = ({ cupon }) => {
-  //* nombre: String!
-  //* porcentaje: Int!
-  //* validoDesde: String!
-  //* validoHasta: String!
-
   const [formData, setFormData] = useState({
     nombre: cupon?.nombre,
     porcentaje: cupon?.porcentaje,
@@ -22,9 +21,17 @@ const CargarCupon = ({ cupon }) => {
       console.log("dataCupon", data);
       setIdCupon(data.createCupon.id);
     },
+    refetchQueries: [{ query: GET_CUPONES }],
   });
 
-  const [updateCupon, { data: dataUpdate, loading: loadingUpdate, error: errorUpdate }] = useMutation(UPDATE_CUPON)
+  const [
+    updateCupon,
+    { data: dataUpdate, loading: loadingUpdate, error: errorUpdate },
+  ] = useMutation(UPDATE_CUPON, { refetchQueries: [{ query: GET_CUPONES }] });
+
+  if (errorUpdate) {
+    console.log(errorUpdate);
+  }
 
   const [open, setOpen] = useState(false);
   const [errorMessageForm, setErrorMessageForm] = useState("");
@@ -99,12 +106,14 @@ const CargarCupon = ({ cupon }) => {
       try {
         setProgress(32);
         setOpen(true);
-        cupon?.id ? await handleUpdateCupon(formData) : await handleCreateCupon(formData);
+        cupon?.id
+          ? await handleUpdateCupon(formData)
+          : await handleCreateCupon(formData);
+        setProgress(100);
       } catch (error) {
         console.log(error);
         setProgress(0);
       }
-      setProgress(100);
     }
   };
 

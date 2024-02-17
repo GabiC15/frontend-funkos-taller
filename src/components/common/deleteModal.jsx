@@ -5,8 +5,9 @@ import { useEffect, useState } from "react";
 const DeleteModal = ({ open, onClose, children, isDeleted, yesFunction }) => {
   const router = useRouter();
   const handleReload = () => {
-    router.reload();
-  }
+    // router.reload();
+    onClose
+  };
 
   return (
     <>
@@ -39,7 +40,10 @@ const DeleteModal = ({ open, onClose, children, isDeleted, yesFunction }) => {
               >
                 Eliminar
               </button>
-              <button className="text-white font-medium text-sm bg-indigo-600 border-2 border-indigo-600 hover:border-indigo-700 hover:bg-indigo-700 rounded-xl p-2 mx-3 transition-all duration-150">
+              <button
+                className="text-white font-medium text-sm bg-indigo-600 border-2 border-indigo-600 hover:border-indigo-700 hover:bg-indigo-700 rounded-xl p-2 mx-3 transition-all duration-150"
+                onClick={onClose}
+              >
                 Cancelar
               </button>
             </div>
@@ -76,9 +80,9 @@ const DeleteModal = ({ open, onClose, children, isDeleted, yesFunction }) => {
               >
                 Ok
               </button> */}
-              <button 
-              className="text-white font-medium text-sm bg-indigo-600 border-2 border-indigo-600 hover:border-indigo-700 hover:bg-indigo-700 rounded-xl p-3 mx-3 transition-all duration-150"
-              onClick={handleReload}
+              <button
+                className="text-white font-medium text-sm bg-indigo-600 border-2 border-indigo-600 hover:border-indigo-700 hover:bg-indigo-700 rounded-xl p-3 mx-3 transition-all duration-150"
+                onClick={onClose}
               >
                 Ok
               </button>
