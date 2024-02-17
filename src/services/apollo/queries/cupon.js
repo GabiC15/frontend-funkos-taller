@@ -8,6 +8,7 @@ export const GET_CUPON_POR_NOMBRE = gql`
       porcentaje
       validoDesde
       validoHasta
+      estado
     }
   }
 `;
@@ -20,6 +21,7 @@ export const GET_CUPONES = gql`
       porcentaje
       validoDesde
       validoHasta
+      estado
     }
   }
 `;
@@ -32,6 +34,7 @@ export const GET_CUPON = gql`
       porcentaje
       validoDesde
       validoHasta
+      estado
     }
   }
 `;
