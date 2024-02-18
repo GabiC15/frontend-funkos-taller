@@ -9,14 +9,16 @@ import {
   GET_CATEGORIAS,
   GET_SUBCATEGORIAS,
 } from "@/services/apollo/queries/categoria";
+import { GET_CARACTERISTICAS } from "@/services/apollo/queries/caracteristica";
 
 export default function Sidebar() {
   const [showSidebar, setShowSidebar] = useState(false);
   const router = useRouter();
   const params = useSearchParams();
 
+  const { data: caracteristicasData, error } = useQuery(GET_CARACTERISTICAS);
   const { data: categoriasData } = useQuery(GET_CATEGORIAS);
-  const [getSubcategorias, { data: subCategoriasData, error }] =
+  const [getSubcategorias, { data: subCategoriasData }] =
     useLazyQuery(GET_SUBCATEGORIAS);
 
   const sideNavRef = useRef(null);
@@ -163,14 +165,37 @@ export default function Sidebar() {
                 }}
               />
             </li>
-            {/* <li className="mt-10">
-              <p>Valoración</p>
-              <RadioButton key={1} groupKey={3} title="1 estrella" />
-              <RadioButton key={2} groupKey={3} title="2 estrellas" />
-              <RadioButton key={3} groupKey={3} title="3 estrellas" />
-              <RadioButton key={4} groupKey={3} title="4 estrellas" />
-              <RadioButton key={5} groupKey={3} title="5 estrellas" />
-            </li> */}
+            <li className="mt-10">
+              <div className="flex justify-between items-center">
+                <p>Característica</p>
+                {params.get("caracteristica") && (
+                  <button
+                    className="text-xs font-light"
+                    onClick={() => setParam([["caracteristica"]])}
+                  >
+                    Quitar
+                  </button>
+                )}
+              </div>
+              <div className="max-h-[14rem] overflow-y-auto side-scrollbar">
+                <RadioButton
+                  key={0}
+                  groupKey={4}
+                  title="Todas las características"
+                  checked={!params.get("caracteristica")}
+                  onClick={() => setParam([["caracteristica"]])}
+                />
+                {caracteristicasData?.caracteristicas.map((car, i) => (
+                  <RadioButton
+                    key={i}
+                    groupKey={4}
+                    title={car.nombre}
+                    checked={car.id == params.get("caracteristica")}
+                    onClick={() => setParam([["caracteristica", car.id]])}
+                  />
+                ))}
+              </div>
+            </li>
             <li className="mt-10">
               <div className="flex justify-between items-center">
                 <p>Fandom</p>
@@ -186,7 +211,7 @@ export default function Sidebar() {
               <div className="max-h-[14rem] overflow-y-auto side-scrollbar">
                 <RadioButton
                   key={0}
-                  groupKey={4}
+                  groupKey={5}
                   title="Todos los fandoms"
                   checked={!params.get("categoria")}
                   onClick={() => setParam([["categoria"], ["subcategoria"]])}
@@ -194,7 +219,7 @@ export default function Sidebar() {
                 {categoriasData?.categorias.map((cat, i) => (
                   <RadioButton
                     key={i}
-                    groupKey={4}
+                    groupKey={5}
                     title={cat.nombre}
                     checked={cat.id == params.get("categoria")}
                     onClick={() =>
@@ -220,7 +245,7 @@ export default function Sidebar() {
                 <div className="max-h-[14rem] overflow-y-auto side-scrollbar">
                   <RadioButton
                     key={0}
-                    groupKey={5}
+                    groupKey={6}
                     title="Todas las licencias"
                     checked={!params.get("subcategoria")}
                     onClick={() => setParam([["subcategoria"]])}
@@ -228,7 +253,7 @@ export default function Sidebar() {
                   {subCategoriasData?.subcategorias.map((cat, i) => (
                     <RadioButton
                       key={i}
-                      groupKey={5}
+                      groupKey={6}
                       title={cat.nombre}
                       checked={cat.id == params.get("subcategoria")}
                       onClick={() => setParam([["subcategoria", cat.id]])}

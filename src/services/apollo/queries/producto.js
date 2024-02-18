@@ -35,6 +35,9 @@ export const GET_PRODUCTO = gql`
       descripcion
       stock
       precio
+      caracteristica {
+        nombre
+      }
       imagenes {
         path
       }
