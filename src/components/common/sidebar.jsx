@@ -246,14 +246,12 @@ const Sidebar = () => {
                       ></path>
                     </svg>
                   </span>
-                  <div>
-                    <p className="ml-2 text-sm tracking-wide truncate leading-tight">
-                      {user.nombres} {user.apellidos}
-                    </p>
-                    <p className="ml-2 text-xs tracking-wide truncate leading-tight">
-                      {user.email}
-                    </p>
-                  </div>
+                  {/* <p className="ml-2 text-sm tracking-wide truncate leading-tight">
+                    {user?.nombres} {user?.apellidos}
+                  </p> */}
+                  <p className="ml-2 text-xs tracking-wide truncate leading-tight">
+                    {user?.email}
+                  </p>
                 </a>
               </li>
               {/* <li>
@@ -289,7 +287,7 @@ const Sidebar = () => {
                 </a>
               </li> */}
               <li className="md:hidden">
-                <button
+                <a
                   onClick={() => logout()}
                   className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6"
                 >
@@ -299,7 +297,7 @@ const Sidebar = () => {
                   <span className="ml-2 text-sm tracking-wide truncate">
                     Cerrar sesión
                   </span>
-                </button>
+                </a>
               </li>
             </ul>
             <button

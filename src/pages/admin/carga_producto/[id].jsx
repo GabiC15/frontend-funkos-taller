@@ -18,7 +18,9 @@ const add_producto = ({ funko }) => {
 
 export default add_producto;
 
-export async function getServerSideProps({ params }) {
+export async function getServerSideProps(context) {
+  const { params } = context;
+  const redirect = redirectRol(context, ["ADMIN"]);
   if (!isNaN(params.id)) {
     const { data } = await client.query({
       query: GET_PRODUCTO,
@@ -28,8 +30,8 @@ export async function getServerSideProps({ params }) {
     });
     return {
       props: { funko: data.producto },
-      redirect: redirectRol(context, ["ADMIN"]),
+      redirect,
     };
   }
-  return { props: {} };
+  return { props: {}, redirect };
 }

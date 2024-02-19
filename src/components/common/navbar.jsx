@@ -12,17 +12,33 @@ import {
   faScrewdriverWrench,
 } from "@fortawesome/free-solid-svg-icons";
 import UserNavbar from "./UserNavbar";
+import { useMutation } from "@apollo/client";
+import { LOGOUT_USUARIO } from "@/services/apollo/queries/usuario";
 
 export default function Navbar() {
   const router = useRouter();
   const [dropdown, setDropdown] = useState(false);
   const { showCarrito } = useContext(CarritoContext);
   const [search, setSearch] = useState();
-  const { user } = useContext(UserContext);
+  const { user, logout: logoutContext } = useContext(UserContext);
+
+  const [logout] = useMutation(LOGOUT_USUARIO, {
+    onCompleted: () => {
+      setDropdown(false);
+      logoutContext();
+      router.push("/auth/login");
+    },
+  });
+
+  const getClassNameByPage = (pathname) => {
+    return `block py-2 px-3 text-white rounded md:hover:bg-transparent md:hover:text-blue-700 md:p-0 ${
+      router.pathname === pathname ? "bg-palatinateBlue md:bg-transparent" : ""
+    }`;
+  };
 
   return (
     <>
-      <nav className="bg-chineseBlack border-gray-200 px-2">
+      <nav className="relative bg-chineseBlack border-gray-200 px-2 z-40">
         <div className="max-w-screen-2xl flex flex-wrap items-center justify-between mx-auto p-4">
           <Link
             href="/"
@@ -166,7 +182,7 @@ export default function Navbar() {
               <li>
                 <Link
                   href="/"
-                  className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:p-0"
+                  className={getClassNameByPage("/")}
                   aria-current="page"
                 >
                   Home
@@ -175,7 +191,7 @@ export default function Navbar() {
               <li>
                 <Link
                   href="/productos"
-                  className="block py-2 px-3 text-white rounded md:hover:bg-transparent md:hover:text-blue-700 md:p-0"
+                  className={getClassNameByPage("/productos")}
                 >
                   Productos
                 </Link>
@@ -183,10 +199,70 @@ export default function Navbar() {
               <li>
                 <Link
                   href="/#contacto"
-                  className="block py-2 px-3 text-white rounded md:hover:bg-transparent md:hover:text-blue-700 md:p-0"
+                  className={getClassNameByPage("/#contacto")}
                 >
                   Contacto
                 </Link>
+              </li>
+              <li className="md:hidden">
+                <div className="w-full h-[1px] bg-white my-2"></div>
+              </li>
+              {user?.rol === "ADMIN" && (
+                <li className="md:hidden">
+                  <Link
+                    href="/admin/reportes"
+                    className={getClassNameByPage("/admin/reportes")}
+                  >
+                    Administración
+                  </Link>
+                </li>
+              )}
+              {user?.rol === "CLIENTE" && (
+                <li className="md:hidden">
+                  <button
+                    onClick={() => showCarrito(true)}
+                    className={getClassNameByPage("/carrito")}
+                  >
+                    Carrito
+                  </button>
+                </li>
+              )}
+              {user?.rol === "CLIENTE" && (
+                <li className="md:hidden">
+                  <Link
+                    href="/usuario/historial"
+                    className={getClassNameByPage("/usuario/historial")}
+                  >
+                    Compras
+                  </Link>
+                </li>
+              )}
+              {user?.rol === "CLIENTE" && (
+                <li className="md:hidden">
+                  <Link
+                    href="/usuario/favoritos"
+                    className={getClassNameByPage("/usuario/favoritos")}
+                  >
+                    Favoritos
+                  </Link>
+                </li>
+              )}
+              <li className="mt-2 md:hidden">
+                {!user ? (
+                  <Link
+                    href="/auth/login"
+                    className="flex justify-center w-full py-2 px-3 text-white rounded md:hover:bg-transparent bg-violet md:hover:text-blue-700 md:p-0"
+                  >
+                    Iniciar sesión
+                  </Link>
+                ) : (
+                  <button
+                    onClick={() => logout()}
+                    className="block w-full py-2 px-3 text-white rounded md:hover:bg-transparent bg-red-500 md:hover:text-blue-700 md:p-0"
+                  >
+                    Cerrar sesión
+                  </button>
+                )}
               </li>
             </ul>
           </div>
