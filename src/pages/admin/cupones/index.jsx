@@ -5,18 +5,19 @@ import { IoAdd } from "react-icons/io5";
 import { NetworkStatus, useQuery } from "@apollo/client";
 import { useEffect } from "react";
 import { GET_CUPONES } from "@/services/apollo/queries/cupon";
-
+import { redirectRol } from "@/utils/redirect-rol";
 
 export default function Producto() {
-
-  const { data, error, loading } = useQuery(GET_CUPONES, {variables: { input: {}}});
+  const { data, error, loading } = useQuery(GET_CUPONES, {
+    variables: { input: {} },
+  });
   useEffect(() => {
     // if (loading) return 'Loading...';
     // if (error) return `No data! ${error.message}`;
     // console.log(data);
   }, [data, error, loading]);
-  
-  if (loading) return 'Loading...';
+
+  if (loading) return "Loading...";
   if (error) return `No data! ${error.message}`;
   if (data) console.log(data.cupones);
 
@@ -38,9 +39,11 @@ export default function Producto() {
                     <span className="md:text-md text-sm mx-5">Agregar producto</span>
                   </button>
                 </div> */}
-                {data.cupones.filter((cupon) => cupon.estado === true).map((cupon, i) => (
-                  <CardCupon cupon={cupon} key={cupon["id"]} />
-                ))}
+                {data.cupones
+                  .filter((cupon) => cupon.estado === true)
+                  .map((cupon, i) => (
+                    <CardCupon cupon={cupon} key={cupon["id"]} />
+                  ))}
               </div>
             </div>
           </div>
@@ -48,4 +51,11 @@ export default function Producto() {
       </Layout>
     </>
   );
+}
+
+export async function getServerSideProps(context) {
+  return {
+    props: {},
+    redirect: redirectRol(context, ["ADMIN"]),
+  };
 }

@@ -1,4 +1,5 @@
 import { LOGIN_USUARIO } from "@/services/apollo/queries/usuario";
+import Link from "next/link";
 import { faGoogle, faFacebook } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useEffect, useState } from "react";
@@ -107,6 +108,15 @@ export default function Login() {
           {!loading ? "Ingresar" : <Loading />}
         </button>
       </form>
+
+      <p className="text-black text-xs mt-3 text-center">Aún no tienes cuenta?
+        <Link
+          href="/auth/register"
+          className="ml-1 text-[#0000FF]"
+        >
+         Registrarme
+        </Link>
+      </p>
 
       <div className="border-b border-chineseBlack w-full my-6"></div>
 

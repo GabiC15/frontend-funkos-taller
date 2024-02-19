@@ -30,6 +30,7 @@ import {
 } from "@/services/apollo/queries/favoritos";
 import { urlWithSize } from "@/utils/url-with-size";
 import { UserContext } from "../providers/UserProvider";
+import { IoSparklesOutline } from "react-icons/io5";
 
 export default function Detalle({ funko }) {
   const router = useRouter();
@@ -120,27 +121,39 @@ export default function Detalle({ funko }) {
           </h1>
 
           <p className="mt-1 text-sm">{funko.descripcion}</p>
-          <div className="flex gap-1 mt-5">
-            <FontAwesomeIcon
-              icon={faStarSolid}
-              className="text-yellow-500 text-2xl"
-            />
-            <FontAwesomeIcon
-              icon={faStarSolid}
-              className="text-yellow-500 text-2xl"
-            />
-            <FontAwesomeIcon
-              icon={faStarSolid}
-              className="text-yellow-500 text-2xl"
-            />
-            <FontAwesomeIcon
-              icon={faStarSolid}
-              className="text-yellow-500 text-2xl"
-            />
-            <FontAwesomeIcon
-              icon={faStarRegular}
-              className="text-yellow-500 text-2xl"
-            />
+
+          <div className="flex gap-4 items-center mt-5">
+            {funko?.caracteristica && (
+              <div className="flex gap-3">
+                <IoSparklesOutline className="text-2xl" />
+                <p className="font-semibold mt-[1px]">
+                  {funko.caracteristica.nombre}
+                </p>
+              </div>
+            )}
+
+            <div className="flex gap-1 mb-1">
+              <FontAwesomeIcon
+                icon={faStarSolid}
+                className="text-yellow-500 text-2xl"
+              />
+              <FontAwesomeIcon
+                icon={faStarSolid}
+                className="text-yellow-500 text-2xl"
+              />
+              <FontAwesomeIcon
+                icon={faStarSolid}
+                className="text-yellow-500 text-2xl"
+              />
+              <FontAwesomeIcon
+                icon={faStarSolid}
+                className="text-yellow-500 text-2xl"
+              />
+              <FontAwesomeIcon
+                icon={faStarRegular}
+                className="text-yellow-500 text-2xl"
+              />
+            </div>
           </div>
 
           <div className="flex items-center gap-4 mt-5">

@@ -49,10 +49,8 @@ export default function AccordionFaq() {
         >
           <div className="px-3 py-3 border-b-[1px] border-gray-200">
             <p className="mb-2 text-white">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam
-              aliquet orci nibh, et fermentum tellus molestie sed. Pellentesque
-              sapien lectus, elementum eu nunc in, laoreet gravida augue. Cras
-              congue lobortis leo ac egestas.
+              Los funkos se envían en 1-3 días hábiles. El tiempo de entrega
+              varía según la ubicación, generalmente de 5-10 días hábiles.
             </p>
           </div>
         </div>
@@ -96,10 +94,8 @@ export default function AccordionFaq() {
         >
           <div className="px-3 py-3 border-b-[1px] border-gray-200">
             <p className="mb-2 text-white">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam
-              aliquet orci nibh, et fermentum tellus molestie sed. Pellentesque
-              sapien lectus, elementum eu nunc in, laoreet gravida augue. Cras
-              congue lobortis leo ac egestas.
+              Todos los funkos tienen garantía de calidad. Contactenos para
+              resolver problemas.
             </p>
           </div>
         </div>
@@ -143,10 +139,8 @@ export default function AccordionFaq() {
         >
           <div className="px-3 py-3 border-b-[1px] border-t-0 border-gray-200">
             <p className="mb-2 text-white">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam
-              aliquet orci nibh, et fermentum tellus molestie sed. Pellentesque
-              sapien lectus, elementum eu nunc in, laoreet gravida augue. Cras
-              congue lobortis leo ac egestas.
+              Siga su pedido con el número de seguimiento proporcionado a través
+              del email luego de haber despachado el producto en el correo.
             </p>
           </div>
         </div>
@@ -190,10 +184,8 @@ export default function AccordionFaq() {
         >
           <div className="px-3 py-3 border-b-[1px] border-t-0 border-gray-200">
             <p className="mb-2 text-white">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam
-              aliquet orci nibh, et fermentum tellus molestie sed. Pellentesque
-              sapien lectus, elementum eu nunc in, laoreet gravida augue. Cras
-              congue lobortis leo ac egestas.
+              Consulte la política de devolución y reembolso en nuestro sitio
+              web para obtener detalles completos.
             </p>
           </div>
         </div>
@@ -237,10 +229,7 @@ export default function AccordionFaq() {
         >
           <div className="px-3 py-3 border-b-[1px] border-t-0 border-gray-200">
             <p className="mb-2 text-white">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam
-              aliquet orci nibh, et fermentum tellus molestie sed. Pellentesque
-              sapien lectus, elementum eu nunc in, laoreet gravida augue. Cras
-              congue lobortis leo ac egestas.
+              Todos los funkos comprados están garantizados por su calidad.
             </p>
           </div>
         </div>
@@ -284,10 +273,8 @@ export default function AccordionFaq() {
         >
           <div className="px-3 py-3 border-b-[1px] border-t-0 border-gray-200">
             <p className="mb-2 text-white">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam
-              aliquet orci nibh, et fermentum tellus molestie sed. Pellentesque
-              sapien lectus, elementum eu nunc in, laoreet gravida augue. Cras
-              congue lobortis leo ac egestas.
+              Siga su pedido con el número de seguimiento proporcionado a través
+              del email luego de haber despachado el producto en el correo.
             </p>
           </div>
         </div>
@@ -331,10 +318,8 @@ export default function AccordionFaq() {
         >
           <div className="px-3 py-3 border-b-[1px] border-t-0 border-gray-200">
             <p className="mb-2 text-white">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam
-              aliquet orci nibh, et fermentum tellus molestie sed. Pellentesque
-              sapien lectus, elementum eu nunc in, laoreet gravida augue. Cras
-              congue lobortis leo ac egestas.
+              Consulte la política de devolución y reembolso en nuestro sitio
+              web para obtener detalles completos.
             </p>
           </div>
         </div>

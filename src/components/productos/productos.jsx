@@ -25,6 +25,9 @@ export default function Productos() {
     subcategoriaId: params.get("subcategoria")
       ? Number.parseInt(params.get("subcategoria"))
       : null,
+    caracteristicaId: params.get("caracteristica")
+      ? Number.parseInt(params.get("caracteristica"))
+      : null,
     busqueda: params.get("busqueda"),
     pagina: pagina,
   };
