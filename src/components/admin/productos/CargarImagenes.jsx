@@ -6,7 +6,7 @@ import { IoAdd } from "react-icons/io5";
 
 // import { v4 as uuidv4 } from "uuid";
 
-const CargarImagenes = ({ dataImages, submitImages, formData, imagesFile, setImagesFile, }) => {
+const CargarImagenes = ({ dataImages, submitImages, formData, imagesFile, setImagesFile, clearTrue }) => {
 
  
   // const [imagesUrl, setImagesUrl] = useState({
@@ -69,6 +69,9 @@ const CargarImagenes = ({ dataImages, submitImages, formData, imagesFile, setIma
     });
   };
 
+  useEffect(() => {
+    handleImagesRemove();
+  }, [clearTrue]);
 
 
   // const handleSubmitImages = () => {
@@ -85,7 +88,7 @@ const CargarImagenes = ({ dataImages, submitImages, formData, imagesFile, setIma
   // submitImages && handleImagesSubmit();
 
   const handleImagesRemove = (e) => {
-    e.preventDefault();
+    if (e) e.preventDefault();
     setImagesBox({
       ...imagesBox,
       ["picture_1"]: null,

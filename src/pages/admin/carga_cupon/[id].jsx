@@ -5,7 +5,10 @@ import { GET_CUPON } from "@/services/apollo/queries/cupon";
 import CargarCupon from "@/components/admin/dashboard/cupones/CargarCupon";
 import { redirectRol } from "@/utils/redirect-rol";
 
-const add_cupon = ({ cupon }) => {
+<<<<<<< 1023-admin-carga-cupon-data
+
+const AgregarCupon = ({cupon}) => {
+>>>>>>> main
   return (
     <>
       <Layout>
@@ -16,7 +19,7 @@ const add_cupon = ({ cupon }) => {
   );
 };
 
-export default add_cupon;
+export default AgregarCupon;
 
 export async function getServerSideProps(context) {
   const { params } = context;
@@ -27,6 +30,7 @@ export async function getServerSideProps(context) {
       variables: {
         id: Number.parseInt(params.id),
       },
+      fetchPolicy: "network-only",
     });
     return {
       redirect,
