@@ -5,7 +5,7 @@ import { GET_CUPON } from "@/services/apollo/queries/cupon";
 import CargarCupon from "@/components/admin/dashboard/cupones/CargarCupon";
 
 
-const add_cupon = ({cupon}) => {
+const AgregarCupon = ({cupon}) => {
   return (
     <>
       <Layout>
@@ -16,7 +16,7 @@ const add_cupon = ({cupon}) => {
   );
 };
 
-export default add_cupon;
+export default AgregarCupon;
 
 export async function getServerSideProps({ params }) {
   if (!isNaN(params.id)) {
@@ -25,6 +25,7 @@ export async function getServerSideProps({ params }) {
       variables: {
         id: Number.parseInt(params.id),
       },
+      fetchPolicy: "network-only",
     });
     return { props: { cupon: data.cupon } };
   }

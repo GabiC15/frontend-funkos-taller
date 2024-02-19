@@ -9,7 +9,7 @@ import { storage } from "@/services/firebase/firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { uploadBytesResumable, getUploadTaskSnapshot } from "firebase/storage";
 import CargarImagenes from "./CargarImagenes";
-import { GET_MAX_PRODUCTO_ID } from "@/services/apollo/queries/producto";
+// import { GET_MAX_PRODUCTO_ID } from "@/services/apollo/queries/producto";
 import { ADD_IMAGES_PRODUCT } from "@/services/apollo/mutations/carga_producto";
 import Modal from "./ProgressModal";
 import ErrorMessageForm from "./ErrorMessageForm";
@@ -21,6 +21,7 @@ const CargarProducto = ({ producto }) => {
   const [errorMessageForm, setErrorMessageForm] = useState("");
   const [progress, setProgress] = useState(1);
   const [productoId, setProductoId] = useState(producto?.id);
+  const [clearTrue, setClearTrue] = useState(false);
 
   const [imagesFile, setImagesFile] = useState({
     picture_1: producto?.imagenes[0]?.path,
@@ -29,18 +30,18 @@ const CargarProducto = ({ producto }) => {
     picture_4: producto?.imagenes[3]?.path,
   });
 
-  const {
-    data: dataMaxId,
-    error: errorMaxId,
-    loading: loadingMaxId,
-  } = useQuery(GET_MAX_PRODUCTO_ID);
+  // const {
+  //   data: dataMaxId,
+  //   error: errorMaxId,
+  //   loading: loadingMaxId,
+  // } = useQuery(GET_MAX_PRODUCTO_ID);
 
   const [
     createProducto,
     { data: dataProducto, loading: loadingProducto, error: errorProducto },
   ] = useMutation(ADD_PRODUCTO, {
     onCompleted: (data) => {
-      console.log("dataProducto", data);
+      // console.log("dataProducto", data);
       handleFinishSubmit(data);
     },
   });
@@ -53,7 +54,7 @@ const CargarProducto = ({ producto }) => {
     },
   ] = useMutation(UPDATE_PRODUCTO, {
     onCompleted: (data) => {
-      console.log("dataProducto", data);
+      // console.log("dataProducto", data);
       handleFinishSubmit(data);
     },
   });
@@ -86,6 +87,49 @@ const CargarProducto = ({ producto }) => {
     stock: producto?.stock,
     precio: producto?.precio,
   });
+
+  const [dataList, setDataList] = useState({
+    categoriaId: categoryId,
+    categoriaName: producto?.categoria?.padre?.nombre,
+    subcategoriaId: subcategoryId,
+    subcategoriaName: producto?.categoria?.nombre,
+  });
+
+  const handleClearForm = () => {
+    setClearTrue(true);
+    setFormData({
+      id: "",
+      titulo: "",
+      descripcion: "",
+      categoriaId: "",
+      subcategoriaId: "",
+      caracteristicas: "",
+      stock: "",
+      precio: "",
+    });
+    handleClearCategory();
+    handleClearImages();
+    setErrorMessageForm("");
+    // setClearTrue(false);
+  };
+
+  const handleClearCategory = () => {
+    setDataList({
+      categoriaId: "",
+      categoriaName: "",
+      subcategoriaId: "",
+      subcategoriaName: "",
+    });
+  };
+
+  const handleClearImages = () => {
+    setImagesFile({
+      picture_1: "",
+      picture_2: "",
+      picture_3: "",
+      picture_4: "",
+    });
+  };
 
   const handleFormComplete = (e) => {
     e.preventDefault();
@@ -122,8 +166,9 @@ const CargarProducto = ({ producto }) => {
       try {
         setProgress(32);
         setOpen(true);
-        formData.id ? await handleUpdateProducto(formData) :
-        await handleCreateProducto(formData);
+        formData.id
+          ? await handleUpdateProducto(formData)
+          : await handleCreateProducto(formData);
         // await producto?.id ? await handleUpdateProducto(formData) : await handleCreateProducto(formData);
         // await handleImagesSubmit(e, dataProducto);
         // setProgress(100);
@@ -157,15 +202,20 @@ const CargarProducto = ({ producto }) => {
   //   console.log("producto IDDD", productoId);
   // }, [productoId])
 
+  // useEffect(() => {
+  //   console.log(formData, imagesFile, dataList, categoryId, subcategoryId);
+
+  // }, [formData]);
+
   const handleUploadDbImages = async (
     imageUrl,
-    dataImages,
+    imagesFile,
     formData,
     dataProducto
   ) => {
     const { id } = formData;
-    const { maxProductoId } = dataImages;
-    console.log("id", id, "or", dataProducto.createProducto.id);
+    // const { maxProductoId } = dataImages;
+    // console.log("id", id, "or", dataProducto.createProducto.id);
 
     try {
       await createImagenProducto(
@@ -223,7 +273,7 @@ const CargarProducto = ({ producto }) => {
           setProgress((prevProgress) => prevProgress + 7 * i);
           await handleUploadDbImages(
             downloadURL,
-            dataImages,
+            imagesFile,
             formData,
             dataProducto
           );
@@ -238,40 +288,40 @@ const CargarProducto = ({ producto }) => {
 
   const handleImagesUpdate = async (dataProducto) => {
     console.log("Submited succesfully");
-  //   const { id: producto_id, titulo: producto_titulo } = formData;
-  //   const idProducto = producto_id || (await dataProducto.createProducto.id);
-  //   const tituloFixed = producto_titulo.split(" ").join("_");
-  //   for (let i = 1; i <= 4; i++) {
-  //     if (imagesFile[`picture_${i}`]) {
-  //       const storageRef = ref(
-  //         storage,
-  //         `/images/products/${idProducto}:${tituloFixed}:image_${i}_${uuidv4()}`
-  //       );
-  //       const uploadTask = uploadBytesResumable(
-  //         storageRef,
-  //         imagesFile[`picture_${i}`]
-  //       );
-  //       try {
-  //         const snapshot = await uploadTask;
-  //         const progressFirebase =
-  //           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-  //         console.log(`Upload ${i} is ${progressFirebase}% done`);
-  //         const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-  //         console.log(`File ${i} available at`, downloadURL);
-  //         setProgress((prevProgress) => prevProgress + 7 * i);
-  //         await handleUploadDbImages(
-  //           downloadURL,
-  //           dataImages,
-  //           formData,
-  //           dataProducto
-  //         );
-  //         setProgress(100);
-  //       } catch (error) {
-  //         console.log(`Error uploading ${i}:`, error);
-  //       }
-  //     }
-  //   }
-  // };
+    //   const { id: producto_id, titulo: producto_titulo } = formData;
+    //   const idProducto = producto_id || (await dataProducto.createProducto.id);
+    //   const tituloFixed = producto_titulo.split(" ").join("_");
+    //   for (let i = 1; i <= 4; i++) {
+    //     if (imagesFile[`picture_${i}`]) {
+    //       const storageRef = ref(
+    //         storage,
+    //         `/images/products/${idProducto}:${tituloFixed}:image_${i}_${uuidv4()}`
+    //       );
+    //       const uploadTask = uploadBytesResumable(
+    //         storageRef,
+    //         imagesFile[`picture_${i}`]
+    //       );
+    //       try {
+    //         const snapshot = await uploadTask;
+    //         const progressFirebase =
+    //           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+    //         console.log(`Upload ${i} is ${progressFirebase}% done`);
+    //         const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+    //         console.log(`File ${i} available at`, downloadURL);
+    //         setProgress((prevProgress) => prevProgress + 7 * i);
+    //         await handleUploadDbImages(
+    //           downloadURL,
+    //           dataImages,
+    //           formData,
+    //           dataProducto
+    //         );
+    //         setProgress(100);
+    //       } catch (error) {
+    //         console.log(`Error uploading ${i}:`, error);
+    //       }
+    //     }
+    //   }
+    // };
   };
 
   const handleCreateProducto = async (formData) => {
@@ -327,15 +377,15 @@ const CargarProducto = ({ producto }) => {
     });
   }, [subcategoryId]);
 
-  const dataList = {
-    categoriaId: categoryId,
-    categoriaName: producto?.categoria?.padre?.nombre,
-    subcategoriaId: subcategoryId,
-    subcategoriaName: producto?.categoria?.nombre,
-  };
+  // const dataList = {
+  //   categoriaId: categoryId,
+  //   categoriaName: producto?.categoria?.padre?.nombre,
+  //   subcategoriaId: subcategoryId,
+  //   subcategoriaName: producto?.categoria?.nombre,
+  // };
 
   const dataImages = {
-    maxProductoId: dataMaxId?.maxProductoId?.maxId,
+    // maxProductoId: dataMaxId?.maxProductoId?.maxId,
     picture_1: producto?.imagenes[0]?.path,
     picture_2: producto?.imagenes[1]?.path,
     picture_3: producto?.imagenes[2]?.path,
@@ -359,8 +409,8 @@ const CargarProducto = ({ producto }) => {
     // console.log(formData);
   };
 
-  if (loadingMaxId) return "Loading...";
-  if (errorMaxId) return `No data! ${error.message}`;
+  // if (loadingMaxId) return "Loading...";
+  // if (errorMaxId) return `No data! ${error.message}`;
 
   // if (loading || loadingImagenProducto) return <p>Submitting...</p>;
   if (errorProducto || errorProductoActualizar || errorLoadingImagenProducto)
@@ -391,11 +441,12 @@ const CargarProducto = ({ producto }) => {
         >
           <div className="md:mr-2">
             <CargarImagenes
-              dataImages={dataImages}
+              dataImages={imagesFile}
               submitImages={submitImages}
               formData={formData}
               imagesFile={imagesFile}
               setImagesFile={setImagesFile}
+              clearTrue={clearTrue}
             />
           </div>
           <div className="flex flex-col pt-4 mx-auto">
@@ -432,6 +483,7 @@ const CargarProducto = ({ producto }) => {
             <ListCategorySubCategory
               dataList={dataList}
               handleChange={handleCategoryChange}
+              clearTrue={clearTrue}
             />
           </div>
           <div className="flex flex-col pt-1 mx-auto">
@@ -500,9 +552,12 @@ const CargarProducto = ({ producto }) => {
           open={open}
           onClose={() => setOpen(false)}
           // producto_id={formData.producto_id || dataProducto.createProducto.id}
-          producto_id={productoId}
+          id={productoId}
           progress={progress}
           word="producto"
+          routeNew="/admin/carga_producto/nuevo"
+          routeView="/admin/productos/"
+          handleClearForm={handleClearForm}
         >
           <div className="text-center md:w-72 md:mx-12 py-2 mx-4 w-72">
             {/* <CheckCircle size={56} className="mx-auto text-green-500" /> */}

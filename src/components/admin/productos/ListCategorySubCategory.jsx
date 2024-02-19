@@ -6,7 +6,7 @@ import {
 } from "@/services/apollo/queries/categoria";
 import List from "@/components/common/list";
 
-const ListCategorySubCategory = ({ dataList, handleChange }) => {
+const ListCategorySubCategory = ({ dataList, handleChange, clearTrue }) => {
   const [selectedOptionCategory, setSelectedOptionCategory] = useState({
     id: parseInt(dataList.categoriaId),
     nombre: dataList.categoriaName,
@@ -21,15 +21,22 @@ const ListCategorySubCategory = ({ dataList, handleChange }) => {
     data: dataCategory,
     error: errorCategory,
     loading: loadingCategory,
-  } = useQuery(GET_CATEGORIAS);
+  } = useQuery(GET_CATEGORIAS, {
+    refetchQueries: [{ query: GET_SUBCATEGORIAS, variables: {
+      id: selectedOptionCategory.id ? selectedOptionCategory.id : 0,
+    }, }],
+  });
 
   const optionsCategoria = dataCategory?.categorias;
+  
 
   useEffect(() => {
     // if (loading) return 'Loading...';
     // if (error) return `No data! ${error.message}`;
     // console.log(data);
     if (dataList.categoriaId !== selectedOptionCategory.id) {
+      console.log("refetching...");
+      refetchSubcategory()
       setSelectedOptionSubCategory("");
       handleChange("subcategoria", null);
     }
@@ -39,11 +46,33 @@ const ListCategorySubCategory = ({ dataList, handleChange }) => {
     data: dataSubcategory,
     error: errorSubcategory,
     loading: loadingSubcategory,
+    refetch: refetchSubcategory,
   } = useQuery(GET_SUBCATEGORIAS, {
     variables: {
       id: selectedOptionCategory.id ? selectedOptionCategory.id : 0,
     },
-  });
+    fetchPolicy: "network-only",
+  },
+  );
+  
+  useEffect(() => {
+    handleClearCategories()
+    console.log("clearTrue", clearTrue);
+  }
+  , [clearTrue]);
+  
+  const handleClearCategories = () => {
+    setSelectedOptionCategory({
+      id: "",
+      nombre: "",
+    });
+    setSelectedOptionSubCategory({
+      id: "",
+      nombre: "",
+    });
+    handleChange("categoria", null);
+    handleChange("subcategoria", null);
+  };
 
   const optionsSubcategoria = dataSubcategory?.subcategorias;
 

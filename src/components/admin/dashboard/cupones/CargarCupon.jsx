@@ -16,10 +16,26 @@ const CargarCupon = ({ cupon }) => {
     validoHasta: cupon?.validoHasta,
   });
 
+  const handleClearForm = () => {
+    setFormData({
+      nombre: "",
+      porcentaje: "",
+      validoDesde: "",
+      validoHasta: "",
+    });
+    setErrorMessageForm("");
+  };
+
+  console.log("cupon", cupon);
+
   const [createCupon, { data, loading, error }] = useMutation(ADD_CUPON, {
     onCompleted: (data) => {
       console.log("dataCupon", data);
       setIdCupon(data.createCupon.id);
+    },
+    onError: (error) => {
+      setErrorMessageForm(`Error: ${error.message}`)
+      setOpen(false);
     },
     refetchQueries: [{ query: GET_CUPONES }],
   });
@@ -121,13 +137,15 @@ const CargarCupon = ({ cupon }) => {
     setTimeout(() => {
       setErrorMessageForm("");
     }, 8000);
-  }, [handleSubmit]);
+  }, [handleSubmit, error]);
 
   useEffect(() => {
     console.log("formData", formData);
   }, [formData]);
 
-  if (error) return <p>Error: {error.message}</p>;
+  if (error) {
+    console.log(error);
+  }
 
   if (data) {
     console.log("Cupon added successfully!", data);
@@ -187,7 +205,9 @@ const CargarCupon = ({ cupon }) => {
             ></textarea> */}
             <input
               className="bg-transparent border-2 pl-1 border-slate-300/90 focus:border-slate-200 rounded-lg outline-none"
-              type="text"
+              type="number"
+              min={1}
+              max={100}
               name="porcentaje"
               onChange={handleChange}
               value={formData.porcentaje ? formData.porcentaje : ""}
@@ -210,6 +230,7 @@ const CargarCupon = ({ cupon }) => {
               className="bg-transparent border-2 pl-1 border-slate-300/90 focus:border-slate-200 rounded-lg outline-none"
               type="date"
               name="validoDesde"
+              max={formData.validoHasta}
               onChange={handleChange}
               value={formData.validoDesde ? formData.validoDesde : ""}
             ></input>
@@ -225,6 +246,7 @@ const CargarCupon = ({ cupon }) => {
               className="bg-transparent border-2 pl-1 border-slate-300/90 focus:border-slate-200 rounded-lg outline-none"
               type="date"
               name="validoHasta"
+              min={formData.validoDesde}
               onChange={handleChange}
               value={formData.validoHasta ? formData.validoHasta : ""}
             ></input>
@@ -238,7 +260,7 @@ const CargarCupon = ({ cupon }) => {
               {cupon?.id ? "Actualizar" : "Publicar"}
             </button>{" "}
             <div className="h-8">
-              {errorMessageForm !== "" && (
+              {(errorMessageForm !== "" || error) && (
                 <ErrorMessageForm message={errorMessageForm} />
               )}
             </div>
@@ -254,6 +276,7 @@ const CargarCupon = ({ cupon }) => {
           word="cupón"
           routeNew="/admin/carga_cupon/nuevo"
           routeView="/admin/cupones/"
+          handleClearForm={handleClearForm}
         >
           <div className="text-center md:w-72 md:mx-12 py-2 mx-4 w-72">
             {/* <CheckCircle size={56} className="mx-auto text-green-500" /> */}

@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
-import Image from "next/image";
-import { BiSolidEditAlt } from "react-icons/bi";
+import { useState } from "react";
+// import Image from "next/image";
+// import { BiSolidEditAlt } from "react-icons/bi";
 import { GET_CUPONES } from "@/services/apollo/queries/cupon";
 import {
-  DELETE_CUPON,
   UPDATE_CUPON,
 } from "@/services/apollo/mutations/carga_cupon";
 // import { GET_CUPONES } from "@/services/apollo/queries/cupon";

@@ -1,16 +1,27 @@
 import { X } from "react-feather";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
-const ProgressModal = ({ open, onClose, children, id, progress, word, routeNew, routeView }) => {
+const ProgressModal = ({
+  open,
+  onClose,
+  children,
+  id,
+  progress,
+  word,
+  routeNew,
+  routeView,
+  handleClearForm,
+}) => {
   const router = useRouter();
   const handleClickAgregar = () => {
-    router.push(`${routeNew}`);
-    router.reload();
+    handleClearForm();
+    onClose();
   };
 
   const handleClickVerProducto = (e) => {
-    router.push(`${routeNew, routeView}`);
+    router.push(`${(routeNew, routeView)}`);
   };
 
   // const [progress, setProgress] = useState(35);
@@ -26,10 +37,9 @@ const ProgressModal = ({ open, onClose, children, id, progress, word, routeNew, 
   //       }
   //     });
   //   }, 100); // 100 milliseconds interval
-  
-  //   return () => clearInterval(interval); // Clean up the interval when the component is unmounted
-  // }, []); 
 
+  //   return () => clearInterval(interval); // Clean up the interval when the component is unmounted
+  // }, []);
 
   return (
     <>
@@ -72,8 +82,7 @@ const ProgressModal = ({ open, onClose, children, id, progress, word, routeNew, 
                 </p>
               </div>
             </div>
-            <div className="flex justify-between">
-            </div>
+            <div className="flex justify-between"></div>
           </div>
         </div>
       )}
@@ -105,12 +114,8 @@ const ProgressModal = ({ open, onClose, children, id, progress, word, routeNew, 
                   ¡Cargando {word}...!
                 </h3>
                 <div className="flex mx-20 justify-between">
-                  <p className="text-sm text-gray-500 pt-5">
-                    Subiendo ...
-                  </p>
-                  <p className="text-sm text-gray-500 pt-5">
-                    {progress}%
-                  </p>
+                  <p className="text-sm text-gray-500 pt-5">Subiendo ...</p>
+                  <p className="text-sm text-gray-500 pt-5">{progress}%</p>
                 </div>
                 <p className="text-sm text-gray-500 pt-5">
                   Por favor aguarde un momento
@@ -158,18 +163,22 @@ const ProgressModal = ({ open, onClose, children, id, progress, word, routeNew, 
             </button>
             {children}
             <div className="flex justify-between">
-              <button
-                className="text-white font-medium text-sm bg-black border-2 border-black hover:border-black/70 hover:bg-black/90 rounded-xl p-2 mx-3 transition-all duration-150"
-                onClick={handleClickAgregar}
-              >
-                Agregar nuevo
-              </button>
-              <button
-                className="text-white font-medium text-sm bg-indigo-600 border-2 border-indigo-600 hover:border-indigo-700 hover:bg-indigo-700 rounded-xl p-2 mx-3 transition-all duration-150"
-                onClick={handleClickVerProducto}
-              >
-                Ver {word === "cupón" ? "cupones" : word}
-              </button>
+              <Link href={routeNew}>
+                <button
+                  className="text-white font-medium text-sm bg-black border-2 border-black hover:border-black/70 hover:bg-black/90 rounded-xl p-2 mx-3 transition-all duration-150"
+                  onClick={handleClickAgregar}
+                >
+                  Agregar nuevo
+                </button>
+              </Link>
+              <Link href={(routeNew, routeView)}>
+                <button
+                  className="text-white font-medium text-sm bg-indigo-600 border-2 border-indigo-600 hover:border-indigo-700 hover:bg-indigo-700 rounded-xl p-2 mx-3 transition-all duration-150"
+                  // onClick={handleClickVerProducto}
+                >
+                  Ver {word === "cupón" ? "cupones" : word}
+                </button>
+              </Link>
             </div>
           </div>
         </div>
