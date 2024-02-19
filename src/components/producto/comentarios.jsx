@@ -20,7 +20,9 @@ export default function Comentarios({ productoId }) {
           ))
         ) : (
           <div>
-            <p className="text-md">No hay comentarios para este producto</p>
+            <p className="text-xs md:text-md">
+              No hay comentarios para este producto
+            </p>
           </div>
         )}
       </div>

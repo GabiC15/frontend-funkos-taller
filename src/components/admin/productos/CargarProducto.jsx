@@ -122,8 +122,9 @@ const CargarProducto = ({ producto }) => {
       try {
         setProgress(32);
         setOpen(true);
-        formData.id ? await handleUpdateProducto(formData) :
-        await handleCreateProducto(formData);
+        formData.id
+          ? await handleUpdateProducto(formData)
+          : await handleCreateProducto(formData);
         // await producto?.id ? await handleUpdateProducto(formData) : await handleCreateProducto(formData);
         // await handleImagesSubmit(e, dataProducto);
         // setProgress(100);
@@ -238,40 +239,40 @@ const CargarProducto = ({ producto }) => {
 
   const handleImagesUpdate = async (dataProducto) => {
     console.log("Submited succesfully");
-  //   const { id: producto_id, titulo: producto_titulo } = formData;
-  //   const idProducto = producto_id || (await dataProducto.createProducto.id);
-  //   const tituloFixed = producto_titulo.split(" ").join("_");
-  //   for (let i = 1; i <= 4; i++) {
-  //     if (imagesFile[`picture_${i}`]) {
-  //       const storageRef = ref(
-  //         storage,
-  //         `/images/products/${idProducto}:${tituloFixed}:image_${i}_${uuidv4()}`
-  //       );
-  //       const uploadTask = uploadBytesResumable(
-  //         storageRef,
-  //         imagesFile[`picture_${i}`]
-  //       );
-  //       try {
-  //         const snapshot = await uploadTask;
-  //         const progressFirebase =
-  //           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-  //         console.log(`Upload ${i} is ${progressFirebase}% done`);
-  //         const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-  //         console.log(`File ${i} available at`, downloadURL);
-  //         setProgress((prevProgress) => prevProgress + 7 * i);
-  //         await handleUploadDbImages(
-  //           downloadURL,
-  //           dataImages,
-  //           formData,
-  //           dataProducto
-  //         );
-  //         setProgress(100);
-  //       } catch (error) {
-  //         console.log(`Error uploading ${i}:`, error);
-  //       }
-  //     }
-  //   }
-  // };
+    //   const { id: producto_id, titulo: producto_titulo } = formData;
+    //   const idProducto = producto_id || (await dataProducto.createProducto.id);
+    //   const tituloFixed = producto_titulo.split(" ").join("_");
+    //   for (let i = 1; i <= 4; i++) {
+    //     if (imagesFile[`picture_${i}`]) {
+    //       const storageRef = ref(
+    //         storage,
+    //         `/images/products/${idProducto}:${tituloFixed}:image_${i}_${uuidv4()}`
+    //       );
+    //       const uploadTask = uploadBytesResumable(
+    //         storageRef,
+    //         imagesFile[`picture_${i}`]
+    //       );
+    //       try {
+    //         const snapshot = await uploadTask;
+    //         const progressFirebase =
+    //           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+    //         console.log(`Upload ${i} is ${progressFirebase}% done`);
+    //         const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+    //         console.log(`File ${i} available at`, downloadURL);
+    //         setProgress((prevProgress) => prevProgress + 7 * i);
+    //         await handleUploadDbImages(
+    //           downloadURL,
+    //           dataImages,
+    //           formData,
+    //           dataProducto
+    //         );
+    //         setProgress(100);
+    //       } catch (error) {
+    //         console.log(`Error uploading ${i}:`, error);
+    //       }
+    //     }
+    //   }
+    // };
   };
 
   const handleCreateProducto = async (formData) => {

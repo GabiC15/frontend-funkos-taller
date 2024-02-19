@@ -26,7 +26,7 @@ export default function Producto() {
               <h1 className="text-3xl md:text-4xl font-black mt-12 mb-4 mx-4 uppercase">
                 Productos
               </h1>
-              <div className="grid grid-cols-1 gap-1 md:gap-5 mb-16">
+              <div className="grid grid-cols-1 gap-1 md:gap-3 mb-16">
                 {data.productos.map((prod, i) => (
                   <CardProducto producto={prod} key={prod["productId"]} />
                 ))}

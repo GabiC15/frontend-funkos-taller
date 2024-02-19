@@ -3,9 +3,9 @@ import Sidebar from "@/components/common/sidebar";
 import client from "@/services/apollo/client";
 import { GET_CUPON } from "@/services/apollo/queries/cupon";
 import CargarCupon from "@/components/admin/dashboard/cupones/CargarCupon";
+import { redirectRol } from "@/utils/redirect-rol";
 
-
-const add_cupon = ({cupon}) => {
+const add_cupon = ({ cupon }) => {
   return (
     <>
       <Layout>
@@ -18,7 +18,9 @@ const add_cupon = ({cupon}) => {
 
 export default add_cupon;
 
-export async function getServerSideProps({ params }) {
+export async function getServerSideProps(context) {
+  const { params } = context;
+  const redirect = redirectRol(context, ["ADMIN"]);
   if (!isNaN(params.id)) {
     const { data } = await client.query({
       query: GET_CUPON,
@@ -26,7 +28,10 @@ export async function getServerSideProps({ params }) {
         id: Number.parseInt(params.id),
       },
     });
-    return { props: { cupon: data.cupon } };
+    return {
+      redirect,
+      props: { cupon: data.cupon },
+    };
   }
-  return { props: {} };
+  return { props: {}, redirect };
 }
