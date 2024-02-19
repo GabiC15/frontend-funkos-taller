@@ -36,15 +36,17 @@ export default function Detalle({ funko }) {
   const router = useRouter();
   const [image, setImage] = useState(0);
   const [cantidad, setCantidad] = useState(1);
-  const { showCarrito } = useContext(CarritoContext);
+  const { show, showCarrito } = useContext(CarritoContext);
   const { user } = useContext(UserContext);
 
   const { data, refetch } = useQuery(GET_LINEA_CARRITO, {
     variables: { productoId: funko.id },
+    fetchPolicy: "network-only",
   });
 
   const { data: favoritoData } = useQuery(GET_FAVORITO, {
     variables: { productoId: funko.id },
+    fetchPolicy: "network-only",
   });
 
   const [createFavorito] = useMutation(CREATE_FAVORITO, {
@@ -246,7 +248,7 @@ export default function Detalle({ funko }) {
 
               <button
                 className="min-w-[3rem] bg-chineseBlack rounded-lg"
-                onClick={() => router.push("/usuario/pedido")}
+                onClick={() => showCarrito(true)}
               >
                 <FontAwesomeIcon
                   icon={faShoppingCart}

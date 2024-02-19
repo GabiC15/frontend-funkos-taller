@@ -42,11 +42,11 @@ export default function Footer() {
         </div>
         <div className="bg-palatinateBlue flex items-center justify-center py-5">
           <span className="text-sm text-slate-200 text-center">
-            © 2023{" "}
-            <a href="https://flowbite.com/" className="hover:underline">
+            © 2024{" "}
+            <a href="https://funkoplanet.online" className="hover:underline">
               FunkoPlanet™
             </a>
-            . All Rights Reserved.
+            . Todos los derechos reservados.
           </span>
         </div>
       </footer>

@@ -16,7 +16,9 @@ export default function Carrito() {
   const { show, showCarrito } = useContext(CarritoContext);
   const carritoRef = useRef(null);
 
-  const { data } = useQuery(GET_LINEAS_CARRITO);
+  const { data } = useQuery(GET_LINEAS_CARRITO, {
+    fetchPolicy: "network-only",
+  });
   const [deleteLineasCarrito, { loading: deleteLineasLoading }] = useMutation(
     DELETE_LINEAS_CARRITO,
     {
