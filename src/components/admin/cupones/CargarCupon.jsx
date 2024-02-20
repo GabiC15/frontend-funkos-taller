@@ -5,8 +5,8 @@ import {
   UPDATE_CUPON,
 } from "@/services/apollo/mutations/carga_cupon";
 import { GET_CUPONES } from "@/services/apollo/queries/cupon";
-import Modal from "../../productos/ProgressModal";
-import ErrorMessageForm from "../../productos/ErrorMessageForm";
+import ProgressModal from "../productos/ProgressModal";
+import ErrorMessageForm from "../productos/ErrorMessageForm";
 
 const CargarCupon = ({ cupon }) => {
   const [formData, setFormData] = useState({
@@ -268,7 +268,7 @@ const CargarCupon = ({ cupon }) => {
         </form>
       </div>
       {open && (
-        <Modal
+        <ProgressModal
           open={open}
           onClose={() => setOpen(false)}
           id={idCupon}
@@ -289,7 +289,7 @@ const CargarCupon = ({ cupon }) => {
               </p>
             </div>
           </div>
-        </Modal>
+        </ProgressModal>
       )}
     </>
   );
