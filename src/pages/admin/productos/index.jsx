@@ -88,12 +88,12 @@ export default function Producto() {
                   {productos.map((prod, i) => (
                     <CardProducto producto={prod} key={prod["productId"]} />
                   ))}
-                  {loading && <Loading className="mx-auto" />}
-                  {productos.length === 0 && !loading && (
-                    <p>No se han encontrado coincidencias</p>
-                  )}
                 </div>
               </InfiniteScroll>
+              {loading && <Loading className="mx-auto" />}
+              {productos.length === 0 && !loading && (
+                <p>No se han encontrado coincidencias</p>
+              )}
             </div>
           </div>
         </div>
