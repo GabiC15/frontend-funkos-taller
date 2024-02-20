@@ -47,3 +47,9 @@ export const LOGOUT_USUARIO = gql`
     logout
   }
 `;
+
+export const UPDATE_USUARIO = gql`
+  mutation UpdateUsuario($input: UsuarioInput!) {
+    updateUsuario(input: $input) 
+  }
+`;
