@@ -5,7 +5,8 @@ import { GET_CUPON } from "@/services/apollo/queries/cupon";
 import CargarCupon from "@/components/admin/dashboard/cupones/CargarCupon";
 import { redirectRol } from "@/utils/redirect-rol";
 
-const AgregarCupon = ({ cupon }) => {
+
+const AgregarCupon = ({cupon}) => {
   return (
     <>
       <Layout>

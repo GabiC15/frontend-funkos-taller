@@ -59,7 +59,7 @@ const BarChart = ({ data }) => {
       {
         label: "Netto",
         borderRadius: 30,
-        data: data.map((data) => data.brutto - data.commission),
+        data: data.map((data) => data.netto),
         backgroundColor: "rgba(1, 98, 255, 1)",
         barThickness: 10,
       },
