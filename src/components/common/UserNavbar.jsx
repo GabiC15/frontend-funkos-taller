@@ -59,10 +59,15 @@ export default function UserNavbar() {
         >
           {user && (
             <div className="px-4 py-3 text-sm text-white">
-              <div>
-                {user.nombres} {user.apellidos}
-              </div>
-              <div className="font-medium text-xs truncate">{user.email}</div>
+              <Link
+                href="/usuario/my-profile"
+              >
+                <div>
+                  {user.nombres} {user.apellidos}
+                </div>
+                <div className="font-medium text-xs truncate">{user.email}</div>
+              </Link>
+              
             </div>
           )}
           {/* <ul

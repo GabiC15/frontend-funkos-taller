@@ -247,6 +247,16 @@ export default function Navbar() {
                   </Link>
                 </li>
               )}
+              {user?.rol === "CLIENTE" && (
+                <li className="md:hidden">
+                  <Link
+                    href="/usuario/my-profile"
+                    className={getClassNameByPage("/usuario/my-profile")}
+                  >
+                    Perfil
+                  </Link>
+                </li>
+              )}
               <li className="mt-2 md:hidden">
                 {!user ? (
                   <Link
