@@ -5,13 +5,13 @@ export const GET_CONTROL_DE_ENVIOS = gql`
     controlDeEnvios {
       id
       entregado
+      direccion
+      provincia {
+        nombre
+      }
       costo
       pedido {
-        fecha {
-          year
-          month
-          day
-        }
+        fecha
         usuario {
           id
           nombres

@@ -89,7 +89,7 @@ const SalesVolume = () => {
                     ? currentDataVolume.map((prod, i) => (
                         <GridTrVentas props={prod} key={prod.productoId} />
                       ))
-                    : "Loading..."}
+                    : currentDataVolume.length === 0 ? <p className="ml-5 my-2">No hay ventas realizadas</p> : loading && "Loading..."}
                   {/* {currentDataVolume.map((prod, i) => (
                     <GridTrVentas props={prod} key={prod["productId"]} />
                   ))} */}
