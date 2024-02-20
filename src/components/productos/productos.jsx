@@ -64,7 +64,7 @@ export default function Productos() {
   return (
     <>
       <div className="bg-gradient">
-        <div className="container max-w-screen-xl mx-auto flex flex-col items-center py-6 md:py-10 md:pb-24">
+        <div className="container max-w-screen-xl min-h-screen mx-auto flex flex-col items-center py-6 md:py-10 md:pb-24">
           <h2 className="text-2xl md:text-4xl font-bold md:font-black">
             NUESTROS PRODUCTOS
           </h2>

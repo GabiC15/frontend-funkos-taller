@@ -6,7 +6,9 @@ import { redirectRol } from "@/utils/redirect-rol";
 import { useQuery } from "@apollo/client";
 
 export default function Favoritos() {
-  const { loading, data } = useQuery(GET_FAVORITOS);
+  const { loading, data } = useQuery(GET_FAVORITOS, {
+    fetchPolicy: "network-only",
+  });
 
   return (
     <>
