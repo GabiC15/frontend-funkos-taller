@@ -430,7 +430,7 @@ const CargarProducto = ({ producto }) => {
       <div className="bg-gradient min-h-screen py-12 flex justify-center flex-col md:flex-row">
         <h1 className="text-3xl md:text-4xl font-black mb-4 mx-4 uppercase text-center ml-20 md:ml-24 md:pt-12">
           {formData.id ? "Actualizar" : "Cargar"}
-          <br /> productos
+          <br /> producto
         </h1>
 
         <form

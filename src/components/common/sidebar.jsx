@@ -97,7 +97,7 @@ const Sidebar = () => {
                     href="/admin/productos"
                     className="block px-4 py-2 text-sm focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800"
                   >
-                    Mostrar productos
+                    Ver productos
                   </Link>
                   <Link
                     href="/admin/carga_producto/nuevo"
@@ -130,7 +130,7 @@ const Sidebar = () => {
                     href="/admin/cupones"
                     className="block px-4 py-2 text-sm focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800"
                   >
-                    Mostrar cupones
+                    Ver cupones
                   </Link>
                   <Link
                     href="/admin/carga_cupon/nuevo"
@@ -226,8 +226,8 @@ const Sidebar = () => {
                 </div>
               </li>
               <li>
-                <a
-                  href="#"
+                <Link
+                  href="/usuario/my-profile"
                   className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6"
                 >
                   <span className="inline-flex justify-center items-center ml-3">
@@ -246,13 +246,10 @@ const Sidebar = () => {
                       ></path>
                     </svg>
                   </span>
-                  {/* <p className="ml-2 text-sm tracking-wide truncate leading-tight">
-                    {user?.nombres} {user?.apellidos}
-                  </p> */}
                   <p className="ml-2 text-xs tracking-wide truncate leading-tight">
                     {user?.email}
                   </p>
-                </a>
+                </Link>
               </li>
               {/* <li>
                 <a
