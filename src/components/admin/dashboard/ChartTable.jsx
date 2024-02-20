@@ -3,21 +3,47 @@ import BarChart from "@/components/admin/dashboard/partials/barChart";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import LineChart from "./partials/lineChart";
 import { NetworkStatus, useQuery } from "@apollo/client";
+// import {
+//   GET_TOTAL_PEDIDOS_POR_ANIO,
+//   GET_TOTAL_PEDIDOS_POR_MES,
+// } from "@/services/apollo/queries/pedidos";
+
 import {
-  GET_TOTAL_PEDIDOS_POR_ANIO,
-  GET_TOTAL_PEDIDOS_POR_MES,
-} from "@/services/apollo/queries/pedidos";
+  GET_TOTAL_PAGOS_POR_ANIO,
+  GET_TOTAL_PAGOS_POR_MES,
+} from "@/services/apollo/queries/pago";
 
 const ChartTable = () => {
   const [status, setStatus] = useState(false);
   const startYear = 2016;
   const endYear = 2023;
 
+  // const {
+  //   data: dataLine,
+  //   error: errorLine,
+  //   loading: loadingLine,
+  // } = useQuery(GET_TOTAL_PEDIDOS_POR_ANIO, {
+  //   variables: {
+  //     input: {
+  //       startYear,
+  //       endYear,
+  //     }
+  //   }
+  // });
+
+  // const {
+  //   data: dataBar,
+  //   error: errorBar,
+  //   loading: loadingBar,
+  // } = useQuery(GET_TOTAL_PEDIDOS_POR_MES, {
+  //   variables: { input: endYear },
+  // });
+
   const {
     data: dataLine,
     error: errorLine,
     loading: loadingLine,
-  } = useQuery(GET_TOTAL_PEDIDOS_POR_ANIO, {
+  } = useQuery(GET_TOTAL_PAGOS_POR_ANIO, {
     variables: {
       input: {
         startYear,
@@ -30,34 +56,14 @@ const ChartTable = () => {
     data: dataBar,
     error: errorBar,
     loading: loadingBar,
-  } = useQuery(GET_TOTAL_PEDIDOS_POR_MES, {
+  } = useQuery(GET_TOTAL_PAGOS_POR_MES, {
     variables: { input: endYear },
   });
+
 
   if (loadingLine || loadingBar) return "Loading...";
   if (errorLine || errorBar)
     return `No data! ${(errorLine?.message, errorBar?.message)}`;
-
-  const barData = [
-    {
-      months: [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December",
-      ],
-      brutto: [0.1, 0.4, 0.2, 0.3, 0.7, 0.4, 0.6, 0.3, 0.4, 0.5, 0.7, 0.23],
-      netto: [0.07, 0.3, 0.15, 0.2, 0.5, 0.3, 0.8, 0.2, 0.4, 0.6, 0.3, 0.12],
-    },
-  ];
 
   return (
     <>
@@ -77,9 +83,9 @@ const ChartTable = () => {
           </button>
         </div>
         {status ? (
-          <LineChart data={dataLine.totalVentasPorAnio} />
+          <LineChart data={dataLine.totalPagosPorAnio} />
         ) : (
-          <BarChart data={dataBar.totalVentasPorMes} />
+          <BarChart data={dataBar.totalPagosPorMes} />
         )}
       </div>
     </>

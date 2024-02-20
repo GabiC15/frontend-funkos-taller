@@ -1,8 +1,8 @@
 import Layout from "@/components/common/layout";
 import Sidebar from "@/components/common/sidebar";
-import CardCupon from "@/components/admin/dashboard/cupones/CardCupon";
-import { IoAdd } from "react-icons/io5";
-import { NetworkStatus, useQuery } from "@apollo/client";
+import CardCupon from "@/components/admin/cupones/CardCupon";
+// import { IoAdd } from "react-icons/io5";
+import { useQuery } from "@apollo/client";
 import { useEffect } from "react";
 import { GET_CUPONES } from "@/services/apollo/queries/cupon";
 import { redirectRol } from "@/utils/redirect-rol";
