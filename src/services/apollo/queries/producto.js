@@ -26,6 +26,7 @@ export const GET_PRODUCTOS = gql`
       caracteristica {
         nombre
       }
+      estado
     }
   }
 `;
