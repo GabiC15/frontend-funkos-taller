@@ -42,10 +42,10 @@ const GridTrEnvios = ({ props }) => {
               ></div>
             </div>
             <div className="flex-col flex-shrink-0 pr-5 ">
-              <p className="font-semibold w-20 md:w-full overflow-x-scroll">
+              <p className="font-semibold w-20 md:w-full overflow-x-scroll md:overflow-x-auto">
                 {nombres} {apellidos}
               </p>
-              <p className="text-xs w-20 md:w-full overflow-x-scroll text-gray-600 dark:text-gray-400">
+              <p className="text-xs w-20 md:w-full overflow-x-scroll md:overflow-x-auto text-gray-600 dark:text-gray-400">
                 {/* {email.length > 10 ? email.slice(0, 10) + "..." : email} */}
                 {email}
               </p>
@@ -68,12 +68,8 @@ const GridTrEnvios = ({ props }) => {
         {/* <td className="px-4 py-3 text-xs md:text-sm">
           {direccion}
         </td> */}
-        <td className="px-4 py-3 text-xs md:text-sm">
-          {nombreProvincia}
-        </td>
-        <td className="px-4 py-3 text-xs md:text-sm">
-          {fecha}
-        </td>
+        <td className="px-4 py-3 text-xs md:text-sm">{nombreProvincia}</td>
+        <td className="px-4 py-3 text-xs md:text-sm">{fecha}</td>
         {onPhone && <td className="px-4 py-3 text-xs md:text-sm"></td>}
       </tr>
     </>
