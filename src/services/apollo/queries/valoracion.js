@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const GET_VALORACION = gql`
-  query GetValoracion($productoId: Int!) {
-    valoracion(productoId: $productoId) {
+  query GetValoracion($productoId: Int!, $usuarioId: Int!) {
+    valoracion(productoId: $productoId, usuarioId: $usuarioId) {
       id
       texto
       fecha
