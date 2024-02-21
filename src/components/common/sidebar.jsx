@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
 import { FiShoppingCart } from "react-icons/fi";
+import { FiUsers } from "react-icons/fi";
 import { GrDeliver } from "react-icons/gr";
 import { LuLogOut } from "react-icons/lu";
 import { MdOutlineLocalOffer } from "react-icons/md";
@@ -146,6 +147,19 @@ const Sidebar = () => {
                   </span>
                   <span className="ml-2 text-sm tracking-wide truncate">
                     Pedidos
+                  </span>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/admin/usuarios"
+                  className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6"
+                >
+                  <span className="inline-flex justify-center items-center ml-3">
+                    <FiUsers className="w-5 h-5" />
+                  </span>
+                  <span className="ml-2 text-sm tracking-wide truncate">
+                    Usuarios
                   </span>
                 </Link>
               </li>
