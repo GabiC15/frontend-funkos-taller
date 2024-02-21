@@ -6,9 +6,14 @@ import { IoAdd } from "react-icons/io5";
 
 // import { v4 as uuidv4 } from "uuid";
 
-const CargarImagenes = ({ dataImages, submitImages, formData, imagesFile, setImagesFile, clearTrue }) => {
-
- 
+const CargarImagenes = ({
+  dataImages,
+  submitImages,
+  formData,
+  setImagesFile,
+  clearTrue,
+  handleUpdateImages,
+}) => {
   // const [imagesUrl, setImagesUrl] = useState({
   //   picture_1: dataImages.picture_1,
   //   picture_2: dataImages.picture_2,
@@ -16,12 +21,16 @@ const CargarImagenes = ({ dataImages, submitImages, formData, imagesFile, setIma
   //   picture_4: dataImages.picture_4,
   // });
 
-  const [imagesBox, setImagesBox] = useState({
-    picture_1: dataImages.picture_1,
-    picture_2: dataImages.picture_2,
-    picture_3: dataImages.picture_3,
-    picture_4: dataImages.picture_4,
-  });
+  const [imagesBox, setImagesBox] = useState({});
+
+  useEffect(() => {
+    setImagesBox({
+      picture_1: dataImages.picture_1,
+      picture_2: dataImages.picture_2,
+      picture_3: dataImages.picture_3,
+      picture_4: dataImages.picture_4,
+    });
+  }, [dataImages]);
 
   // const handleImageBox = (e) => {
   //   const file = e.target.files[0];
@@ -46,6 +55,7 @@ const CargarImagenes = ({ dataImages, submitImages, formData, imagesFile, setIma
       });
       return;
     }
+    handleUpdateImages(e);
     handleImageBox(e);
     handleImagesFile(e);
   };
@@ -57,14 +67,14 @@ const CargarImagenes = ({ dataImages, submitImages, formData, imagesFile, setIma
     reader.onloadend = () =>
       setImagesBox({ ...imagesBox, [e.target.name]: reader.result });
     setImagesFile({
-      ...imagesFile,
+      ...dataImages,
       [e.target.name]: e.target.files[0],
     });
   };
 
   const handleImagesFile = (e) => {
     setImagesFile({
-      ...imagesFile,
+      ...dataImages,
       [e.target.name]: e.target.files[0],
     });
   };
@@ -72,7 +82,6 @@ const CargarImagenes = ({ dataImages, submitImages, formData, imagesFile, setIma
   useEffect(() => {
     handleImagesRemove();
   }, [clearTrue]);
-
 
   // const handleSubmitImages = () => {
   //   console.log("Uploading... imagesBox...");
@@ -97,15 +106,13 @@ const CargarImagenes = ({ dataImages, submitImages, formData, imagesFile, setIma
       ["picture_4"]: null,
     });
     setImagesFile({
-      ...imagesFile,
+      ...dataImages,
       ["picture_1"]: null,
       ["picture_2"]: null,
       ["picture_3"]: null,
       ["picture_4"]: null,
     });
   };
-
-  
 
   // if (loading) console.log("Submitting...");
   // if (error) console.log(`Error: ${error.message}`);
@@ -255,7 +262,6 @@ const CargarImagenes = ({ dataImages, submitImages, formData, imagesFile, setIma
         {" "}
         Upload Images
       </button> */}
-
     </>
   );
 };

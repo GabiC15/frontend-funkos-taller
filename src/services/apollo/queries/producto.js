@@ -23,6 +23,9 @@ export const GET_PRODUCTOS = gql`
           nombre
         }
       }
+      caracteristica {
+        nombre
+      }
     }
   }
 `;
@@ -36,6 +39,7 @@ export const GET_PRODUCTO = gql`
       stock
       precio
       caracteristica {
+        id
         nombre
       }
       imagenes {

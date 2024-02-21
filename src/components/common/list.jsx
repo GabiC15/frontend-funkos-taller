@@ -1,51 +1,59 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 
-const List = ({ selectedOption, setSelectedOption, optionsServerSide, handleChange, category }) => {
 
-  const [options, setOptions ] = useState("");
+const List = ({
+  selectedOption,
+  setSelectedOption,
+  handleChange,
+  optionsServerSide,
+}) => {
+
+  const [options, setOptions] = useState("");
 
   const changeSelectOptionHandler = (event) => {
-    const value = event.target.value.split(',');
-    setSelectedOption({id:  parseInt(value[0]), nombre: value[1]});
-    // console.log(category, value[0])
-    handleChange(category, value[0]);
+    const value = event.target.value.split(",");
+    setSelectedOption({ id: parseInt(value[0]), nombre: value[1] });
+    handleChange(value[0]);
   };
-  
+
   useEffect(() => {
-    
-    const excludedCategoryId = selectedOption.id;
-    const filteredCategoryData = optionsServerSide ? optionsServerSide.filter(categoria => categoria.id !== excludedCategoryId) : null;
-    
-    const optionsFiltered = filteredCategoryData;
-    
+    const excludedCaracteristicasId = selectedOption.id;
+    const filteredCaracteristicasData = optionsServerSide
+      ? optionsServerSide.filter(
+          (caracteristica) => caracteristica.id !== excludedCaracteristicasId
+        )
+      : null;
+
+    const optionsFiltered = filteredCaracteristicasData;
+
     const optionsList = optionsFiltered?.map((option, id) => (
       <option key={option.id} value={`${option.id}, ${option.nombre}`}>
         {option.nombre}
       </option>
     ));
-    
-    setOptions(optionsList); 
-    
-  }, [])
-  
-  
-    useEffect(() => {
-      const excludedCategoryId = selectedOption.id;
-    const filteredCategoryData = optionsServerSide ? optionsServerSide.filter(categoria => categoria.id !== excludedCategoryId) : null;
-    
-    const optionsFiltered = filteredCategoryData;
-    
+
+    setOptions(optionsList);
+  }, []);
+
+  useEffect(() => {
+    const excludedCaracteristicasId = selectedOption.id;
+    const filteredCaracteristicasData = optionsServerSide
+      ? optionsServerSide.filter(
+          (caracteristica) => caracteristica.id !== excludedCaracteristicasId
+        )
+      : null;
+
+    const optionsFiltered = filteredCaracteristicasData;
+
     const optionsList = optionsFiltered?.map((option, id) => (
       <option key={option.id} value={`${option.id}, ${option.nombre}`}>
         {option.nombre}
       </option>
     ));
-    
-    setOptions(optionsList); 
-    
-  }, [selectedOption])
-  
-  
+
+    setOptions(optionsList);
+  }, [selectedOption]);
+
   return (
     <>
       <label htmlFor="underline_select" className="sr-only">
@@ -61,11 +69,13 @@ const List = ({ selectedOption, setSelectedOption, optionsServerSide, handleChan
         <option
           key={selectedOption.id}
           value={`${selectedOption.id}, ${selectedOption.nombre}`}
-          defaultValue={`${selectedOption.nombre ? selectedOption.nombre : "Seleccione una"}`}
-        >{`${selectedOption.nombre ? selectedOption.nombre : "Seleccione una"}`}</option>
-        {
-          options
-        }
+          defaultValue={`${
+            selectedOption.nombre ? selectedOption.nombre : "Seleccione una"
+          }`}
+        >{`${
+          selectedOption.nombre ? selectedOption.nombre : "Seleccione una"
+        }`}</option>
+        {options}
       </select>
     </>
   );
