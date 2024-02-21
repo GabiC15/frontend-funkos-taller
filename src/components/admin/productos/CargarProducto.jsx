@@ -524,8 +524,6 @@ const CargarProducto = ({ producto }) => {
           <div className="md:mr-2">
             <CargarImagenes
               dataImages={imagesFile}
-              submitImages={submitImages}
-              formData={formData}
               setImagesFile={setImagesFile}
               clearTrue={clearTrue}
               handleUpdateImages={handleUpdateImages}
