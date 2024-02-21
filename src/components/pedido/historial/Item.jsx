@@ -29,7 +29,7 @@ export default function Item({ item, aprobado }) {
             <h3 className="text-lg md:text-xl font-extrabold uppercase mr-auto">
               {item.producto.titulo}
             </h3>
-            {aprobado && user.rol === "CLIENTE" && (
+            {aprobado && user?.rol === "CLIENTE" && (
               <button
                 className=" bg-black/20 min-w-[1.75rem] h-7 pr-0.5 rounded-lg"
                 onClick={() => setOpenDialog(true)}
