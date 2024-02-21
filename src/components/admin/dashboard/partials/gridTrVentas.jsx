@@ -24,9 +24,11 @@ const GridTrVentas = ({ props }) => {
   return (
     <>
       <tr className="text-gray-700 dark:text-gray-100">
-        <th className="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left overflow-scroll">
+        <th className="border-t-0 px-4 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left overflow-scroll md:overflow-auto">
           {/* {productoTitulo.length >= sizeText ? productoTitulo.slice(0, 18) + "..." : productoTitulo} */}
-          <div className="w-24 md:w-full h-full overflow-x-scroll">{productoTitulo}</div>
+          <div className="w-24 md:w-full h-full overflow-x-scroll">
+            {productoTitulo}
+          </div>
         </th>
         {!onPhone && (
           <td className="border-t-0 invisible md:visible px-8 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
