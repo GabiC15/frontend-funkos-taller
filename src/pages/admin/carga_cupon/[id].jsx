@@ -1,12 +1,11 @@
 import Layout from "@/components/common/layout";
 import Sidebar from "@/components/common/sidebar";
-import client from "@/services/apollo/client";
+import client, { getClient } from "@/services/apollo/client";
 import { GET_CUPON } from "@/services/apollo/queries/cupon";
 import CargarCupon from "@/components/admin/cupones/CargarCupon";
 import { redirectRol } from "@/utils/redirect-rol";
 
-
-const AgregarCupon = ({cupon}) => {
+const AgregarCupon = ({ cupon }) => {
   return (
     <>
       <Layout>
@@ -23,7 +22,7 @@ export async function getServerSideProps(context) {
   const { params } = context;
   const redirect = redirectRol(context, ["ADMIN"]);
   if (!isNaN(params.id)) {
-    const { data } = await client.query({
+    const { data } = await getClient(context).query({
       query: GET_CUPON,
       variables: {
         id: Number.parseInt(params.id),

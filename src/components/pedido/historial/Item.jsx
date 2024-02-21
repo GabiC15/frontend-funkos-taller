@@ -1,12 +1,14 @@
-import { faComment } from "@fortawesome/free-regular-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import ValoracionDialog from "./CommentDialog";
+import { faComment } from "@fortawesome/free-regular-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useContext, useState } from "react";
+import { UserContext } from "@/components/providers/UserProvider";
 
 export default function Item({ item, aprobado }) {
   const [openDialog, setOpenDialog] = useState(false);
+  const { user } = useContext(UserContext);
 
   return (
     <>
@@ -27,7 +29,7 @@ export default function Item({ item, aprobado }) {
             <h3 className="text-lg md:text-xl font-extrabold uppercase mr-auto">
               {item.producto.titulo}
             </h3>
-            {aprobado && (
+            {aprobado && user.rol === "CLIENTE" && (
               <button
                 className=" bg-black/20 min-w-[1.75rem] h-7 pr-0.5 rounded-lg"
                 onClick={() => setOpenDialog(true)}
