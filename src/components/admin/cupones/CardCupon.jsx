@@ -170,7 +170,7 @@ export default function CardCupon({ cupon }) {
             {isDeleted && (
               <div className="mx-auto my-4 w-72 ">
                 <h3 className="text-lg font-black text-gray-800">
-                  ¡Cupon eliminado!
+                  ¡Cupón eliminado!
                 </h3>
                 <p className="text-sm text-gray-500 pt-5">
                   El cupón ha sido eliminado exitosamente.

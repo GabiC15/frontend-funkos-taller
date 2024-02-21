@@ -20,6 +20,7 @@ export default function Producto() {
     variables: {
       input: {
         busqueda,
+        estado: true,
       },
     },
   });
@@ -30,13 +31,14 @@ export default function Producto() {
       input: {
         pagina,
         busqueda,
+        estado: true,
       },
     });
   }, [pagina, refetch]);
 
   useEffect(() => {
     setPagina(1);
-    refetch({ input: { busqueda } });
+    refetch({ input: { busqueda, estado: true } });
   }, [busqueda]);
 
   useEffect(() => {
@@ -86,7 +88,7 @@ export default function Producto() {
               >
                 <div className="flex flex-col gap-1 md:gap-3 mt-6">
                   {productos.map((prod, i) => (
-                    <CardProducto producto={prod} key={prod["productId"]} />
+                    <CardProducto producto={prod} refetch={refetch} key={prod["productId"]} />
                   ))}
                 </div>
               </InfiniteScroll>

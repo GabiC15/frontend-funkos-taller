@@ -13,6 +13,7 @@ export const ADD_PRODUCTO = gql`
       categoria {
         id
       }
+      estado
     }
   }
 `;

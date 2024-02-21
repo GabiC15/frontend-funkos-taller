@@ -273,9 +273,9 @@ const CargarProducto = ({ producto }) => {
   //   console.log("producto IDDD", productoId);
   // }, [productoId])
 
-  useEffect(() => {
-    console.log(formData, dataListCaracteristicas, caracteristicaId);
-  }, [formData]);
+  // useEffect(() => {
+  //   console.log(formData, dataListCaracteristicas, caracteristicaId);
+  // }, [formData]);
 
   const handleUploadDbImages = async (
     imageUrl,
