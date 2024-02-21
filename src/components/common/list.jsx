@@ -5,6 +5,7 @@ const List = ({
   setSelectedOption,
   handleChange,
   optionsServerSide,
+
 }) => {
   const [options, setOptions] = useState("");
 
@@ -57,11 +58,14 @@ const List = ({
     const optionsFiltered = filteredCaracteristicasData;
 
     const optionsList = optionsFiltered?.map((option, id) => (
-      <option key={option.id} value={`${option.id}, ${option.nombre}`}>
+      <option
+        key={option.id}
+        value={`${option.id}, ${option.nombre}`}
+        className="text-chineseBlack"
+      >
         {option.nombre}
       </option>
     ));
-    console.log(selectedOption);
 
     if (selectedOption.id !== 0 && selectedOption.id) {
       const optionNinguna = (
@@ -95,6 +99,7 @@ const List = ({
         <option
           key={selectedOption.id}
           value={`${selectedOption.id}, ${selectedOption.nombre}`}
+          className="text-chineseBlack"
           defaultValue={`${
             selectedOption.nombre ? selectedOption.nombre : "Seleccione una"
           }`}

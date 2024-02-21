@@ -31,12 +31,13 @@ import {
 import { urlWithSize } from "@/utils/url-with-size";
 import { UserContext } from "../providers/UserProvider";
 import { IoSparklesOutline } from "react-icons/io5";
+import { PROMEDIO_VALORACIONES } from "@/services/apollo/queries/valoracion";
 
 export default function Detalle({ funko }) {
   const router = useRouter();
   const [image, setImage] = useState(0);
   const [cantidad, setCantidad] = useState(1);
-  const { show, showCarrito } = useContext(CarritoContext);
+  const { showCarrito } = useContext(CarritoContext);
   const { user } = useContext(UserContext);
 
   const { data, refetch } = useQuery(GET_LINEA_CARRITO, {
@@ -45,6 +46,11 @@ export default function Detalle({ funko }) {
   });
 
   const { data: favoritoData } = useQuery(GET_FAVORITO, {
+    variables: { productoId: funko.id },
+    fetchPolicy: "network-only",
+  });
+
+  const { data: valoracionesData } = useQuery(PROMEDIO_VALORACIONES, {
     variables: { productoId: funko.id },
     fetchPolicy: "network-only",
   });
@@ -68,6 +74,11 @@ export default function Detalle({ funko }) {
   useEffect(() => {
     if (dataCreate) showCarrito(true);
   }, [dataCreate, showCarrito]);
+
+  const getIcon = (cantidad) =>
+    valoracionesData?.promedioValoraciones >= cantidad
+      ? faStarSolid
+      : faStarRegular;
 
   return (
     <>
@@ -133,29 +144,30 @@ export default function Detalle({ funko }) {
                 </p>
               </div>
             )}
-
-            <div className="flex gap-1 mb-1">
-              <FontAwesomeIcon
-                icon={faStarSolid}
-                className="text-yellow-500 text-2xl"
-              />
-              <FontAwesomeIcon
-                icon={faStarSolid}
-                className="text-yellow-500 text-2xl"
-              />
-              <FontAwesomeIcon
-                icon={faStarSolid}
-                className="text-yellow-500 text-2xl"
-              />
-              <FontAwesomeIcon
-                icon={faStarSolid}
-                className="text-yellow-500 text-2xl"
-              />
-              <FontAwesomeIcon
-                icon={faStarRegular}
-                className="text-yellow-500 text-2xl"
-              />
-            </div>
+            {valoracionesData?.promedioValoraciones && (
+              <div className="flex gap-1 mb-1">
+                <FontAwesomeIcon
+                  icon={getIcon(1)}
+                  className="text-yellow-500 text-2xl"
+                />
+                <FontAwesomeIcon
+                  icon={getIcon(2)}
+                  className="text-yellow-500 text-2xl"
+                />
+                <FontAwesomeIcon
+                  icon={getIcon(3)}
+                  className="text-yellow-500 text-2xl"
+                />
+                <FontAwesomeIcon
+                  icon={getIcon(4)}
+                  className="text-yellow-500 text-2xl"
+                />
+                <FontAwesomeIcon
+                  icon={getIcon(5)}
+                  className="text-yellow-500 text-2xl"
+                />
+              </div>
+            )}
           </div>
 
           <div className="flex items-center gap-4 mt-5">

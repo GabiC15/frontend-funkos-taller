@@ -11,6 +11,12 @@ export const GET_VALORACION = gql`
   }
 `;
 
+export const PROMEDIO_VALORACIONES = gql`
+  query PromedioValoraciones($productoId: Int!) {
+    promedioValoraciones(productoId: $productoId)
+  }
+`;
+
 export const CREATE_VALORACION = gql`
   mutation CreateValoracion($input: ValoracionInput!) {
     createValoracion(input: $input) {

@@ -1,12 +1,14 @@
 import { GET_USUARIO } from "@/services/apollo/queries/usuario";
 import { useQuery } from "@apollo/client";
-import React, { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 export const UserContext = createContext();
 
 export default function UserProvider({ children }) {
   const [user, setUser] = useState();
-  const { data, error } = useQuery(GET_USUARIO);
+  const { data, error, refetch } = useQuery(GET_USUARIO, {
+    fetchPolicy: "network-only",
+  });
 
   useEffect(() => {
     if (data?.usuario) onUserChange(data.usuario);
@@ -20,6 +22,8 @@ export default function UserProvider({ children }) {
       email: usuario.email,
       rol: usuario.rol.nombre,
     });
+
+    refetch();
   }
 
   function logout() {

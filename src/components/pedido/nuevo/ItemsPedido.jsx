@@ -2,9 +2,18 @@ import Loading from "@/components/producto/loading";
 import { GET_LINEAS_CARRITO } from "@/services/apollo/queries/linea-carrito";
 import { useQuery } from "@apollo/client";
 import Image from "next/image";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 export default function ItemsPedido() {
-  const { data: lineasCarritoData } = useQuery(GET_LINEAS_CARRITO);
+  const router = useRouter();
+  const { data: lineasCarritoData } = useQuery(GET_LINEAS_CARRITO, {
+    fetchPolicy: "network-only",
+  });
+
+  useEffect(() => {
+    if (lineasCarritoData?.lineasCarrito.length === 0) router.push("/");
+  }, [lineasCarritoData, router]);
 
   return (
     <>

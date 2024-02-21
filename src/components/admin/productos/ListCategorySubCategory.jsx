@@ -35,13 +35,17 @@ const ListCategorySubCategory = ({ dataList, handleChange, clearTrue }) => {
     error: errorCategory,
     loading: loadingCategory,
   } = useQuery(GET_CATEGORIAS, {
-    refetchQueries: [{ query: GET_SUBCATEGORIAS, variables: {
-      id: selectedOptionCategory.id ? selectedOptionCategory.id : 0,
-    }, }],
+    refetchQueries: [
+      {
+        query: GET_SUBCATEGORIAS,
+        variables: {
+          id: selectedOptionCategory.id ? selectedOptionCategory.id : 0,
+        },
+      },
+    ],
   });
 
   const optionsCategoria = dataCategory?.categorias;
-   
 
   useEffect(() => {
     // if (loadingCategory) return 'Loading...';
@@ -50,7 +54,7 @@ const ListCategorySubCategory = ({ dataList, handleChange, clearTrue }) => {
     // console.log(data);
     if (dataList.categoriaId !== selectedOptionCategory.id && selectedOptionCategory.id !== "") {
       console.log("refetching...");
-      refetchSubcategory()
+      refetchSubcategory();
       setSelectedOptionSubCategory("");
       handleChange("subcategoria", null);
     } else {
@@ -71,15 +75,15 @@ const ListCategorySubCategory = ({ dataList, handleChange, clearTrue }) => {
       id: selectedOptionCategory.id ? selectedOptionCategory.id : 0,
     },
     fetchPolicy: "network-only",
-  },
-  );
-  
+  });
+
   useEffect(() => {
     handleClearCategories()
     // console.log("clearTrue", clearTrue);
   }
   , [clearTrue]);
   
+
   const handleClearCategories = () => {
     setSelectedOptionCategory({
       id: "",
