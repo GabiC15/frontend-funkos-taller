@@ -21,6 +21,9 @@ export const GET_NOTIFICACIONES = gql`
       producto {
         id
       }
+      cupon {
+        id
+      }
     }
   }
 `;

@@ -1,6 +1,6 @@
 const NotificationMessage = ({ data }) => {
   // const { userName, profilePicture, message } = data;
-  const { fecha, mensaje, usuario, pedido, producto } = data;
+  const { fecha, mensaje, usuario, pedido, producto, cupon } = data;
   let nombres = "";
   if (usuario) {
     const { nombres: name, apellidos: lastname } = usuario;
@@ -27,30 +27,37 @@ const NotificationMessage = ({ data }) => {
           <div className="self-center">
             <a
               className="font-medium text-gray-800 hover:text-gray-900 dark:text-gray-50 dark:hover:text-gray-100"
-              href="#0"
               style={{ outline: "none" }}
             >
               {nombres === "" ? "Admin" : nombres}
             </a>{" "}
             {mensaje.toLowerCase()}{" "}
-            {/* <a
-                          className="font-medium text-gray-800 dark:text-gray-50 dark:hover:text-gray-100"
-                          href="#0"
-                          style={{ outline: "none" }}
-                        >
-                          Sara Smith
-                        </a>{" "}
-                        in a new post */}
           </div>
           <div className="flex-shrink-0 ml-2">
             <a
               className="flex items-center font-medium text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-500"
-              href={`${pedido?.id || producto?.id || "#0"}`}
+              href={
+                pedido?.id
+                  ? `/usuario/historial/${pedido?.id}`
+                  : producto?.id
+                  ? `/productos/${producto?.id}`
+                  : cupon?.id
+                  ? `/admin/cupones`
+                  : ""
+              }
               style={{ outline: "none" }}
             >
               <div className="md:flex ">
                 <p className="mr-1">Ver</p>
-                <p>producto</p>
+                <p>
+                  {pedido?.id
+                    ? "pedido"
+                    : producto?.id
+                    ? "producto"
+                    : cupon?.id
+                    ? "cupon"
+                    : ""}
+                </p>
               </div>
               <span>
                 <svg
