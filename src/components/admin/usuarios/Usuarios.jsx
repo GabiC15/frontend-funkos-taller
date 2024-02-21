@@ -21,31 +21,33 @@ export default function UsuariosSection() {
           </h1>
           <div className="grid grid-cols-1 gap-1 md:gap-2 mb-16">
             {usuariosLoading && <Loading className="mx-auto" />}
-            <div className="relative overflow-x-auto">
-              <table className="w-full text-sm text-left rtl:text-right text-white">
-                <thead className="text-xs text-white uppercase bg-black/20">
-                  <tr>
-                    <th scope="col" className="px-6 py-3">
-                      ID
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                      Email
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                      Nombre
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                      Habilitado
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {usuariosData?.usuarios.map((usuario) => (
-                    <UsuarioItem usuario={usuario} key={usuario.id} />
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            {usuariosData && (
+              <div className="relative overflow-x-auto">
+                <table className="w-full text-sm text-left rtl:text-right text-white">
+                  <thead className="text-xs text-white uppercase bg-black/20">
+                    <tr>
+                      <th scope="col" className="px-6 py-3">
+                        ID
+                      </th>
+                      <th scope="col" className="px-6 py-3">
+                        Email
+                      </th>
+                      <th scope="col" className="px-6 py-3">
+                        Nombre
+                      </th>
+                      <th scope="col" className="px-6 py-3">
+                        Habilitado
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {usuariosData?.usuarios.map((usuario) => (
+                      <UsuarioItem usuario={usuario} key={usuario.id} />
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
 
             {usuariosData?.usuarios.length === 0 && (
               <p>No hay usuarios disponibles</p>
