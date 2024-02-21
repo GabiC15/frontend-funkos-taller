@@ -1,33 +1,23 @@
 import { useState } from "react";
-// import Image from "next/image";
-// import { BiSolidEditAlt } from "react-icons/bi";
 import { GET_CUPONES } from "@/services/apollo/queries/cupon";
 import {
   UPDATE_CUPON,
 } from "@/services/apollo/mutations/carga_cupon";
-// import { GET_CUPONES } from "@/services/apollo/queries/cupon";
 import { useMutation } from "@apollo/client";
 import DeleteModal from "@/components/common/deleteModal";
 import { useRouter } from "next/router";
-// import { useQueryClient } from 'react-query';
 
 export default function CardCupon({ cupon }) {
-  // const queryClient = useQueryClient();
   const router = useRouter();
   const { nombre, porcentaje, validoDesde, validoHasta } = cupon;
   const [open, setOpen] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
-  // const [deleteCupon, { data, loading, error }] = useMutation(DELETE_CUPON, {
-  //   onCompleted: (data) => {
-  //     setIsDeleted(true);
-  //   },
-  // });
 
   const [updateCupon, { data, loading, error }] = useMutation(
     UPDATE_CUPON,
     {
       onCompleted: (data) => {
-        setIsDeleted(true);
+        if (data) setIsDeleted(true);
       },
       refetchQueries: [{ query: GET_CUPONES }],
     },
@@ -57,20 +47,8 @@ export default function CardCupon({ cupon }) {
 
   return (
     <>
-      {/* <div className="bg-black/20 mt-2 p-4 flex flex-row rounded-[8px] justify-between mx-4 border-[1px] border-[#282828]"> */}
       <div className="flex flex-row md:flex-col mx-4 my-1 md:my-0 md:mx-2">
-        {/* <div className="bg-white/20 px-6 md:h-32 md:p-6 rounded-[18px] flex items-center"> */}
-        {/* <Image
-              src={image}
-              width={0}
-              height={0}
-              sizes="100vh"
-              className="cursor-pointer w-12 md:w-20 mx-auto scale-[1.6] md:scale-[1.7] hover:scale-[1.87] transition-all drop-shadow-lg hover:drop-shadow-2xl"
-              alt={titulo}
-            /> */}
-        {/* </div> */}
-
-        <div class="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow md:p-6 dark:bg-gray-800/50 dark:border-gray-700">
+        <div className="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow md:p-6 dark:bg-gray-800/50 dark:border-gray-700">
           <div className="grid grid-rows-1 justify-end">
             <button className="h-5" onClick={handleDelete}>
               <svg
@@ -85,31 +63,23 @@ export default function CardCupon({ cupon }) {
                 />
               </svg>
             </button>
-            {/* <button
-            className="h-6"
-            onClick={() => {
-              router.push(`/admin/carga_cupon/${cupon.id}`);
-            }}
-          >
-            <BiSolidEditAlt className="w-full h-full" />
-          </button> */}
           </div>
-          <h5 class="mb-4 text-xl font-medium md:font-bold text-white dark:text-white ">
+          <h5 className="mb-4 text-xl font-medium md:font-bold text-white dark:text-white ">
             {nombre}
           </h5>
-          <div class="flex items-baseline text-gray-900 dark:text-white justify-center">
-            <span class="text-6xl font-extrabold tracking-tight">
+          <div className="flex items-baseline text-gray-900 dark:text-white justify-center">
+            <span className="text-6xl font-extrabold tracking-tight">
               {porcentaje}
             </span>
-            <span class="text-3xl font-semibold">%</span>
-            <span class="ms-1 text-xl font-normal text-gray-500 dark:text-gray-400">
+            <span className="text-3xl font-semibold">%</span>
+            <span className="ms-1 text-xl font-normal text-gray-500 dark:text-gray-400">
               off
             </span>
           </div>
-          <ul role="list" class="space-y-5 my-7">
-            <li class="flex items-center">
+          <ul role="list" className="space-y-5 my-7">
+            <li className="flex items-center">
               <svg
-                class="flex-shrink-0 w-4 h-4 text-gray-700 dark:text-gray-300"
+                className="flex-shrink-0 w-4 h-4 text-gray-700 dark:text-gray-300"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="currentColor"
@@ -117,13 +87,13 @@ export default function CardCupon({ cupon }) {
               >
                 <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
               </svg>
-              <span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-300 ms-3">
+              <span className="text-base font-normal leading-tight text-gray-500 dark:text-gray-300 ms-3">
                 {validoDesde}
               </span>
             </li>
-            <li class="flex">
+            <li className="flex">
               <svg
-                class="flex-shrink-0 w-4 h-4 text-blue-700 dark:text-blue-500"
+                className="flex-shrink-0 w-4 h-4 text-blue-700 dark:text-blue-500"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="currentColor"
@@ -131,14 +101,14 @@ export default function CardCupon({ cupon }) {
               >
                 <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
               </svg>
-              <span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-300 ms-3">
+              <span className="text-base font-normal leading-tight text-gray-500 dark:text-gray-300 ms-3">
                 {validoHasta}
               </span>
             </li>
           </ul>
           <button
             type="button"
-            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-900 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex justify-center w-full text-center"
+            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-900 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex justify-center w-full text-center"
             onClick={() => {
               router.push(`/admin/carga_cupon/${cupon.id}`);
             }}
@@ -180,7 +150,6 @@ export default function CardCupon({ cupon }) {
           </div>
         </DeleteModal>
       )}
-      {/* </div> */}
     </>
   );
 }

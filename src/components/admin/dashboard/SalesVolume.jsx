@@ -2,9 +2,7 @@ import { useState, useEffect } from "react";
 import GridTrVentas from "@/components/admin/dashboard/partials/gridTrVentas";
 import { useQuery } from "@apollo/client";
 import { GET_VOLUMEN_ITEMS_PEDIDOS } from "@/services/apollo/queries/items-pedido";
-import { NetworkStatus } from "@apollo/client";
 import Pagination from "@/components/common/pagination";
-import Paginationa from "@/components/productos/pagination";
 
 const SalesVolume = () => {
   const { data, error, loading } = useQuery(GET_VOLUMEN_ITEMS_PEDIDOS);
@@ -27,11 +25,6 @@ const SalesVolume = () => {
   
   if (loading) return "Loading...";
   if (error) return `No data! ${error.message}`;
-
-  // if (window.matchMedia('(max-width: 639px)').matches) {
-  //   setOnPhone(true);
-  // }
-
 
   const dataVolume = data.volumenItemsPedidos;
 
@@ -60,14 +53,6 @@ const SalesVolume = () => {
                   Volumen total de ventas
                 </h3>
               </div>
-              {/* <div className="relative w-full max-w-full flex-grow flex-1 text-right">
-                <button
-                  className="bg-blue-500 dark:bg-gray-100 text-white active:bg-blue-600 dark:text-gray-800 dark:active:text-gray-700 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                  type="button"
-                >
-                  Ver Todo
-                </button>
-              </div> */}
             </div>
             <div className="block w-full overflow-x-auto">
               <table className="items-center w-full bg-transparent border-collapse">
@@ -90,9 +75,6 @@ const SalesVolume = () => {
                         <GridTrVentas props={prod} key={prod.productoId} />
                       ))
                     : currentDataVolume.length === 0 ? <p className="ml-5 my-2">No hay ventas realizadas</p> : loading && "Loading..."}
-                  {/* {currentDataVolume.map((prod, i) => (
-                    <GridTrVentas props={prod} key={prod["productId"]} />
-                  ))} */}
                 </tbody>
               </table>
             </div>
@@ -109,7 +91,6 @@ const SalesVolume = () => {
                   dataStartIndex={indexOfFirstPage}
                   nPages={nPages}
                 />{" "}
-                {/* <Paginationa nPages={nPages} currentPage={currentPage} setCurrentPage={setCurrentPage} /> */}
               </nav>
             </span>
           </div>

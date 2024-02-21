@@ -101,10 +101,10 @@ const List = ({
           value={`${selectedOption.id}, ${selectedOption.nombre}`}
           className="text-chineseBlack"
           defaultValue={`${
-            selectedOption.nombre ? selectedOption.nombre : "Seleccione una"
+            selectedOption.nombre ? selectedOption.nombre : "Ninguna"
           }`}
         >{`${
-          selectedOption.nombre ? selectedOption.nombre : "Seleccione una"
+          selectedOption.nombre ? selectedOption.nombre : "Ninguna"
         }`}</option>
         {options}
       </select>

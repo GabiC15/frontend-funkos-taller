@@ -34,12 +34,6 @@ const MainCards = () => {
     loading: loadingTotalProductos,
   } = useQuery(GET_TOTAL_PRODUCTOS);
 
-  // useEffect(() => {
-  //   // if (loading) return 'Loading...';
-  //   // if (error) return `No data! ${error.message}`;
-  //   console.log(data);
-  // }, [data, error, loading]);
-
   if (loadingTotalUsuarios || loadingTotalPedidos || loadingTotalPedidosPagos || loadingTotalProductos)
     return "Loading...";
   if (

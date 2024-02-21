@@ -48,10 +48,7 @@ const ListCategorySubCategory = ({ dataList, handleChange, clearTrue }) => {
   const optionsCategoria = dataCategory?.categorias;
 
   useEffect(() => {
-    // if (loadingCategory) return 'Loading...';
-    // if(loadingSubcategory) return 'Loading...';
-    // if (error) return `No data! ${error.message}`;
-    // console.log(data);
+
     if (dataList.categoriaId !== selectedOptionCategory.id && selectedOptionCategory.id !== "") {
       console.log("refetching...");
       refetchSubcategory();

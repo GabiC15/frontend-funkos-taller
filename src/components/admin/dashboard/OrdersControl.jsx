@@ -60,14 +60,12 @@ const OrdersControl = () => {
                   <th className="px-4 py-2"></th>
                   <th className="px-4 py-2"></th>
                   <th className="px-4 py-2"></th>
-                  {/* <th className="px-4 py-2"></th> */}
                   <th className="px-4 py-2"></th>
                 </tr>
                 <tr className="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                   <th className="px-4 py-3">Cliente</th>
                   {!onPhone && <th className="px-4 py-3">Monto</th>}
                   <th className="px-4 py-3">Estado</th>
-                  {/* <th className="px-4 py-3">Dirección</th> */}
                   <th className="px-4 py-3">Provincia</th>
                   <th className="px-4 py-3">Fecha</th>
                   {onPhone && <th className="px-4 py-3"></th>}
@@ -98,9 +96,6 @@ const OrdersControl = () => {
             </span>
           </div>
         </div>
-        {/* <!-- ./Client Table --> */}
-
-        {/* <!-- External resources --> */}
       </div>
     </>
   );
