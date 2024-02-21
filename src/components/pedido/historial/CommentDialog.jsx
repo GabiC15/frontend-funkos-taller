@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, useContext, useEffect, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useMutation, useQuery } from "@apollo/client";
 import {
@@ -8,17 +8,19 @@ import {
 import StarsPicker from "./StarsPicker";
 import Image from "next/image";
 import Loading from "@/components/producto/loading";
+import { UserContext } from "@/components/providers/UserProvider";
 
 export default function ValoracionDialog({ producto, show, setShow }) {
   const cancelButtonRef = useRef(null);
   const [stars, setStars] = useState(0);
   const [comentario, setComentario] = useState();
+  const { user } = useContext(UserContext);
 
   const [createValoracion, { data: createValData, loading: createValLoading }] =
     useMutation(CREATE_VALORACION, { refetchQueries: [GET_VALORACION] });
 
   const { data: valoracionData } = useQuery(GET_VALORACION, {
-    variables: { productoId: producto.id },
+    variables: { productoId: producto.id, usuarioId: user?.id },
   });
 
   const onSubmit = async () => {
