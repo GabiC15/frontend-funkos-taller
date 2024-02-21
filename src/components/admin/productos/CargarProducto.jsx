@@ -205,7 +205,6 @@ const CargarProducto = ({ producto }) => {
       !formData.descripcion ||
       !formData.stock ||
       !formData.precio ||
-      !formData.caracteristicaId ||
       !formData.categoriaId ||
       !formData.subcategoriaId
     ) {
@@ -651,7 +650,7 @@ const CargarProducto = ({ producto }) => {
               htmlFor="title"
               className="block text-bold font-medium text-white"
             >
-              Características
+              Característica especial
             </label>
             {/* <input
               className="bg-transparent border-2 pl-1 border-slate-300/90 focus:border-slate-200 rounded-lg outline-none"
