@@ -28,8 +28,8 @@ export default function UserDataForm() {
       });
 
       setShowAlert(true)
-      setApellidosValue(undefined)
-      setNombresValue(undefined)
+      setApellidosValue()
+      setNombresValue()
 
     }
     catch(e){

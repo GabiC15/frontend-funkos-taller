@@ -12,9 +12,8 @@ export default function CardFunkoHistorial({ compra }) {
 
   return (
     <>
-      <Link
+      <div
         className="bg-black/20 mt-2 p-3 md:p-4 flex flex-col gap-4 rounded-[8px] align-center border-[1px] border-[#282828]"
-        href={`/usuario/historial/${compra.id}`}
       >
         <>
           <div className="flex flex-row">
@@ -25,7 +24,7 @@ export default function CardFunkoHistorial({ compra }) {
                 height={0}
                 sizes="100vh"
                 unoptimized
-                className="cursor-pointer w-6 md:w-9 mx-auto scale-[1.6] md:scale-[1.7] hover:scale-[1.87] transition-all drop-shadow-lg hover:drop-shadow-2xl"
+                className=" w-6 md:w-9 mx-auto scale-[1.6] md:scale-[1.7] transition-all drop-shadow-lg hover:drop-shadow-2xl"
                 alt={compra.itemsPedido[0].producto.titulo}
               />
             </div>
@@ -52,13 +51,19 @@ export default function CardFunkoHistorial({ compra }) {
                 </div>
               </div>
             </div>
-
-            <button className="bg-chineseBlack ml-auto text-xs md:text-base my-auto w-min h-min px-4 py-2 rounded-lg whitespace-nowrap">
-              Mas detalles
-            </button>
+            
+            <Link
+              href={`/usuario/historial/${compra.id}`}
+              className="my-auto ml-auto"
+            >
+              <button className="bg-chineseBlack  text-xs md:text-base w-min h-min px-4 py-2 rounded-lg whitespace-nowrap">
+                Mas detalles
+              </button>
+            </Link>
+            
           </div>
         </>
-      </Link>
+      </div>
     </>
   );
 }
