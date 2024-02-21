@@ -61,7 +61,10 @@ export default function Login() {
   async function onLogin(userCredential) {
     const client = await getApolloClient(userCredential);
 
-    const { data } = await client.query({ query: LOGIN_USUARIO });
+    const { data } = await client.query({
+      query: LOGIN_USUARIO,
+      fetchPolicy: "network-only",
+    });
 
     onUserChange(data.login);
   }
@@ -109,12 +112,10 @@ export default function Login() {
         </button>
       </form>
 
-      <p className="text-black text-xs mt-3 text-center">Aún no tienes cuenta?
-        <Link
-          href="/auth/register"
-          className="ml-1 text-[#0000FF]"
-        >
-         Registrarme
+      <p className="text-black text-xs mt-3 text-center">
+        Aún no tienes cuenta?
+        <Link href="/auth/register" className="ml-1 text-[#0000FF]">
+          Registrarme
         </Link>
       </p>
 

@@ -8,6 +8,7 @@ export default function CardFunkoHistorial({ compra }) {
     .map((item) => item.cantidad)
     .reduce((acc, cur) => acc + cur);
   const { user } = useContext(UserContext);
+  const usuario = compra?.usuario;
 
   return (
     <>
@@ -45,7 +46,7 @@ export default function CardFunkoHistorial({ compra }) {
                     <p>x{cantidadProductos} productos</p>
                   ) : (
                     <p>
-                      Usuario: {user?.nombres} {user?.apellidos}
+                      Usuario: {usuario?.nombres} {usuario?.apellidos}
                     </p>
                   )}
                 </div>

@@ -5,6 +5,11 @@ export const GET_PEDIDO = gql`
     pedido(id: $id) {
       id
       fecha
+      usuario {
+        nombres
+        apellidos
+        email
+      }
       pago {
         id
         monto

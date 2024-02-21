@@ -1,7 +1,6 @@
 import Link from "next/link";
 
 export default function Breadcrumb({ producto }) {
-  console.log(producto);
   return (
     <>
       <nav className="flex" aria-label="Breadcrumb">

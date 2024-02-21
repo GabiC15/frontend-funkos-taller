@@ -15,8 +15,6 @@ export default function ItemsPedido() {
     if (lineasCarritoData?.lineasCarrito.length === 0) router.push("/");
   }, [lineasCarritoData, router]);
 
-  console.log(lineasCarritoData);
-
   return (
     <>
       <div className="w-full">
