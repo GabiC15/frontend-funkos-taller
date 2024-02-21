@@ -8,7 +8,6 @@ const ListCaracteristicas = ({ dataList, handleChange, clearTrue }) => {
     data: dataCaracteristicas,
     error: errorCaracteristicas,
     loading: loadingCaracteristicas,
-    refetch,
   } = useQuery(GET_CARACTERISTICAS);
 
   const caracteristicas = dataCaracteristicas?.caracteristicas;

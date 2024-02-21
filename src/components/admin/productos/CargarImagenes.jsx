@@ -1,25 +1,12 @@
 import { useEffect, useState } from "react";
 import { IoAdd } from "react-icons/io5";
 
-// import { projectStorage } from "@/services/firebase/firebase";
-// import Dialog from "./Modal";
-
-// import { v4 as uuidv4 } from "uuid";
-
 const CargarImagenes = ({
   dataImages,
-  submitImages,
-  formData,
   setImagesFile,
   clearTrue,
   handleUpdateImages,
 }) => {
-  // const [imagesUrl, setImagesUrl] = useState({
-  //   picture_1: dataImages.picture_1,
-  //   picture_2: dataImages.picture_2,
-  //   picture_3: dataImages.picture_3,
-  //   picture_4: dataImages.picture_4,
-  // });
 
   const [imagesBox, setImagesBox] = useState({});
 
@@ -31,19 +18,6 @@ const CargarImagenes = ({
       picture_4: dataImages.picture_4,
     });
   }, [dataImages]);
-
-  // const handleImageBox = (e) => {
-  //   const file = e.target.files[0];
-  //   const reader = new FileReader();
-  //   reader.onloadend = () => {
-  //     setImagesBox({
-  //       ...imagesBox,
-  //       [e.target.name]: reader.result,
-  //     });
-  //     console.log(imagesBox.picture_1);
-  //   };
-  //   reader.readAsDataURL(file);
-  // };
 
   const handleImages = (e) => {
     e.preventDefault();
@@ -83,19 +57,6 @@ const CargarImagenes = ({
     handleImagesRemove();
   }, [clearTrue]);
 
-  // const handleSubmitImages = () => {
-  //   console.log("Uploading... imagesBox...");
-  //   const image1Ref = ref(storage, `imagesBox/products/${imagesBox.picture_1}`);
-  //   // const image2Ref = ref(storage, `imagesBox/products/${imagesBox.picture_2.name}`);
-  //   // const image3Ref = ref(storage, `imagesBox/products/${imagesBox.picture_3.name}`);
-  //   // const image4Ref = ref(storage, `imagesBox/products/${imagesBox.picture_4.name}`);
-  //   uploadBytes(image1Ref, imagesBox.picture_1).then((snapshot) => {
-  //     alert("Image 1 uploaded");
-  //   });
-  // };
-
-  // submitImages && handleImagesSubmit();
-
   const handleImagesRemove = (e) => {
     if (e) e.preventDefault();
     setImagesBox({
@@ -126,7 +87,6 @@ const CargarImagenes = ({
             <IoAdd className="w-6 h-6 text-slate-200 rotate-45 hover:text-slate-300" />
           </button>
         </div>
-        {/* <button onClick={(e) => {e.preventDefault(); setOpen(true)}}>Open dialog</button> */}
       </div>
       <div className="text-center md:flex justify-center pt-2 grid grid-cols-2">
         <div className="md:flex">
@@ -254,14 +214,6 @@ const CargarImagenes = ({
           </div>
         </div>
       </div>
-      {/* <button
-        className="bg-black/20 mt-2 p-4 flex flex-row rounded-[8px] justify-center mx-4 border-[1px] border-[#282828]"
-        // onClick={handleSubmitImages}
-        onClick={handleImagesSubmit}
-      >
-        {" "}
-        Upload Images
-      </button> */}
     </>
   );
 };

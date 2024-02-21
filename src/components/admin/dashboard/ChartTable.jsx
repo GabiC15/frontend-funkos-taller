@@ -2,11 +2,8 @@ import { useState } from "react";
 import BarChart from "@/components/admin/dashboard/partials/barChart";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import LineChart from "./partials/lineChart";
-import { NetworkStatus, useQuery } from "@apollo/client";
-// import {
-//   GET_TOTAL_PEDIDOS_POR_ANIO,
-//   GET_TOTAL_PEDIDOS_POR_MES,
-// } from "@/services/apollo/queries/pedidos";
+import { useQuery } from "@apollo/client";
+
 
 import {
   GET_TOTAL_PAGOS_POR_ANIO,
@@ -15,50 +12,18 @@ import {
 
 const ChartTable = () => {
   const [status, setStatus] = useState(false);
-  const startYear = 2016;
-  const endYear = 2023;
-
-  // const {
-  //   data: dataLine,
-  //   error: errorLine,
-  //   loading: loadingLine,
-  // } = useQuery(GET_TOTAL_PEDIDOS_POR_ANIO, {
-  //   variables: {
-  //     input: {
-  //       startYear,
-  //       endYear,
-  //     }
-  //   }
-  // });
-
-  // const {
-  //   data: dataBar,
-  //   error: errorBar,
-  //   loading: loadingBar,
-  // } = useQuery(GET_TOTAL_PEDIDOS_POR_MES, {
-  //   variables: { input: endYear },
-  // });
 
   const {
     data: dataLine,
     error: errorLine,
     loading: loadingLine,
-  } = useQuery(GET_TOTAL_PAGOS_POR_ANIO, {
-    variables: {
-      input: {
-        startYear,
-        endYear,
-      }
-    }
-  });
+  } = useQuery(GET_TOTAL_PAGOS_POR_ANIO);
 
   const {
     data: dataBar,
     error: errorBar,
     loading: loadingBar,
-  } = useQuery(GET_TOTAL_PAGOS_POR_MES, {
-    variables: { input: endYear },
-  });
+  } = useQuery(GET_TOTAL_PAGOS_POR_MES);
 
 
   if (loadingLine || loadingBar) return "Loading...";

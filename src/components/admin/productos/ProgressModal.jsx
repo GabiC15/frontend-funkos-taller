@@ -7,7 +7,6 @@ const ProgressModal = ({
   open,
   onClose,
   children,
-  id,
   progress,
   word,
   routeNew,
@@ -20,26 +19,9 @@ const ProgressModal = ({
     onClose();
   };
 
-  const handleClickVerProducto = (e) => {
-    router.push(`${(routeNew, routeView)}`);
-  };
-
-  // const [progress, setProgress] = useState(35);
-
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     setProgress(prevProgress => {
-  //       if (prevProgress >= 100) {
-  //         clearInterval(interval); // Stop the interval when progress reaches 100
-  //         return 100; // Ensure the progress is exactly 100
-  //       } else {
-  //         return prevProgress + 1; // Increase the progress by 1
-  //       }
-  //     });
-  //   }, 100); // 100 milliseconds interval
-
-  //   return () => clearInterval(interval); // Clean up the interval when the component is unmounted
-  // }, []);
+  // const handleClickVerProducto = (e) => {
+  //   router.push(`${(routeNew, routeView)}`);
+  // };
 
   return (
     <>

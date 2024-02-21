@@ -3,18 +3,17 @@ import {
   ADD_PRODUCTO,
   UPDATE_PRODUCTO,
 } from "@/services/apollo/mutations/carga_producto";
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import ListCategorySubCategory from "./ListCategorySubCategory";
 import ListCaracteristicas from "./ListCaracteristicas";
 import { storage } from "@/services/firebase/firebase";
 import {
   ref,
-  uploadBytes,
   getDownloadURL,
   getStorage,
   deleteObject,
 } from "firebase/storage";
-import { uploadBytesResumable, getUploadTaskSnapshot } from "firebase/storage";
+import { uploadBytesResumable } from "firebase/storage";
 import CargarImagenes from "./CargarImagenes";
 // import { GET_MAX_PRODUCTO_ID } from "@/services/apollo/queries/producto";
 import {
@@ -46,11 +45,6 @@ const CargarProducto = ({ producto }) => {
       [e.target.name]: true,
     });
   };
-  // const {
-  //   data: dataMaxId,
-  //   error: errorMaxId,
-  //   loading: loadingMaxId,
-  // } = useQuery(GET_MAX_PRODUCTO_ID);
 
   const [
     createProducto,
@@ -99,7 +93,7 @@ const CargarProducto = ({ producto }) => {
   const [subcategoryId, setSubcategoryId] = useState(
     parseInt(producto?.categoria?.id)
   );
-  console.log("producto", producto);
+  // console.log("producto", producto);
 
   const [caracteristicaId, setCaracteristicaId] = useState(
     parseInt(producto?.caracteristica?.id)
@@ -141,9 +135,9 @@ const CargarProducto = ({ producto }) => {
     });
   }, [producto]);
 
-  const [dataListCategorySubcategory, setDataListCategorySubcategory] = useState({});
+  const [dataListCategorySubcategory, setDataListCategorySubcategory] =
+    useState({});
   const [dataListCaracteristicas, setDataListCaracteristicas] = useState({});
-
 
   useEffect(() => {
     setDataListCategorySubcategory({
@@ -235,20 +229,16 @@ const CargarProducto = ({ producto }) => {
         formData.id
           ? await handleUpdateProducto(formData)
           : await handleCreateProducto(formData);
-        // formData.id ? await handleUpdate(formData) : await handleCreateProducto(formData);
-        // await handleImagesSubmit(e, dataProducto);
         setProgress(100);
         console.log(
           "producto",
           dataProducto,
           dataProductoActualizar?.updateProducto
         );
-        // setProductoId(dataProducto.createProducto.id);
       } catch (error) {
         console.log(error);
         setProgress(0);
       }
-      // setProgress(100);
     }
   };
 
@@ -279,13 +269,9 @@ const CargarProducto = ({ producto }) => {
 
   const handleUploadDbImages = async (
     imageUrl,
-    imagesFile,
     formData,
     dataProducto
   ) => {
-    const { id } = formData;
-    // const { maxProductoId } = dataImages;
-    // console.log("id", id, "or", dataProducto.createProducto.id);
 
     try {
       await createImagenProducto(
@@ -293,12 +279,10 @@ const CargarProducto = ({ producto }) => {
           variables: {
             input: {
               path: imageUrl,
-              producto_id: await dataProducto.createProducto.id,
+              producto_id: formData.id ? formData.id : await dataProducto.createProducto.id,
             },
           },
         }
-
-        // console.log("success", producto_id, dataProducto.createProducto.id)
       );
     } catch (error) {
       console.error("Error in handleUploadDbImages:", error);
@@ -309,12 +293,7 @@ const CargarProducto = ({ producto }) => {
     imageBackupUrl,
     imageUrl,
     formData,
-    dataProducto
   ) => {
-    // console.log("updateDbImages", imageBackupUrl, imageUrl, formData.id);
-    // const { id } = formData;
-    // const { maxProductoId } = dataImages;
-    // console.log("id", id, "or", dataProducto.createProducto.id);
 
     try {
       await updateImagenProductoByPath(
@@ -327,8 +306,6 @@ const CargarProducto = ({ producto }) => {
             },
           },
         }
-
-        // console.log("success", producto_id, dataProducto.createProducto.id)
       );
     } catch (error) {
       console.error("Error in handleUpdateDbImages:", error);
@@ -336,21 +313,10 @@ const CargarProducto = ({ producto }) => {
   };
 
   const handleImagesSubmit = async (dataProducto) => {
-    // e.preventDefault();
 
-    // if (
-    //   !imagesFile["picture_1"] &&
-    //   !imagesFile["picture_2"] &&
-    //   !imagesFile["picture_3"] &&
-    //   !imagesFile["picture_4"]
-    // ) {
-    //   console.error(`not an image, please upload one`);
-    //   return;
-    // }
     const { id: producto_id, titulo: producto_titulo } = formData;
     const idProducto = producto_id || (await dataProducto.createProducto.id);
     const tituloFixed = producto_titulo.split(" ").join("_");
-    // setProductoId(idProducto);
 
     for (let i = 1; i <= 4; i++) {
       if (imagesFile[`picture_${i}`]) {
@@ -373,7 +339,6 @@ const CargarProducto = ({ producto }) => {
           setProgress((prevProgress) => prevProgress + 7 * i);
           await handleUploadDbImages(
             downloadURL,
-            imagesFile,
             formData,
             dataProducto
           );
@@ -393,29 +358,10 @@ const CargarProducto = ({ producto }) => {
     const idProducto = producto_id;
     const tituloFixed = producto_titulo.split(" ").join("_");
     for (let i = 1; i <= 4; i++) {
-      // if (updateImages[`picture_${i}`] && imagesFile[`picture_${i}`]) {
       if (imagesFile[`picture_${i}`] && updateImages[`picture_${i}`]) {
-        // Create a reference to the file to delete
         if (imagesBackup[`picture_${i}`] !== imagesFile[`picture_${i}`]) {
-          // const fileRef = storage.refFromURL(imagesBackup[`picture_${i}`]);
 
-          // // Delete the file
-          // try {
-
-          //   await fileRef.delete();
-
-          //   console.log("File deleted successfully");
-          //   // File deleted successfully
-          // } catch (error) {
-          //   console.log("Error deleting file:", error);
-          //   // Uh-oh, an error occurred!
-          // }
-          // console.log("imagesBackup", imagesBackup[`picture_${i}`]);
-
-          const desertRef = ref(
-            storage,
-            `${imagesBackup[`picture_${i}`]}`
-          );
+          const desertRef = ref(storage, `${imagesBackup[`picture_${i}`]}`);
 
           // Delete the file
           deleteObject(desertRef)
@@ -445,25 +391,28 @@ const CargarProducto = ({ producto }) => {
           const imagesBackupURL = imagesBackup[`picture_${i}`];
           console.log(`File ${i} available at`, downloadURL);
           setProgress((prevProgress) => prevProgress + 7 * i);
-          await handleUpdateDbImages(
-            imagesBackupURL,
-            downloadURL,
-            formData,
-            dataProducto
-          );
+          // console.log("imagesBackupURL", imagesBackupURL);
+          // console.log("imagesFile", imagesFile[`picture_${i}`]);
+          if (imagesFile[`picture_${i}`] && !imagesBackupURL) {
+            await handleUploadDbImages(
+              downloadURL,
+              formData,
+              dataProducto
+            );
+          } else {
+            await handleUpdateDbImages(
+              imagesBackupURL,
+              downloadURL,
+              formData,
+            );
+          }
           setProgress(100);
         } catch (error) {
           console.log(`Error uploading ${i}:`, error);
         }
-        // }
       }
     }
   };
-
-  // useEffect(() => {
-  //   console.log("updateImages", updateImages);
-  //   // console.log(imagesBackup);
-  // }, [updateImages]);
 
   const handleCreateProducto = async (formData) => {
     try {
@@ -485,8 +434,6 @@ const CargarProducto = ({ producto }) => {
     }
   };
 
-  // ! CONTINUAR UPDATE PRODUCTO
-
   const handleUpdateProducto = async (formData) => {
     await updateProducto({
       variables: {
@@ -503,9 +450,6 @@ const CargarProducto = ({ producto }) => {
     });
     setProgress(45);
   };
-
-  // console.log(formData);
-  // console.log(imagesFile);
 
   useEffect(() => {
     setFormData({
@@ -528,21 +472,6 @@ const CargarProducto = ({ producto }) => {
     });
   }, [caracteristicaId]);
 
-  // const dataList = {
-  //   categoriaId: categoryId,
-  //   categoriaName: producto?.categoria?.padre?.nombre,
-  //   subcategoriaId: subcategoryId,
-  //   subcategoriaName: producto?.categoria?.nombre,
-  // };
-
-  // const dataImages = {
-  //   // maxProductoId: dataMaxId?.maxProductoId?.maxId,
-  //   picture_1: producto?.imagenes[0]?.path,
-  //   picture_2: producto?.imagenes[1]?.path,
-  //   picture_3: producto?.imagenes[2]?.path,
-  //   picture_4: producto?.imagenes[3]?.path,
-  // };
-
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -557,17 +486,12 @@ const CargarProducto = ({ producto }) => {
     if (categoryName === "subcategoria") {
       setSubcategoryId(value);
     }
-    // console.log(formData);
   };
 
   const handleCaracteristicaChange = (value) => {
     setCaracteristicaId(value);
   };
 
-  // if (loadingMaxId) return "Loading...";
-  // if (errorMaxId) return `No data! ${error.message}`;
-
-  // if (loading || loadingImagenProducto) return <p>Submitting...</p>;
   if (errorProducto || errorProductoActualizar || errorLoadingImagenProducto)
     return (
       <p>
@@ -596,7 +520,6 @@ const CargarProducto = ({ producto }) => {
           className="w-full px-20 md:w-1/3 md:px-0 ml-8 md:ml-12"
           method="POST"
           encType="multipart/form-data"
-          // onSubmit={handleSubmit}
         >
           <div className="md:mr-2">
             <CargarImagenes
@@ -652,13 +575,6 @@ const CargarProducto = ({ producto }) => {
             >
               Característica especial
             </label>
-            {/* <input
-              className="bg-transparent border-2 pl-1 border-slate-300/90 focus:border-slate-200 rounded-lg outline-none"
-              type="text"
-              name="caracteristicas"
-              onChange={handleChange}
-              value={formData.caracteristicas ? formData.caracteristicas : ""}
-            ></input> */}
             <ListCaracteristicas
               dataList={dataListCaracteristicas}
               handleChange={handleCaracteristicaChange}
@@ -715,16 +631,14 @@ const CargarProducto = ({ producto }) => {
         <Modal
           open={open}
           onClose={() => setOpen(false)}
-          // producto_id={formData.producto_id || dataProducto.createProducto.id}
           id={productoId}
           progress={progress}
-          word="producto"
+          word="productos"
           routeNew="/admin/carga_producto/nuevo"
           routeView="/admin/productos/"
           handleClearForm={handleClearForm}
         >
           <div className="text-center md:w-72 md:mx-12 py-2 mx-4 w-72">
-            {/* <CheckCircle size={56} className="mx-auto text-green-500" /> */}
             <div className="mx-auto my-4 w-72 ">
               <h3 className="text-lg font-black text-gray-800">
                 {producto?.id
