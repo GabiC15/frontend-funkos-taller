@@ -26,11 +26,11 @@ const CargarCupon = ({ cupon }) => {
     setErrorMessageForm("");
   };
 
-  console.log("cupon", cupon);
+  // console.log("cupon", cupon);
 
   const [createCupon, { data, loading, error }] = useMutation(ADD_CUPON, {
     onCompleted: (data) => {
-      console.log("dataCupon", data);
+      // console.log("dataCupon", data);
       setIdCupon(data.createCupon.id);
     },
     onError: (error) => {
@@ -139,9 +139,9 @@ const CargarCupon = ({ cupon }) => {
     }, 8000);
   }, [handleSubmit, error]);
 
-  useEffect(() => {
-    console.log("formData", formData);
-  }, [formData]);
+  // useEffect(() => {
+  //   console.log("formData", formData);
+  // }, [formData]);
 
   if (error) {
     console.log(error);

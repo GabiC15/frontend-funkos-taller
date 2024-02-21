@@ -1,21 +1,34 @@
 import { useState, useEffect } from "react";
-import { NetworkStatus, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import {
   GET_CATEGORIAS,
   GET_SUBCATEGORIAS,
 } from "@/services/apollo/queries/categoria";
-import List from "@/components/common/list";
+import List from "@/components/common/listCategorySubcategory";
 
 const ListCategorySubCategory = ({ dataList, handleChange, clearTrue }) => {
   const [selectedOptionCategory, setSelectedOptionCategory] = useState({
     id: parseInt(dataList.categoriaId),
     nombre: dataList.categoriaName,
   });
+  
+  const [selectedOptionSubCategory, setSelectedOptionSubCategory] = useState({});
 
-  const [selectedOptionSubCategory, setSelectedOptionSubCategory] = useState({
-    id: dataList.subcategoriaId,
-    nombre: dataList.subcategoriaName,
-  });
+  useEffect(() => {
+    setSelectedOptionCategory({
+      id: parseInt(dataList.categoriaId),
+      nombre: dataList.categoriaName,
+    });
+
+  }, [dataList])
+
+  useEffect(() => {
+    setSelectedOptionSubCategory({
+      id: parseInt(dataList.subcategoriaId),
+      nombre: dataList.subcategoriaName,
+    });
+  }, [dataList])
+  
 
   const {
     data: dataCategory,
@@ -35,16 +48,22 @@ const ListCategorySubCategory = ({ dataList, handleChange, clearTrue }) => {
   const optionsCategoria = dataCategory?.categorias;
 
   useEffect(() => {
-    // if (loading) return 'Loading...';
+    // if (loadingCategory) return 'Loading...';
+    // if(loadingSubcategory) return 'Loading...';
     // if (error) return `No data! ${error.message}`;
     // console.log(data);
-    if (dataList.categoriaId !== selectedOptionCategory.id) {
+    if (dataList.categoriaId !== selectedOptionCategory.id && selectedOptionCategory.id !== "") {
       console.log("refetching...");
       refetchSubcategory();
       setSelectedOptionSubCategory("");
       handleChange("subcategoria", null);
+    } else {
+      setSelectedOptionSubCategory({
+        id: parseInt(dataList.subcategoriaId),
+        nombre: dataList.subcategoriaName,
+      });
     }
-  }, [selectedOptionCategory]);
+  }, [selectedOptionCategory, selectedOptionCategory]);
 
   const {
     data: dataSubcategory,
@@ -59,9 +78,11 @@ const ListCategorySubCategory = ({ dataList, handleChange, clearTrue }) => {
   });
 
   useEffect(() => {
-    handleClearCategories();
-    console.log("clearTrue", clearTrue);
-  }, [clearTrue]);
+    handleClearCategories()
+    // console.log("clearTrue", clearTrue);
+  }
+  , [clearTrue]);
+  
 
   const handleClearCategories = () => {
     setSelectedOptionCategory({
@@ -84,7 +105,7 @@ const ListCategorySubCategory = ({ dataList, handleChange, clearTrue }) => {
     return `No data! ${(errorCategory?.message, errorSubcategory?.message)}`;
 
   return (
-    <>
+    <> 
       <div className="flex flex-col pt-1 mx-auto">
         <label
           htmlFor="title"

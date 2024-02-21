@@ -22,22 +22,13 @@ export const UPDATE_PRODUCTO = gql`
     updateProducto(
       id: $id
       input: $input
-    ) {
-      id
-      titulo
-      descripcion
-      stock
-      precio
-      categoria {
-        id
-      }
-    }
+    )
   }
 `;
 
 
 
-export const ADD_IMAGES_PRODUCT = gql`
+export const ADD_IMAGES_PRODUCTO = gql`
   mutation CreateImagenProducto($input: ImagenProductoInput!) {
     createImagenProducto(
       input: $input
@@ -47,5 +38,15 @@ export const ADD_IMAGES_PRODUCT = gql`
         id
       }
     }
+  }
+`;
+
+export const UPDATE_IMAGES_PRODUCTO_BY_PATH = gql`
+  mutation UpdateImagenProductoByPath($productoId: Int!, $path: String!, $input: ImagenProductoUpdateInput!) {
+    updateImagenProductoByPath(
+      productoId: $productoId
+      path: $path
+      input: $input
+    )
   }
 `;

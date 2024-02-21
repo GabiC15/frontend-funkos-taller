@@ -5,12 +5,22 @@ import {
 } from "@/services/apollo/mutations/carga_producto";
 import { useMutation, useQuery } from "@apollo/client";
 import ListCategorySubCategory from "./ListCategorySubCategory";
+import ListCaracteristicas from "./ListCaracteristicas";
 import { storage } from "@/services/firebase/firebase";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  getStorage,
+  deleteObject,
+} from "firebase/storage";
 import { uploadBytesResumable, getUploadTaskSnapshot } from "firebase/storage";
 import CargarImagenes from "./CargarImagenes";
 // import { GET_MAX_PRODUCTO_ID } from "@/services/apollo/queries/producto";
-import { ADD_IMAGES_PRODUCT } from "@/services/apollo/mutations/carga_producto";
+import {
+  ADD_IMAGES_PRODUCTO,
+  UPDATE_IMAGES_PRODUCTO_BY_PATH,
+} from "@/services/apollo/mutations/carga_producto";
 import Modal from "./ProgressModal";
 import ErrorMessageForm from "./ErrorMessageForm";
 import { v4 as uuidv4 } from "uuid";
@@ -22,14 +32,20 @@ const CargarProducto = ({ producto }) => {
   const [progress, setProgress] = useState(1);
   const [productoId, setProductoId] = useState(producto?.id);
   const [clearTrue, setClearTrue] = useState(false);
-
-  const [imagesFile, setImagesFile] = useState({
-    picture_1: producto?.imagenes[0]?.path,
-    picture_2: producto?.imagenes[1]?.path,
-    picture_3: producto?.imagenes[2]?.path,
-    picture_4: producto?.imagenes[3]?.path,
+  const [updateImages, setUpdateImages] = useState({
+    picture_1: false,
+    picture_2: false,
+    picture_3: false,
+    picture_4: false,
   });
+  const [imagesBackup, setImagesBackup] = useState({});
 
+  const handleUpdateImages = (e) => {
+    setUpdateImages({
+      ...updateImages,
+      [e.target.name]: true,
+    });
+  };
   // const {
   //   data: dataMaxId,
   //   error: errorMaxId,
@@ -66,7 +82,16 @@ const CargarProducto = ({ producto }) => {
       loading: loadingImagenProducto,
       error: errorLoadingImagenProducto,
     },
-  ] = useMutation(ADD_IMAGES_PRODUCT);
+  ] = useMutation(ADD_IMAGES_PRODUCTO);
+
+  const [
+    updateImagenProductoByPath,
+    {
+      data: dataImagenUpdateByPath,
+      loading: loadingImagenUpdateByPath,
+      error: errorLoadingImagenUpdateByPath,
+    },
+  ] = useMutation(UPDATE_IMAGES_PRODUCTO_BY_PATH);
 
   const [categoryId, setCategoryId] = useState(
     parseInt(producto?.categoria?.padre?.id)
@@ -74,6 +99,17 @@ const CargarProducto = ({ producto }) => {
   const [subcategoryId, setSubcategoryId] = useState(
     parseInt(producto?.categoria?.id)
   );
+  console.log("producto", producto);
+
+  const [caracteristicaId, setCaracteristicaId] = useState(
+    parseInt(producto?.caracteristica?.id)
+  );
+
+  useEffect(() => {
+    setCategoryId(parseInt(producto?.categoria?.padre?.id));
+    setSubcategoryId(parseInt(producto?.categoria?.id));
+    setCaracteristicaId(parseInt(producto?.caracteristica?.id));
+  }, [producto]);
 
   const [submitImages, setSubmitImages] = useState(false);
 
@@ -83,17 +119,47 @@ const CargarProducto = ({ producto }) => {
     descripcion: producto?.descripcion,
     categoriaId: categoryId,
     subcategoriaId: subcategoryId,
-    caracteristicas: producto?.caracteristicas,
+    caracteristicaId: caracteristicaId,
     stock: producto?.stock,
     precio: producto?.precio,
   });
 
-  const [dataList, setDataList] = useState({
-    categoriaId: categoryId,
-    categoriaName: producto?.categoria?.padre?.nombre,
-    subcategoriaId: subcategoryId,
-    subcategoriaName: producto?.categoria?.nombre,
-  });
+  const [imagesFile, setImagesFile] = useState({});
+
+  useEffect(() => {
+    setImagesFile({
+      picture_1: producto?.imagenes[0]?.path,
+      picture_2: producto?.imagenes[1]?.path,
+      picture_3: producto?.imagenes[2]?.path,
+      picture_4: producto?.imagenes[3]?.path,
+    });
+    setImagesBackup({
+      picture_1: producto?.imagenes[0]?.path,
+      picture_2: producto?.imagenes[1]?.path,
+      picture_3: producto?.imagenes[2]?.path,
+      picture_4: producto?.imagenes[3]?.path,
+    });
+  }, [producto]);
+
+  const [dataListCategorySubcategory, setDataListCategorySubcategory] = useState({});
+  const [dataListCaracteristicas, setDataListCaracteristicas] = useState({});
+
+
+  useEffect(() => {
+    setDataListCategorySubcategory({
+      categoriaId: categoryId,
+      categoriaName: producto?.categoria?.padre?.nombre,
+      subcategoriaId: subcategoryId,
+      subcategoriaName: producto?.categoria?.nombre,
+    });
+  }, []);
+
+  useEffect(() => {
+    setDataListCaracteristicas({
+      caracteristicaId: caracteristicaId,
+      caracteristicaName: producto?.caracteristica?.nombre,
+    });
+  }, []);
 
   const handleClearForm = () => {
     setClearTrue(true);
@@ -108,13 +174,14 @@ const CargarProducto = ({ producto }) => {
       precio: "",
     });
     handleClearCategory();
+    handleClearCaracteristicas();
     handleClearImages();
     setErrorMessageForm("");
     // setClearTrue(false);
   };
 
   const handleClearCategory = () => {
-    setDataList({
+    setDataListCategorySubcategory({
       categoriaId: "",
       categoriaName: "",
       subcategoriaId: "",
@@ -138,7 +205,6 @@ const CargarProducto = ({ producto }) => {
       !formData.descripcion ||
       !formData.stock ||
       !formData.precio ||
-      !formData.caracteristicas ||
       !formData.categoriaId ||
       !formData.subcategoriaId
     ) {
@@ -169,10 +235,14 @@ const CargarProducto = ({ producto }) => {
         formData.id
           ? await handleUpdateProducto(formData)
           : await handleCreateProducto(formData);
-        // await producto?.id ? await handleUpdateProducto(formData) : await handleCreateProducto(formData);
+        // formData.id ? await handleUpdate(formData) : await handleCreateProducto(formData);
         // await handleImagesSubmit(e, dataProducto);
-        // setProgress(100);
-        // console.log("producto", dataProducto);
+        setProgress(100);
+        console.log(
+          "producto",
+          dataProducto,
+          dataProductoActualizar?.updateProducto
+        );
         // setProductoId(dataProducto.createProducto.id);
       } catch (error) {
         console.log(error);
@@ -183,6 +253,7 @@ const CargarProducto = ({ producto }) => {
   };
 
   const handleFinishSubmit = async (data) => {
+    // console.log("finish", data);
     formData.id
       ? (setProductoId(formData.id), handleImagesUpdate(data))
       : (setProductoId(data.createProducto.id), handleImagesSubmit(data));
@@ -202,10 +273,9 @@ const CargarProducto = ({ producto }) => {
   //   console.log("producto IDDD", productoId);
   // }, [productoId])
 
-  // useEffect(() => {
-  //   console.log(formData, imagesFile, dataList, categoryId, subcategoryId);
-
-  // }, [formData]);
+  useEffect(() => {
+    console.log(formData, dataListCaracteristicas, caracteristicaId);
+  }, [formData]);
 
   const handleUploadDbImages = async (
     imageUrl,
@@ -232,6 +302,36 @@ const CargarProducto = ({ producto }) => {
       );
     } catch (error) {
       console.error("Error in handleUploadDbImages:", error);
+    }
+  };
+
+  const handleUpdateDbImages = async (
+    imageBackupUrl,
+    imageUrl,
+    formData,
+    dataProducto
+  ) => {
+    // console.log("updateDbImages", imageBackupUrl, imageUrl, formData.id);
+    // const { id } = formData;
+    // const { maxProductoId } = dataImages;
+    // console.log("id", id, "or", dataProducto.createProducto.id);
+
+    try {
+      await updateImagenProductoByPath(
+        {
+          variables: {
+            productoId: formData.id,
+            path: imageBackupUrl.toString(),
+            input: {
+              path: imageUrl.toString(),
+            },
+          },
+        }
+
+        // console.log("success", producto_id, dataProducto.createProducto.id)
+      );
+    } catch (error) {
+      console.error("Error in handleUpdateDbImages:", error);
     }
   };
 
@@ -288,41 +388,82 @@ const CargarProducto = ({ producto }) => {
 
   const handleImagesUpdate = async (dataProducto) => {
     console.log("Submited succesfully");
-    //   const { id: producto_id, titulo: producto_titulo } = formData;
-    //   const idProducto = producto_id || (await dataProducto.createProducto.id);
-    //   const tituloFixed = producto_titulo.split(" ").join("_");
-    //   for (let i = 1; i <= 4; i++) {
-    //     if (imagesFile[`picture_${i}`]) {
-    //       const storageRef = ref(
-    //         storage,
-    //         `/images/products/${idProducto}:${tituloFixed}:image_${i}_${uuidv4()}`
-    //       );
-    //       const uploadTask = uploadBytesResumable(
-    //         storageRef,
-    //         imagesFile[`picture_${i}`]
-    //       );
-    //       try {
-    //         const snapshot = await uploadTask;
-    //         const progressFirebase =
-    //           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-    //         console.log(`Upload ${i} is ${progressFirebase}% done`);
-    //         const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-    //         console.log(`File ${i} available at`, downloadURL);
-    //         setProgress((prevProgress) => prevProgress + 7 * i);
-    //         await handleUploadDbImages(
-    //           downloadURL,
-    //           dataImages,
-    //           formData,
-    //           dataProducto
-    //         );
-    //         setProgress(100);
-    //       } catch (error) {
-    //         console.log(`Error uploading ${i}:`, error);
-    //       }
-    //     }
-    //   }
-    // };
+    const storage = getStorage();
+    const { id: producto_id, titulo: producto_titulo } = formData;
+    const idProducto = producto_id;
+    const tituloFixed = producto_titulo.split(" ").join("_");
+    for (let i = 1; i <= 4; i++) {
+      // if (updateImages[`picture_${i}`] && imagesFile[`picture_${i}`]) {
+      if (imagesFile[`picture_${i}`] && updateImages[`picture_${i}`]) {
+        // Create a reference to the file to delete
+        if (imagesBackup[`picture_${i}`] !== imagesFile[`picture_${i}`]) {
+          // const fileRef = storage.refFromURL(imagesBackup[`picture_${i}`]);
+
+          // // Delete the file
+          // try {
+
+          //   await fileRef.delete();
+
+          //   console.log("File deleted successfully");
+          //   // File deleted successfully
+          // } catch (error) {
+          //   console.log("Error deleting file:", error);
+          //   // Uh-oh, an error occurred!
+          // }
+          // console.log("imagesBackup", imagesBackup[`picture_${i}`]);
+
+          const desertRef = ref(
+            storage,
+            `${imagesBackup[`picture_${i}`]}`
+          );
+
+          // Delete the file
+          deleteObject(desertRef)
+            .then(() => {
+              console.log("File deleted successfully");
+              // File deleted successfully
+            })
+            .catch((error) => {
+              console.log("Error deleting file:", error);
+              // Uh-oh, an error occurred!
+            });
+        }
+        const storageRef = ref(
+          storage,
+          `/images/products/${idProducto}:${tituloFixed}:image_${i}_${uuidv4()}`
+        );
+        const uploadTask = uploadBytesResumable(
+          storageRef,
+          imagesFile[`picture_${i}`]
+        );
+        try {
+          const snapshot = await uploadTask;
+          const progressFirebase =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log(`Upload ${i} is ${progressFirebase}% done`);
+          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+          const imagesBackupURL = imagesBackup[`picture_${i}`];
+          console.log(`File ${i} available at`, downloadURL);
+          setProgress((prevProgress) => prevProgress + 7 * i);
+          await handleUpdateDbImages(
+            imagesBackupURL,
+            downloadURL,
+            formData,
+            dataProducto
+          );
+          setProgress(100);
+        } catch (error) {
+          console.log(`Error uploading ${i}:`, error);
+        }
+        // }
+      }
+    }
   };
+
+  // useEffect(() => {
+  //   console.log("updateImages", updateImages);
+  //   // console.log(imagesBackup);
+  // }, [updateImages]);
 
   const handleCreateProducto = async (formData) => {
     try {
@@ -334,6 +475,7 @@ const CargarProducto = ({ producto }) => {
             stock: parseInt(formData.stock),
             precio: parseFloat(formData.precio),
             categoriaId: formData.subcategoriaId,
+            caracteristicaId: formData.caracteristicaId,
           },
         },
       });
@@ -355,6 +497,7 @@ const CargarProducto = ({ producto }) => {
           stock: parseInt(formData.stock),
           precio: parseFloat(formData.precio),
           categoriaId: formData.subcategoriaId,
+          caracteristicaId: formData.caracteristicaId,
         },
       },
     });
@@ -362,6 +505,7 @@ const CargarProducto = ({ producto }) => {
   };
 
   // console.log(formData);
+  // console.log(imagesFile);
 
   useEffect(() => {
     setFormData({
@@ -377,6 +521,13 @@ const CargarProducto = ({ producto }) => {
     });
   }, [subcategoryId]);
 
+  useEffect(() => {
+    setFormData({
+      ...formData,
+      ["caracteristicaId"]: parseInt(caracteristicaId),
+    });
+  }, [caracteristicaId]);
+
   // const dataList = {
   //   categoriaId: categoryId,
   //   categoriaName: producto?.categoria?.padre?.nombre,
@@ -384,13 +535,13 @@ const CargarProducto = ({ producto }) => {
   //   subcategoriaName: producto?.categoria?.nombre,
   // };
 
-  const dataImages = {
-    // maxProductoId: dataMaxId?.maxProductoId?.maxId,
-    picture_1: producto?.imagenes[0]?.path,
-    picture_2: producto?.imagenes[1]?.path,
-    picture_3: producto?.imagenes[2]?.path,
-    picture_4: producto?.imagenes[3]?.path,
-  };
+  // const dataImages = {
+  //   // maxProductoId: dataMaxId?.maxProductoId?.maxId,
+  //   picture_1: producto?.imagenes[0]?.path,
+  //   picture_2: producto?.imagenes[1]?.path,
+  //   picture_3: producto?.imagenes[2]?.path,
+  //   picture_4: producto?.imagenes[3]?.path,
+  // };
 
   const handleChange = (e) => {
     setFormData({
@@ -409,6 +560,10 @@ const CargarProducto = ({ producto }) => {
     // console.log(formData);
   };
 
+  const handleCaracteristicaChange = (value) => {
+    setCaracteristicaId(value);
+  };
+
   // if (loadingMaxId) return "Loading...";
   // if (errorMaxId) return `No data! ${error.message}`;
 
@@ -422,8 +577,12 @@ const CargarProducto = ({ producto }) => {
     );
   if (dataProducto && dataImagenProducto)
     console.log("Producto added successfully!", dataProducto);
-  if (dataProductoActualizar)
-    console.log("Product updated successfully!", dataProductoActualizar);
+  if (dataProductoActualizar && dataImagenUpdateByPath)
+    console.log(
+      "Product updated successfully!",
+      dataProductoActualizar,
+      dataImagenUpdateByPath
+    );
 
   return (
     <>
@@ -444,9 +603,9 @@ const CargarProducto = ({ producto }) => {
               dataImages={imagesFile}
               submitImages={submitImages}
               formData={formData}
-              imagesFile={imagesFile}
               setImagesFile={setImagesFile}
               clearTrue={clearTrue}
+              handleUpdateImages={handleUpdateImages}
             />
           </div>
           <div className="flex flex-col pt-4 mx-auto">
@@ -481,7 +640,7 @@ const CargarProducto = ({ producto }) => {
           </div>
           <div>
             <ListCategorySubCategory
-              dataList={dataList}
+              dataList={dataListCategorySubcategory}
               handleChange={handleCategoryChange}
               clearTrue={clearTrue}
             />
@@ -491,15 +650,20 @@ const CargarProducto = ({ producto }) => {
               htmlFor="title"
               className="block text-bold font-medium text-white"
             >
-              Características
+              Característica especial
             </label>
-            <input
+            {/* <input
               className="bg-transparent border-2 pl-1 border-slate-300/90 focus:border-slate-200 rounded-lg outline-none"
               type="text"
               name="caracteristicas"
               onChange={handleChange}
               value={formData.caracteristicas ? formData.caracteristicas : ""}
-            ></input>
+            ></input> */}
+            <ListCaracteristicas
+              dataList={dataListCaracteristicas}
+              handleChange={handleCaracteristicaChange}
+              clearTrue={clearTrue}
+            />
           </div>
           <div className="flex flex-col pt-1 mx-auto">
             <label
