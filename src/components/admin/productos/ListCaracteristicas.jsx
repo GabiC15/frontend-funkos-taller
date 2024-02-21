@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { IoAdd } from "react-icons/io5";
 import List from "@/components/common/list";
 import { useQuery } from "@apollo/client";
 import { GET_CARACTERISTICAS } from "@/services/apollo/queries/caracteristica";
@@ -53,7 +52,6 @@ const ListCaracteristicas = ({ dataList, handleChange, clearTrue }) => {
         handleChange={handleChange}
         optionsServerSide={caracteristicas}
       />
-      <IoAdd className="w-5 h-5 rotate-45 absolute" />
     </>
   );
 };
