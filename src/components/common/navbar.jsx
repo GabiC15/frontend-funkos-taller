@@ -46,10 +46,11 @@ export default function Navbar() {
           >
             <Image
               src="/logo.svg"
-              width={200}
-              height={8}
-              className="h-8 me-3"
+              width={0}
+              height={0}
+              className="h-5 w-full me-3"
               alt="Logo"
+              priority
             />
           </Link>
           <div className="flex md:order-2">
@@ -278,7 +279,7 @@ export default function Navbar() {
           </div>
         </div>
 
-        <Carrito />
+        {user && <Carrito />}
       </nav>
     </>
   );

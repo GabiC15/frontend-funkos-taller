@@ -266,29 +266,24 @@ export default function DetallePedido() {
           )}
 
           <div className="w-full h-[1px] bg-white mt-3"></div>
+
           <label htmlFor="cupon" className={getLabelsClasses()}>
             <p>Cupón</p>
           </label>
-          <div className="flex">
-            <div className="w-full">
-              <input
-                type="text"
-                id="cupon"
-                className={getInputClasses()}
-                placeholder="Ingrese un cupón"
-                value={cupon}
-                onChange={onCuponChange}
-              />
-              {cupon && !cuponData?.cuponPorNombre && (
-                <span className="text-xs text-white/80 mr-2">
-                  El cupón no es válido
-                </span>
-              )}
-            </div>
-
-            <div className="flex items-center">
-              {cuponLoading && <Loading />}
-            </div>
+          <div className="w-full">
+            <input
+              type="text"
+              id="cupon"
+              className={getInputClasses()}
+              placeholder="Ingrese un cupón"
+              value={cupon}
+              onChange={onCuponChange}
+            />
+            {cupon && !cuponData?.cuponPorNombre && (
+              <span className="text-xs text-white/80 mr-2">
+                El cupón no es válido
+              </span>
+            )}
           </div>
         </div>
 
@@ -318,11 +313,7 @@ export default function DetallePedido() {
                 </p>
               </div>
             )}
-            {precioEnvioLoading && (
-              <div className="mx-auto">
-                <Loading />
-              </div>
-            )}
+            {precioEnvioLoading && <Loading className="mx-auto mt-3" />}
 
             <div className="w-full h-[1px] bg-white mt-3"></div>
 
@@ -336,7 +327,7 @@ export default function DetallePedido() {
             </div>
           </div>
         ) : (
-          <Loading />
+          <Loading className="mx-auto mt-3" />
         )}
 
         <button
@@ -344,7 +335,7 @@ export default function DetallePedido() {
           type="submit"
           className="w-full flex justify-center bg-chineseBlack h-10 items-center rounded-md text-lg font-semibold mt-4"
         >
-          {!createPedidoLoading ? "Comprar" : <Loading />}
+          {!createPedidoLoading ? "Comprar" : <Loading className="mx-auto" />}
         </button>
 
         {errorMessage && <Alert message={errorMessage} />}

@@ -3,7 +3,7 @@ import ProductoLayout from "@/components/producto/layout";
 import Detalle from "@/components/producto/detalle";
 import Relacionados from "@/components/producto/relacionados";
 import Comentarios from "@/components/producto/comentarios";
-import client from "@/services/apollo/client";
+import { getClient } from "@/services/apollo/client";
 import { GET_PRODUCTO } from "@/services/apollo/queries/producto";
 
 export default function DetalleProducto({ funko }) {
@@ -20,8 +20,9 @@ export default function DetalleProducto({ funko }) {
   );
 }
 
-export async function getServerSideProps({ params }) {
-  const { data } = await client.query({
+export async function getServerSideProps(context) {
+  const { params } = context;
+  const { data } = await getClient(context).query({
     query: GET_PRODUCTO,
     variables: {
       id: Number.parseInt(params.id),
