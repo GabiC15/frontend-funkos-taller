@@ -19,6 +19,7 @@ export default function App({ Component, pageProps }) {
   return (
     <div className={font.className}>
       <Head>
+        ç<title>FunkoPlanet | Todos los funkos del mercado</title>
         <link rel="shortcut icon" href={favicon.src} />
       </Head>
       <ApolloProvider client={client}>

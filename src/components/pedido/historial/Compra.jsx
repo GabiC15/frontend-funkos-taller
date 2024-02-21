@@ -5,21 +5,21 @@ import { GET_PEDIDO } from "@/services/apollo/queries/pedido";
 import { useRouter } from "next/router";
 import Loading from "@/components/producto/loading";
 import { useQuery } from "@apollo/client";
+import { useContext } from "react";
+import { UserContext } from "@/components/providers/UserProvider";
 
 export default function Compra() {
   const router = useRouter();
+  const { user } = useContext(UserContext);
 
-  const {
-    data: pedidoData,
-    loading: loadingData,
-    error,
-  } = useQuery(GET_PEDIDO, {
+  const { data: pedidoData, loading: loadingData } = useQuery(GET_PEDIDO, {
     variables: {
       id: Number.parseInt(router.query.id),
     },
   });
 
   const pedido = pedidoData?.pedido;
+  const usuario = pedido?.usuario;
   return (
     <>
       <div className="bg-gradient">
@@ -35,6 +35,11 @@ export default function Compra() {
                   ? paymentStatus[pedido.pago.status]
                   : "El pago está pendiente"}
               </p>
+              {user?.rol === "ADMIN" && (
+                <p className="text-sm">
+                  {usuario?.email} - {usuario?.nombres} {usuario?.apellidos}
+                </p>
+              )}
               <div className="flex flex-col md:flex-row justify-between mt-5">
                 <Info pedido={pedido} />
                 <Detalle pedido={pedido} />
