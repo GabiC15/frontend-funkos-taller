@@ -2,10 +2,12 @@ import { GET_USUARIO, UPDATE_USUARIO } from "@/services/apollo/queries/usuario";
 import { useMutation, useQuery } from "@apollo/client";
 import React, { useState, useEffect } from "react";
 import Loading from "../producto/loading";
+import DataUpdateAlert from "./dataUpdateAlert";
 
 export default function UserDataForm() {
   const [nombresValue, setNombresValue] = useState();
   const [apellidosValue, setApellidosValue] = useState();
+  const [showAlert, setShowAlert] = useState(false)
 
   const { data: usuarioData } = useQuery(GET_USUARIO, {
     fetchPolicy: "network-only",
@@ -18,11 +20,23 @@ export default function UserDataForm() {
   function handleSubmit(e) {
     e.preventDefault();
 
-    updateUserData({
-      variables: {
-        input: { nombres: nombresValue, apellidos: apellidosValue },
-      },
-    });
+    try{
+      updateUserData({
+        variables: {
+          input: { nombres: nombresValue, apellidos: apellidosValue },
+        },
+      });
+
+      setShowAlert(true)
+      setApellidosValue(undefined)
+      setNombresValue(undefined)
+
+    }
+    catch(e){
+      console.log(e)
+    }
+    
+
   }
 
   return (
@@ -92,6 +106,7 @@ export default function UserDataForm() {
             </form>
           </div>
         </div>
+        <DataUpdateAlert showAlert={showAlert} setShowAlert={setShowAlert}/>
       </div>
     </>
   );
