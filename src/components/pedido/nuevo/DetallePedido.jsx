@@ -281,7 +281,7 @@ export default function DetallePedido() {
             />
             {cupon && !cuponData?.cuponPorNombre && (
               <span className="text-xs text-white/80 mr-2">
-                El cupón no es válido
+                El cupón no es válido o ha expirado
               </span>
             )}
           </div>

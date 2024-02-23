@@ -44,6 +44,7 @@ export default function Detalle({ funko }) {
     variables: { productoId: funko.id },
     fetchPolicy: "network-only",
   });
+  if (data) console.log(data)
 
   const { data: favoritoData } = useQuery(GET_FAVORITO, {
     variables: { productoId: funko.id },
@@ -234,14 +235,14 @@ export default function Detalle({ funko }) {
                 onClick={() =>
                   user
                     ? data?.lineaCarrito
-                      ? deleteLineaCarrito({
-                          variables: { productoId: funko.id },
-                        })
-                      : addLineaCarrito({
-                          variables: {
-                            input: { cantidad, productoId: funko.id },
-                          },
-                        })
+                    ? deleteLineaCarrito({
+                      variables: { productoId: funko.id },
+                    })
+                    : addLineaCarrito({
+                      variables: {
+                        input: { cantidad, productoId: funko.id },
+                      },
+                    })
                     : router.push("/auth/login", {
                         query: {
                           redirectTo: `/productos/${funko.id}`,

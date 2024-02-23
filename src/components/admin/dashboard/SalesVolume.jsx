@@ -69,7 +69,7 @@ const SalesVolume = () => {
                     </th>
                   </tr>
                 </thead>
-                <tbody className="h-64 md:h-full">
+                <tbody className={`${ currentDataVolume.length === 0 ? "h-5" : "h-64"} md:h-full`}>
                   {currentDataVolume.length > 0
                     ? currentDataVolume.map((prod, i) => (
                         <GridTrVentas props={prod} key={prod.productoId} />

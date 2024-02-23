@@ -1,4 +1,8 @@
+import { useContext } from "react";
+import { UserContext } from "@/components/providers/UserProvider";
+
 export default function Detalle({ pedido }) {
+  const { user } = useContext(UserContext);
   const subtotal = pedido.itemsPedido
     .map((item) => item.precioProducto * item.cantidad)
     .reduce((acc, cur) => acc + cur);
@@ -34,6 +38,11 @@ export default function Detalle({ pedido }) {
           <p className="text-md font-normal">Total</p>
           <p className="text-md font-normal">${total}</p>
         </div>
+        {user?.rol === "ADMIN" && (
+          <button className="bg-chineseBlack text-xs mt-5 md:text-base w-min h-min px-4 py-2 rounded-lg whitespace-nowrap">
+            Entregar
+          </button>
+        )}
       </div>
     </>
   );

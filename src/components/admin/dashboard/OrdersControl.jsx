@@ -12,7 +12,6 @@ const OrdersControl = () => {
 
   const [sizeText, setSizeText] = useState(54);
 
-
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 639px)");
     const handleMediaQueryChange = (e) => {
@@ -36,15 +35,13 @@ const OrdersControl = () => {
 
   const indexOfLastPage = currentPage * ordersPerPage;
   const indexOfFirstPage = indexOfLastPage - ordersPerPage;
-  // const orderedData = [...orders].sort((a, b) => b.entregado === false); 
-  const orderedData = [...orders]
+  // const orderedData = [...orders].sort((a, b) => b.entregado === false);
+  const orderedData = [...orders];
 
   const currentOrders =
     orderedData.length <= ordersPerPage
       ? orderedData
-      : orderedData
-          .slice(indexOfFirstPage, indexOfLastPage)
-
+      : orderedData.slice(indexOfFirstPage, indexOfLastPage);
 
   return (
     <>
@@ -71,14 +68,29 @@ const OrdersControl = () => {
                   {onPhone && <th className="px-4 py-3"></th>}
                 </tr>
               </thead>
-                <tbody className="bg-white divide-y h-80  dark:divide-gray-700 dark:bg-gray-800">
-                  
-                  {currentOrders.length > 0
-                    ? currentOrders.map((order, index) => (
-                        <GridTrEnvios props={order} key={index} className="" />
-                      ))
-                    : "Loading..."}
-                </tbody>
+              <tbody className="bg-white divide-y h-5  dark:divide-gray-700 dark:bg-gray-800">
+                {currentOrders?.map((order, index) => (
+                  <GridTrEnvios props={order} key={index} className="" />
+                ))}
+                {currentOrders.length === 0 ? (
+                  <tr className="bg-gray-50 h-8 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-900 text-gray-700 dark:text-gray-400">
+                    <td className="px-4 py-3">
+                      <p className="font-semibold w-full whitespace-nowrap md:w-full overflow-x-scroll md:overflow-x-auto">
+                        No hay envios realizados
+                      </p>
+                    </td>
+                    {!onPhone && (
+                      <td className="px-4 py-3 text-xs md:text-sm"></td>
+                    )}
+                    <td className="px-4 py-3 text-xs md:text-sm"></td>
+                    <td className="px-4 py-3 text-xs md:text-sm"></td>
+                    <td className="px-4 py-3 text-xs md:text-sm"></td>
+                    {onPhone && (
+                      <td className="px-4 py-3 text-xs md:text-sm"></td>
+                    )}
+                  </tr>
+                ) : null}
+              </tbody>
             </table>
           </div>
           <div className="flex px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 uppercase border-t dark:border-gray-700 bg-gray-50 sm:grid-cols-9 dark:text-gray-400 dark:bg-gray-800">
