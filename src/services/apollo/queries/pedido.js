@@ -5,6 +5,7 @@ export const GET_PEDIDO = gql`
     pedido(id: $id) {
       id
       fecha
+      despachado
       usuario {
         nombres
         apellidos
@@ -20,7 +21,9 @@ export const GET_PEDIDO = gql`
         porcentaje
       }
       envio {
+        id
         codigoPostal
+        entregado
         provincia {
           nombre
         }
@@ -49,6 +52,7 @@ export const GET_PEDIDOS = gql`
     pedidos {
       id
       fecha
+      despachado
       usuario {
         nombres
         apellidos
@@ -63,7 +67,9 @@ export const GET_PEDIDOS = gql`
         porcentaje
       }
       envio {
+        id
         codigoPostal
+        entregado
         provincia {
           nombre
         }

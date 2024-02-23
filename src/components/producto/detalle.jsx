@@ -44,7 +44,6 @@ export default function Detalle({ funko }) {
     variables: { productoId: funko.id },
     fetchPolicy: "network-only",
   });
-  if (data) console.log(data)
 
   const { data: favoritoData } = useQuery(GET_FAVORITO, {
     variables: { productoId: funko.id },

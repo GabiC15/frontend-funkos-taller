@@ -19,6 +19,8 @@ export default function Compra() {
   });
 
   const pedido = pedidoData?.pedido;
+  const originalDate = pedido?.fecha;
+  const replacedDate = originalDate?.replace(/-/g, "/"); // Replace all occurrences of '-' with '/'
   const usuario = pedido?.usuario;
   return (
     <>
@@ -49,16 +51,28 @@ export default function Compra() {
               {pedido.pago?.status === "approved" && (
                 <div className="flex justify-between md:items-center mt-7 md:mt-5 gap-3">
                   {pedido.envio ? (
+                    !pedido.envio?.entregado ? (
+                      <p className="text-md font-semibold leading-tight">
+                        Despacharemos tu producto en los próximos días
+                        <br />
+                        <span className="font-normal text-sm">
+                          Te avisaremos por email
+                        </span>
+                      </p>
+                    ) : (
+                      <p className="text-md font-semibold leading-tight">
+                        Tu pedido ya ha sido despachado por nuestro local el{" "}
+                        {replacedDate}
+                      </p>
+                    )
+                  ) : !pedido.despachado ? (
                     <p className="text-md font-semibold leading-tight">
-                      Despacharemos tu producto en los próximos días
-                      <br />
-                      <span className="font-normal text-sm">
-                        Te avisaremos por email
-                      </span>
+                      Ya puedes pasar a retirar el producto por nuestro local
                     </p>
                   ) : (
                     <p className="text-md font-semibold leading-tight">
-                      Ya puedes pasar a retirar el producto por nuestro local
+                      Tu pedido ha sido retirado por nuestro local el{" "}
+                      {replacedDate}
                     </p>
                   )}
 
@@ -73,6 +87,13 @@ export default function Compra() {
                       </p>
                     </div>
                   )}
+                </div>
+              )}
+              {pedido?.pago?.status !== "approved" && (
+                <div className="flex justify-between md:items-center mt-7 md:mt-5 gap-3">
+                  <p className="text-md font-semibold leading-tight">
+                    El pago no se ha realizado correctamente
+                  </p>
                 </div>
               )}
             </div>

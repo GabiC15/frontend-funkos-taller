@@ -17,6 +17,7 @@ export default function UserProvider({ children }) {
 
   function onUserChange(usuario) {
     setUser({
+      id: usuario.id,
       nombres: usuario.nombres,
       apellidos: usuario.apellidos,
       email: usuario.email,
