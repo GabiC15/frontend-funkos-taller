@@ -6,12 +6,14 @@ import {
 import { useMutation } from "@apollo/client";
 import DeleteModal from "@/components/common/deleteModal";
 import { useRouter } from "next/router";
+import { v4 as uuidv4 } from "uuid";
 
 export default function CardCupon({ cupon }) {
   const router = useRouter();
-  const { nombre, porcentaje, validoDesde, validoHasta } = cupon;
+  const {id, nombre, porcentaje, validoDesde, validoHasta } = cupon;
   const [open, setOpen] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
+  const randomId = uuidv4();
 
   const [updateCupon, { data, loading, error }] = useMutation(
     UPDATE_CUPON,
@@ -29,6 +31,7 @@ export default function CardCupon({ cupon }) {
 
   const input = {
     estado: false,
+    nombre: `DELETED_${nombre}_${id, randomId}`,
   };
 
   const handleCuponDelete = async () => {
@@ -36,7 +39,7 @@ export default function CardCupon({ cupon }) {
       await updateCupon({
         variables: {
           id: cupon.id,
-          input: { estado: Boolean(input.estado) },
+          input: { estado: Boolean(input.estado), nombre: input.nombre },
         },
       });
     } catch (error) {
