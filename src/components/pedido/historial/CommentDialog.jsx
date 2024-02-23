@@ -22,7 +22,7 @@ export default function ValoracionDialog({ producto, show, setShow }) {
   const { data: valoracionData } = useQuery(GET_VALORACION, {
     variables: { productoId: producto.id, usuarioId: user?.id },
   });
-
+  
   const onSubmit = async () => {
     await createValoracion({
       variables: {

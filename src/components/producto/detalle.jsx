@@ -234,14 +234,14 @@ export default function Detalle({ funko }) {
                 onClick={() =>
                   user
                     ? data?.lineaCarrito
-                      ? deleteLineaCarrito({
-                          variables: { productoId: funko.id },
-                        })
-                      : addLineaCarrito({
-                          variables: {
-                            input: { cantidad, productoId: funko.id },
-                          },
-                        })
+                    ? deleteLineaCarrito({
+                      variables: { productoId: funko.id },
+                    })
+                    : addLineaCarrito({
+                      variables: {
+                        input: { cantidad, productoId: funko.id },
+                      },
+                    })
                     : router.push("/auth/login", {
                         query: {
                           redirectTo: `/productos/${funko.id}`,

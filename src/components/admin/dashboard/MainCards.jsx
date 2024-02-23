@@ -75,7 +75,7 @@ const MainCards = () => {
       ],
     },
     {
-      title: "Ventas",
+      title: "Entregas",
       total: dataTotalPedidosPagos?.totalPedidosPagos,
       img: [
         <svg

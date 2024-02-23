@@ -15,7 +15,6 @@ import {
 } from "firebase/storage";
 import { uploadBytesResumable } from "firebase/storage";
 import CargarImagenes from "./CargarImagenes";
-// import { GET_MAX_PRODUCTO_ID } from "@/services/apollo/queries/producto";
 import {
   ADD_IMAGES_PRODUCTO,
   UPDATE_IMAGES_PRODUCTO_BY_PATH,
@@ -25,7 +24,6 @@ import ErrorMessageForm from "./ErrorMessageForm";
 import { v4 as uuidv4 } from "uuid";
 
 const CargarProducto = ({ producto }) => {
-  // ! HACER UPDATE DE PRODUCTO
   const [open, setOpen] = useState(false);
   const [errorMessageForm, setErrorMessageForm] = useState("");
   const [progress, setProgress] = useState(1);
@@ -51,7 +49,6 @@ const CargarProducto = ({ producto }) => {
     { data: dataProducto, loading: loadingProducto, error: errorProducto },
   ] = useMutation(ADD_PRODUCTO, {
     onCompleted: (data) => {
-      // console.log("dataProducto", data);
       handleFinishSubmit(data);
     },
   });
@@ -64,7 +61,6 @@ const CargarProducto = ({ producto }) => {
     },
   ] = useMutation(UPDATE_PRODUCTO, {
     onCompleted: (data) => {
-      // console.log("dataProducto", data);
       handleFinishSubmit(data);
     },
   });
@@ -104,8 +100,6 @@ const CargarProducto = ({ producto }) => {
     setSubcategoryId(parseInt(producto?.categoria?.id));
     setCaracteristicaId(parseInt(producto?.caracteristica?.id));
   }, [producto]);
-
-  const [submitImages, setSubmitImages] = useState(false);
 
   const [formData, setFormData] = useState({
     id: producto?.id,
@@ -171,7 +165,6 @@ const CargarProducto = ({ producto }) => {
     handleClearCaracteristicas();
     handleClearImages();
     setErrorMessageForm("");
-    // setClearTrue(false);
   };
 
   const handleClearCategory = () => {
@@ -220,7 +213,6 @@ const CargarProducto = ({ producto }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // console.log(imagesFile)
     const correct = handleFormComplete(e);
     if (correct) {
       try {
@@ -243,7 +235,6 @@ const CargarProducto = ({ producto }) => {
   };
 
   const handleFinishSubmit = async (data) => {
-    // console.log("finish", data);
     formData.id
       ? (setProductoId(formData.id), handleImagesUpdate(data))
       : (setProductoId(data.createProducto.id), handleImagesSubmit(data));
@@ -254,18 +245,6 @@ const CargarProducto = ({ producto }) => {
       setErrorMessageForm("");
     }, 8000);
   }, [handleSubmit]);
-
-  // useEffect(() => {
-  //   console.log(progress);
-  // }, [progress]);
-
-  // useEffect(() => {
-  //   console.log("producto IDDD", productoId);
-  // }, [productoId])
-
-  // useEffect(() => {
-  //   console.log(formData, dataListCaracteristicas, caracteristicaId);
-  // }, [formData]);
 
   const handleUploadDbImages = async (
     imageUrl,
@@ -391,8 +370,6 @@ const CargarProducto = ({ producto }) => {
           const imagesBackupURL = imagesBackup[`picture_${i}`];
           console.log(`File ${i} available at`, downloadURL);
           setProgress((prevProgress) => prevProgress + 7 * i);
-          // console.log("imagesBackupURL", imagesBackupURL);
-          // console.log("imagesFile", imagesFile[`picture_${i}`]);
           if (imagesFile[`picture_${i}`] && !imagesBackupURL) {
             await handleUploadDbImages(
               downloadURL,
