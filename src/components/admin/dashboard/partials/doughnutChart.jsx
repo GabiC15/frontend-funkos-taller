@@ -2,6 +2,7 @@ import { Doughnut } from "react-chartjs-2";
 import { ArcElement, CategoryScale, Chart, Legend, Tooltip } from "chart.js";
 import { NetworkStatus, useQuery } from "@apollo/client";
 import { GET_ITEMS_MAS_VENDIDOS } from "@/services/apollo/queries/items-pedido";
+import Loading from "@/components/producto/loading";
 Chart.register(ArcElement, CategoryScale, Legend, Tooltip);
 
 const DoughnutChart = () => {
@@ -16,7 +17,7 @@ const DoughnutChart = () => {
 
   const { data, error, loading } = useQuery(GET_ITEMS_MAS_VENDIDOS);
 
-  if (loading) return "Loading...";
+  if (loading) return <Loading />;
   if (error) return `No data! ${error.message}`;
 
   const dataDoughnut = {

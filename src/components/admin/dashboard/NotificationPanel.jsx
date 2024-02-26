@@ -3,6 +3,7 @@ import { useQuery } from "@apollo/client";
 import { GET_NOTIFICACIONES } from "@/services/apollo/queries/notificaciones";
 import NotificationMessage from "./partials/notificationMessage";
 import Pagination from "@/components/common/pagination";
+import Loading from "@/components/producto/loading";
 
 const NotificationPanel = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -15,7 +16,7 @@ const NotificationPanel = () => {
     },
   });
 
-  if (loading) return "Loading...";
+  if (loading) return <Loading />;
   if (error) return `No data! ${error.message}`;
 
   const notifications = data.notificaciones;

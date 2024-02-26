@@ -7,6 +7,7 @@ import {
   GET_TOTAL_PEDIDOS,
 } from "@/services/apollo/queries/pedidos";
 import { GET_TOTAL_PRODUCTOS } from "@/services/apollo/queries/producto";
+import Loading from "@/components/producto/loading";
 
 const MainCards = () => {
 
@@ -35,7 +36,7 @@ const MainCards = () => {
   } = useQuery(GET_TOTAL_PRODUCTOS);
 
   if (loadingTotalUsuarios || loadingTotalPedidos || loadingTotalPedidosPagos || loadingTotalProductos)
-    return "Loading...";
+    return <Loading />;
   if (
     errorTotalUsuarios ||
     errorTotalPedidos ||

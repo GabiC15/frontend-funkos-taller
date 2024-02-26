@@ -3,6 +3,7 @@ import Pagination from "@/components/common/pagination";
 import GridTrEnvios from "@/components/admin/dashboard/partials/gridTrEnvios";
 import { useQuery } from "@apollo/client";
 import { GET_CONTROL_DE_ENVIOS } from "@/services/apollo/queries/envios";
+import Loading from "@/components/producto/loading";
 
 const OrdersControl = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -25,7 +26,7 @@ const OrdersControl = () => {
     };
   }, []);
 
-  if (loading) return "Loading...";
+  if (loading) return <Loading />;
   if (error) return `No data! ${error.message}`;
 
   const orders = data.controlDeEnvios;

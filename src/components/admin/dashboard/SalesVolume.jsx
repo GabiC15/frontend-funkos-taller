@@ -3,6 +3,7 @@ import GridTrVentas from "@/components/admin/dashboard/partials/gridTrVentas";
 import { useQuery } from "@apollo/client";
 import { GET_VOLUMEN_ITEMS_PEDIDOS } from "@/services/apollo/queries/items-pedido";
 import Pagination from "@/components/common/pagination";
+import Loading from "@/components/producto/loading";
 
 const SalesVolume = () => {
   const { data, error, loading } = useQuery(GET_VOLUMEN_ITEMS_PEDIDOS);
@@ -23,7 +24,7 @@ const SalesVolume = () => {
     };
   }, []);
   
-  if (loading) return "Loading...";
+  if (loading) return <Loading />;
   if (error) return `No data! ${error.message}`;
 
   const dataVolume = data.volumenItemsPedidos;

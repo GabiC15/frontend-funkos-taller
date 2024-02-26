@@ -9,6 +9,7 @@ import {
   GET_TOTAL_PAGOS_POR_ANIO,
   GET_TOTAL_PAGOS_POR_MES,
 } from "@/services/apollo/queries/pago";
+import Loading from "@/components/producto/loading";
 
 const ChartTable = () => {
   const [status, setStatus] = useState(false);
@@ -26,7 +27,7 @@ const ChartTable = () => {
   } = useQuery(GET_TOTAL_PAGOS_POR_MES);
 
 
-  if (loadingLine || loadingBar) return "Loading...";
+  if (loadingLine || loadingBar) return <Loading />;
   if (errorLine || errorBar)
     return `No data! ${(errorLine?.message, errorBar?.message)}`;
 
